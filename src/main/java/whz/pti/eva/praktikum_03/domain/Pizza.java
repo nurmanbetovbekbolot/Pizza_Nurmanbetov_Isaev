@@ -17,12 +17,10 @@ public class Pizza {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     private String name;
     private BigDecimal priceLarge;
     private BigDecimal priceMedium;
     private BigDecimal priceSmall;
-
-
 }
