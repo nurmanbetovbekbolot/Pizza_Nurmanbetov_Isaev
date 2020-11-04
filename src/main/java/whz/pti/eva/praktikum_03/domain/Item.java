@@ -4,6 +4,7 @@ import lombok.*;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Item {
+public class Item implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
