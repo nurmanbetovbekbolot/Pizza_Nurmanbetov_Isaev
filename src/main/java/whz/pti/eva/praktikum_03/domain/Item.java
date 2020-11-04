@@ -13,11 +13,12 @@ import java.io.Serializable;
 @ToString
 @Entity
 public class Item implements Serializable {
+
     @Id
     @GeneratedValue
-    private Long id;
-    @Column(unique = true)
     private String itemId;
+
+
     private int quantity;
 
     @ManyToOne
@@ -28,8 +29,8 @@ public class Item implements Serializable {
 
     @Override
     public int hashCode() {
-        if (getId() != null) {
-            return getId().hashCode();
+        if (getItemId() != null) {
+            return getItemId().hashCode();
         }
         return super.hashCode();
     }
@@ -40,7 +41,7 @@ public class Item implements Serializable {
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
         Item other = (Item) obj;
-        return getId() != null && getId().equals(other.getId());
+        return getItemId() != null && getItemId().equals(other.getItemId());
     }
 
 }
