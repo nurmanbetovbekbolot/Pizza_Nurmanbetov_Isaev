@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Getter
@@ -13,7 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Pizza {
+public class Pizza implements Serializable {
 
     @Id
     @GeneratedValue
