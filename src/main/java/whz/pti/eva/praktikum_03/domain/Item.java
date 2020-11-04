@@ -15,7 +15,6 @@ import java.io.Serializable;
 public class Item implements Serializable {
 
     @Id
-    @GeneratedValue
     private String itemId;
 
 
