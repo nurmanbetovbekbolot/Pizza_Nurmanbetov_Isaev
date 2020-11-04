@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,10 +19,27 @@ public class Ordered {
     @GeneratedValue
     private Long id;
 
-    private int numberOfitems;
+    private int numberOfItems;
     private String userId;
 
     @OneToMany
-    private List<OrderedItem> items = new ArrayList<>();
+    private List<OrderedItem> items;
+
+    @Override
+    public int hashCode() {
+        if (getId() != null) {
+            return getId().hashCode();
+        }
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Ordered other = (Ordered) obj;
+        return getId() != null && getId().equals(other.getId());
+    }
 
 }
