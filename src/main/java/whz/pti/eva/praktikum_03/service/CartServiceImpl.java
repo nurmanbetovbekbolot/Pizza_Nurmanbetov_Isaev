@@ -1,12 +1,11 @@
 package whz.pti.eva.praktikum_03.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import whz.pti.eva.praktikum_03.domain.Cart;
 import whz.pti.eva.praktikum_03.domain.CartRepository;
-import whz.pti.eva.praktikum_03.domain.ItemRepository;
 
 import java.util.List;
-
+@Service
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;

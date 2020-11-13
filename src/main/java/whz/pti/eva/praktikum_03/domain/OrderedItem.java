@@ -18,7 +18,10 @@ public class OrderedItem implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private long pizzaId;
+//    @OneToOne
+//    private Pizza pizzaId;
+
+    private Long pizzaId;
     private String name;
     private int quantity;
     private String userId;

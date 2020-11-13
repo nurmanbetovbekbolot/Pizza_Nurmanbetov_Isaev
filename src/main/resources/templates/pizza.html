@@ -8,10 +8,43 @@
 <body>
 <div th:include="fragments/body :: nav"></div>
 
+<div class="container">
+
+    <h2>Meine kleine Notenvervaltung</h2>
+
+    <table class="table table-hover table-bordered table-sm">
+        <thead>
+        <tr>
+            <th>Menge</th>
+            <th>Pizza</th>
+            <th>Preis+Größe</th>
+            <th>in den Warenkorb</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="pizza : ${pizzaList}">
 
 
-
-
+            <td>0
+            <td th:text=" ${pizza.getName()}">
+            <td >
+            <div class="form-group">
+                <label for="input-select"></label>
+                <select name="roleName" class="form-control" id="input-select">
+                    <option value="MEDIUM">MEDIUM</option>
+                    <option value="LARGE">LARGE</option>
+                    <option value="SMALL">SMALL</option>
+                </select>
+            </div>
+            </td>
+            <td>
+                <input class="btn btn-outline-primary btn-sm" type="submit" value="in den Warenkorb">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 <div th:include="fragments/footer :: footer"></div>
 </body>
