@@ -1,6 +1,7 @@
 package whz.pti.eva.praktikum_03.domain;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
 
 import javax.persistence.*;
@@ -14,7 +15,13 @@ import java.io.Serializable;
 @Entity
 public class Item implements Serializable {
 
+//    @Id
+//    @GeneratedValue
+//    private Long id;
+
     @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String itemId;
 
 
@@ -22,6 +29,10 @@ public class Item implements Serializable {
 
     @ManyToOne
     private Pizza pizza;
+
+
+//    @ManyToOne
+//    private Pizza itemId;
 
     @Enumerated(EnumType.STRING)
     private PizzaSize size;

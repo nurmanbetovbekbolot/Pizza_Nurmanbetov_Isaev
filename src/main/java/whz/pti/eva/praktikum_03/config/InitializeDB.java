@@ -36,9 +36,9 @@ public class InitializeDB {
         pizzaRepository.save(pizzaMargherita);
         Pizza pizzaHawai = new Pizza();
         pizzaHawai.setName("Hawai");
-        pizzaHawai.setPriceSmall(new BigDecimal("5.0"));
-        pizzaHawai.setPriceMedium(new BigDecimal("8.0"));
-        pizzaHawai.setPriceLarge(new BigDecimal("10.0"));
+        pizzaHawai.setPriceSmall(new BigDecimal("7.0"));
+        pizzaHawai.setPriceMedium(new BigDecimal("9.0"));
+        pizzaHawai.setPriceLarge(new BigDecimal("12.0"));
         pizzaRepository.save(pizzaHawai);
 
         Item item1 = new Item();
@@ -70,6 +70,10 @@ public class InitializeDB {
         order1.setItems(orderedItems);
         order1.setNumberOfItems(10);
         orderedRepository.save(order1);
+
+        Cart cart = new Cart();
+        cart.setQuantity(5);
+        cart.setUserId("ATAI1");
     }
 
 

@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -22,10 +22,11 @@ public class Cart implements Serializable {
     private Long id;
 
     private int quantity;
+
     private String userId;
 
     @OneToMany
-    private List<Item> items;
+    private Map<String, Item> items;
 
     @Override
     public int hashCode() {

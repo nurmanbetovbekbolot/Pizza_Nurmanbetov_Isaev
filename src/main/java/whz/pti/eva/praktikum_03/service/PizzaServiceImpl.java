@@ -24,7 +24,6 @@ public class PizzaServiceImpl implements PizzaService {
     @Override
     public boolean addPizza(Pizza pizza) {
         if (pizza == null) return false;
-
         pizzaRepository.save(pizza);
         return true;
     }
