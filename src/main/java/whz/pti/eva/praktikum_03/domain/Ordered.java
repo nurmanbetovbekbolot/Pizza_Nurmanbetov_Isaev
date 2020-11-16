@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Ordered implements Serializable {
+public class Ordered extends BaseEntity<Long> implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -26,21 +26,21 @@ public class Ordered implements Serializable {
     @OneToMany
     private List<OrderedItem> items;
 
-    @Override
-    public int hashCode() {
-        if (getId() != null) {
-            return getId().hashCode();
-        }
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        Ordered other = (Ordered) obj;
-        return getId() != null && getId().equals(other.getId());
-    }
+//    @Override
+//    public int hashCode() {
+//        if (getId() != null) {
+//            return getId().hashCode();
+//        }
+//        return super.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) return true;
+//        if (obj == null) return false;
+//        if (getClass() != obj.getClass()) return false;
+//        Ordered other = (Ordered) obj;
+//        return getId() != null && getId().equals(other.getId());
+//    }
 
 }

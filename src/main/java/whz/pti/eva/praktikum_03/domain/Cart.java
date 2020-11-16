@@ -15,7 +15,7 @@ import java.util.Map;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Cart implements Serializable {
+public class Cart extends BaseEntity<Long> implements Serializable {
 
     @Id
     @GeneratedValue
@@ -28,20 +28,20 @@ public class Cart implements Serializable {
     @OneToMany
     private Map<String, Item> items;
 
-    @Override
-    public int hashCode() {
-        if (getId() != null) {
-            return getId().hashCode();
-        }
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        Cart other = (Cart) obj;
-        return getId() != null && getId().equals(other.getId());
-    }
+    //    @Override
+//    public int hashCode() {
+//        if (getId() != null) {
+//            return getId().hashCode();
+//        }
+//        return super.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) return true;
+//        if (obj == null) return false;
+//        if (getClass() != obj.getClass()) return false;
+//        Cart other = (Cart) obj;
+//        return getId() != null && getId().equals(other.getId());
+//    }
 }

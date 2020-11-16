@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Pizza implements Serializable {
+public class Pizza extends BaseEntity<Long> implements Serializable {
 
     @Id
     @GeneratedValue
@@ -24,20 +24,20 @@ public class Pizza implements Serializable {
     private BigDecimal priceMedium;
     private BigDecimal priceSmall;
 
-    @Override
-    public int hashCode() {
-        if (getId() != null) {
-            return getId().hashCode();
-        }
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        Pizza other = (Pizza) obj;
-        return getId() != null && getId().equals(other.getId());
-    }
+//    @Override
+//    public int hashCode() {
+//        if (getId() != null) {
+//            return getId().hashCode();
+//        }
+//        return super.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) return true;
+//        if (obj == null) return false;
+//        if (getClass() != obj.getClass()) return false;
+//        Pizza other = (Pizza) obj;
+//        return getId() != null && getId().equals(other.getId());
+//    }
 }
