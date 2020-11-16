@@ -13,4 +13,6 @@ public interface PizzaService {
     Item getPizzaById(String id);
 
     boolean deletePizza(String id);
+
+    Pizza findPizzaByName(String name);
 }

@@ -18,7 +18,6 @@ public class Item implements Serializable {
 //    @Id
 //    @GeneratedValue
 //    private Long id;
-
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -28,6 +27,7 @@ public class Item implements Serializable {
     private int quantity;
 
     @ManyToOne
+
     private Pizza pizza;
 
 
@@ -35,7 +35,7 @@ public class Item implements Serializable {
 //    private Pizza itemId;
 
     @Enumerated(EnumType.STRING)
-    private PizzaSize size;
+    private PizzaSize pizzaSize;
 
     @Override
     public int hashCode() {

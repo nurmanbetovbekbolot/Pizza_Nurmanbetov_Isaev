@@ -34,6 +34,7 @@ public class InitializeDB {
         pizzaMargherita.setPriceMedium(new BigDecimal("8.0"));
         pizzaMargherita.setPriceLarge(new BigDecimal("10.0"));
         pizzaRepository.save(pizzaMargherita);
+
         Pizza pizzaHawai = new Pizza();
         pizzaHawai.setName("Hawai");
         pizzaHawai.setPriceSmall(new BigDecimal("7.0"));
@@ -41,39 +42,46 @@ public class InitializeDB {
         pizzaHawai.setPriceLarge(new BigDecimal("12.0"));
         pizzaRepository.save(pizzaHawai);
 
+        Pizza pizzaTonno = new Pizza();
+        pizzaTonno.setName("Tonno");
+        pizzaTonno.setPriceSmall(new BigDecimal("6.0"));
+        pizzaTonno.setPriceMedium(new BigDecimal("10.0"));
+        pizzaTonno.setPriceLarge(new BigDecimal("13.0"));
+        pizzaRepository.save(pizzaTonno);
+
         Item item1 = new Item();
         item1.setItemId("1");
         item1.setPizza(pizzaMargherita);
         item1.setQuantity(2);
-        item1.setSize(PizzaSize.LARGE);
+        item1.setPizzaSize(PizzaSize.LARGE);
         itemRepository.save(item1);
-
-        OrderedItem orderedItem = new OrderedItem();
-        orderedItem.setName(pizzaHawai.getName());
-        orderedItem.setPizzaId(pizzaHawai.getId());
-        orderedItem.setQuantity(5);
-        orderedItem.setUserId("Atai");
-        orderedItemRepository.save(orderedItem);
-
-        OrderedItem orderedItem2 = new OrderedItem();
-        orderedItem2.setName(pizzaMargherita.getName());
-        orderedItem2.setPizzaId(pizzaMargherita.getId());
-        orderedItem2.setQuantity(2);
-        orderedItem2.setUserId("Atai");
-        orderedItemRepository.save(orderedItem2);
-
-        ArrayList<OrderedItem> orderedItems = new ArrayList<>();
-        orderedItems.add(orderedItem);
-        orderedItems.add(orderedItem2);
-
-        Ordered order1 = new Ordered();
-        order1.setItems(orderedItems);
-        order1.setNumberOfItems(10);
-        orderedRepository.save(order1);
-
-        Cart cart = new Cart();
-        cart.setQuantity(5);
-        cart.setUserId("ATAI1");
+//
+//        OrderedItem orderedItem = new OrderedItem();
+//        orderedItem.setName(pizzaHawai.getName());
+//        orderedItem.setPizzaId(pizzaHawai.getId());
+//        orderedItem.setQuantity(5);
+//        orderedItem.setUserId("Atai");
+//        orderedItemRepository.save(orderedItem);
+//
+//        OrderedItem orderedItem2 = new OrderedItem();
+//        orderedItem2.setName(pizzaMargherita.getName());
+//        orderedItem2.setPizzaId(pizzaMargherita.getId());
+//        orderedItem2.setQuantity(2);
+//        orderedItem2.setUserId("Atai");
+//        orderedItemRepository.save(orderedItem2);
+//
+//        ArrayList<OrderedItem> orderedItems = new ArrayList<>();
+//        orderedItems.add(orderedItem);
+//        orderedItems.add(orderedItem2);
+//
+//        Ordered order1 = new Ordered();
+//        order1.setItems(orderedItems);
+//        order1.setNumberOfItems(10);
+//        orderedRepository.save(order1);
+//
+//        Cart cart = new Cart();
+//        cart.setQuantity(5);
+//        cart.setUserId("ATAI1");
     }
 
 
