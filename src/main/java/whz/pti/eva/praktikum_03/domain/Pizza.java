@@ -19,7 +19,6 @@ public class Pizza implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-
     private String name;
     private BigDecimal priceLarge;
     private BigDecimal priceMedium;

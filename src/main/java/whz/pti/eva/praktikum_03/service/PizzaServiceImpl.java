@@ -37,4 +37,9 @@ public class PizzaServiceImpl implements PizzaService {
     public boolean deletePizza(String id) {
         return false;
     }
+
+    @Override
+    public Pizza findPizzaByName(String name) {
+        return pizzaRepository.findByName(name);
+    }
 }
