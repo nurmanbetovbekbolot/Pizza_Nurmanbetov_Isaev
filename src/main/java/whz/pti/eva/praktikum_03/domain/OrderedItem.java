@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @ToString
 @Entity
-public class OrderedItem implements Serializable {
+public class OrderedItem extends BaseEntity<Long> implements Serializable {
 
     @Id
     @GeneratedValue
@@ -29,20 +29,20 @@ public class OrderedItem implements Serializable {
     @Enumerated(EnumType.STRING)
     private PizzaSize size;
 
-    @Override
-    public int hashCode() {
-        if (getId() != null) {
-            return getId().hashCode();
-        }
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        OrderedItem other = (OrderedItem) obj;
-        return getId() != null && getId().equals(other.getId());
-    }
+//    @Override
+//    public int hashCode() {
+//        if (getId() != null) {
+//            return getId().hashCode();
+//        }
+//        return super.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) return true;
+//        if (obj == null) return false;
+//        if (getClass() != obj.getClass()) return false;
+//        OrderedItem other = (OrderedItem) obj;
+//        return getId() != null && getId().equals(other.getId());
+//    }
 }
