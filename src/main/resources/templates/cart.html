@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <head th:include="fragments/header :: head">
+    </head>
+
+<body>
+<div th:include="fragments/body :: nav"></div>
+
+<div class="container">
+
+    <h2 class="text-center" style="padding: 15px">hallo :: was kann ich für dich tun?</h2>
+
+    <div class="col-lg-12 alert alert-dark border rounded-0" role="alert">
+        <img th:src="@{/img/pizza.png}" alt="Pizza" width="50" height="50">
+        <span><strong> PizzaForever-App</strong>
+                </span>
+        <button class="btn btn-outline-success float-right" type="button">einloggen</button>
+        <button class="btn btn-outline-secondary float-right" style="margin-right: 5px" type="button">Auswahl</button>
+    </div>
+
+    <table class="table table-hover table-bordered table-sm">
+
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Menge</th>
+            <th>Preis+Größe</th>
+        </tr>
+        </thead>
+
+        <tbody th:each="item:${itemList}">
+        <tr>
+            <td>
+                <span th:text="${item.getPizza().getName()}"></span>
+            </td>
+
+            <td>
+                <span th:text="${item.getQuantity()}"></span>
+
+            </td>
+            <td>
+                <span th:text="${item.getPizzaSize()}"></span>
+            </td>
+            <td>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+</html>

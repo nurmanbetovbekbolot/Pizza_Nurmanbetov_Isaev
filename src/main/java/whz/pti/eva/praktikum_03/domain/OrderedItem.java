@@ -12,11 +12,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @ToString
 @Entity
-public class OrderedItem extends BaseEntity<Long> implements Serializable {
+public class OrderedItem extends BaseEntity<Long> {
 
-    @Id
-    @GeneratedValue
-    private Long id;
 
 //    @OneToOne
 //    private Pizza pizzaId;

@@ -15,11 +15,8 @@ import java.util.Map;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Cart extends BaseEntity<Long> implements Serializable {
+public class Cart extends BaseEntity<Long> {
 
-    @Id
-    @GeneratedValue
-    private Long id;
 
     private int quantity;
 

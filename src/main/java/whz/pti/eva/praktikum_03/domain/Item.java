@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Item extends BaseEntity<String> implements Serializable {
+public class Item implements Serializable{
 
 //    @Id
 //    @GeneratedValue
@@ -27,12 +27,7 @@ public class Item extends BaseEntity<String> implements Serializable {
     private int quantity;
 
     @ManyToOne
-
     private Pizza pizza;
-
-
-//    @ManyToOne
-//    private Pizza itemId;
 
     @Enumerated(EnumType.STRING)
     private PizzaSize pizzaSize;

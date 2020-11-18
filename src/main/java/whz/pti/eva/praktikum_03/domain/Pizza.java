@@ -1,6 +1,7 @@
 package whz.pti.eva.praktikum_03.domain;
 
 import lombok.*;
+import whz.pti.eva.praktikum_03.enums.PizzaSize;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,15 +15,22 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Pizza extends BaseEntity<Long> implements Serializable {
+public class Pizza extends BaseEntity<Long>{
 
-    @Id
-    @GeneratedValue
-    private Long id;
+
     private String name;
     private BigDecimal priceLarge;
     private BigDecimal priceMedium;
     private BigDecimal priceSmall;
+
+    public BigDecimal getPriceByEnum(PizzaSize pizzaSize){
+        switch (pizzaSize){
+            case LARGE: return this.getPriceLarge();
+            case MEDIUM: return this.getPriceMedium();
+            case SMALL: return this.getPriceSmall();
+        }
+        return null;
+    }
 
 //    @Override
 //    public int hashCode() {

@@ -40,16 +40,15 @@ public class ItemServiceImpl implements ItemService {
         Item item = new Item();
         Pizza pizzaInDb = pizzaService.findPizzaByName(pizzaName);
         item.setQuantity(quantity);
-        Pizza pizzaItem = new Pizza();
-        pizzaItem.setName(pizzaInDb.getName());
-        if (pizzaSize.equals(PizzaSize.SMALL)) {
-            pizzaItem.setPriceLarge(pizzaInDb.getPriceSmall());
-        } else if (pizzaSize.equals(PizzaSize.MEDIUM)) {
-            pizzaItem.setPriceLarge(pizzaInDb.getPriceMedium());
-        } else if (pizzaSize.equals(PizzaSize.LARGE)) {
-            pizzaItem.setPriceLarge(pizzaInDb.getPriceLarge());
-        }
-        item.setPizza(pizzaItem);
+
+//        if (pizzaSize.equals(PizzaSize.SMALL)) {
+//            pizzaInDb.setPriceSmall(pizzaInDb.getPriceSmall());
+//        } else if (pizzaSize.equals(PizzaSize.MEDIUM)) {
+//            pizzaInDb.setPriceMedium(pizzaInDb.getPriceMedium());
+//        } else if (pizzaSize.equals(PizzaSize.LARGE)) {
+//            pizzaInDb.setPriceLarge(pizzaInDb.getPriceLarge());
+//        }
+        item.setPizza(pizzaInDb);
         item.setPizzaSize(pizzaSize);
         itemRepository.save(item);
         return false;
