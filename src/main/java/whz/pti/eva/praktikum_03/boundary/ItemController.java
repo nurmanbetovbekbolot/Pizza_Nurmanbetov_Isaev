@@ -19,8 +19,14 @@ public class ItemController {
     private ItemService itemService;
 
     @PostMapping(value = "/add")
-    public String addItemToCart(@ModelAttribute("pizzaSize") PizzaSize pizzaSize, @RequestParam Integer menge, @RequestParam("pizzaName") String pizzaName ) {
-        itemService.addItem(pizzaSize,menge, pizzaName);
+    public String addItemToCart( @ModelAttribute("pizzaSize") PizzaSize pizzaSize, @RequestParam Integer menge, @RequestParam("pizzaName") String pizzaName) {
+        itemService.addItem(pizzaSize, menge, pizzaName);
+        return "redirect:/";
+    }
+    @GetMapping(value = "/add")
+    public String getInfo(Model model,@ModelAttribute("pizzaSize") PizzaSize pizzaSize, @RequestParam Integer menge, @RequestParam("pizzaName") String pizzaName ) {
+      model.addAttribute("zwer",menge);
+//        itemService.addItem(pizzaSize,menge, pizzaName);
         return "redirect:/";
     }
 }

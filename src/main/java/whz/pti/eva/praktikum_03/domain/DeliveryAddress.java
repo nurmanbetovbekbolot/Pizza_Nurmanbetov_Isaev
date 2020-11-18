@@ -14,17 +14,13 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-public class DeliveryAddress {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class DeliveryAddress extends BaseEntity<Long>{
 
     private String street;
-    private String housenumber;
+    private String houseNumber;
     private String town;
     private String postalCode;
 
-    @ManyToMany(mappedBy = "deliveryAdress")
+    @ManyToMany(mappedBy = "deliveryAddress")
     private List<Customer> customer;
 }

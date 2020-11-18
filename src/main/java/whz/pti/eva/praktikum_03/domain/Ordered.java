@@ -15,10 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Ordered extends BaseEntity<Long> implements Serializable {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Ordered extends BaseEntity<Long>{
+
 
     private int numberOfItems;
     private String userId;

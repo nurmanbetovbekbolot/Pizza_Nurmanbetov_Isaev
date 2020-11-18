@@ -49,12 +49,6 @@ public class InitializeDB {
         pizzaTonno.setPriceLarge(new BigDecimal("13.0"));
         pizzaRepository.save(pizzaTonno);
 
-        Item item1 = new Item();
-        item1.setItemId("1");
-        item1.setPizza(pizzaMargherita);
-        item1.setQuantity(2);
-        item1.setPizzaSize(PizzaSize.LARGE);
-        itemRepository.save(item1);
 //
 //        OrderedItem orderedItem = new OrderedItem();
 //        orderedItem.setName(pizzaHawai.getName());
