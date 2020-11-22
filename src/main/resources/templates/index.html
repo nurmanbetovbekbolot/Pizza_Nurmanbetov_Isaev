@@ -63,7 +63,7 @@
     <!--    <div th:each="item:${itemList}">-->
     <!--   -->
     <!--    </div>-->
-    <h4 th:text="${'IM WARENKORB ::: Anzahl der bestellten Pizzas:'+totalAmount}"></h4>
+    <h4 th:text="${'IM WARENKORB ::: Anzahl der bestellten Pizzas:'+totalAmount+' mit Gesamtbetrag: '+totalPrice}"></h4>
 <!--    <form method="post" th:action="@{/cart/}">-->
     <a th:href="@{/cart/}">
         <button class="btn btn-success btn-block btn-lg" type="button">

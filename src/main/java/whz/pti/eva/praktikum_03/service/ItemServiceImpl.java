@@ -7,6 +7,8 @@ import whz.pti.eva.praktikum_03.domain.ItemRepository;
 import whz.pti.eva.praktikum_03.domain.Pizza;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,6 +54,32 @@ public class ItemServiceImpl implements ItemService {
         item.setPizzaSize(pizzaSize);
         itemRepository.save(item);
         return false;
+    }
+
+    @Override
+    public int calculateTotalAmountOfPizzaInItems() {
+        ArrayList<Item> itemList = (ArrayList<Item>) listAllItems();
+
+        int totalAmount = 0;
+        for (Item i : itemList) {
+            totalAmount += i.getQuantity();
+        }
+
+        return totalAmount;
+    }
+
+    @Override
+    public BigDecimal calculateTotalPriceOfPizzaInItems() {
+
+        ArrayList<Item> itemList = (ArrayList<Item>) listAllItems();
+
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (Item i : itemList) {
+            BigDecimal tempItemPrice = i.getPizza().getPriceByEnum(i.getPizzaSize());
+            totalPrice = totalPrice.add(tempItemPrice.multiply(new BigDecimal(i.getQuantity())));
+        }
+
+        return totalPrice;
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.service.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,12 +47,12 @@ public class MainController {
     public String root(Model model) {
         List<Pizza> pizzaList = pizzaService.listAllPizza();
         model.addAttribute("pizzaList", pizzaList);
-        ArrayList<Item> itemList = (ArrayList<Item>) itemService.listAllItems();
-        int totalAmount = 0;
-        for (Item i : itemList) {
-            totalAmount += i.getQuantity();
-        }
+
+        int totalAmount = itemService.calculateTotalAmountOfPizzaInItems();
+        BigDecimal totalPrice = itemService.calculateTotalPriceOfPizzaInItems();
+
         model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("totalPrice", totalPrice);
         return "index";
     }
 }
