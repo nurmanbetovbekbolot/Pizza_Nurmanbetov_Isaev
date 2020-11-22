@@ -1,10 +1,9 @@
 package whz.pti.eva.praktikum_03.domain;
 
 import lombok.*;
+import whz.pti.eva.praktikum_03.common.BaseEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-public class DeliveryAddress extends BaseEntity<Long>{
+public class DeliveryAddress extends BaseEntity<Long> {
 
     private String street;
     private String houseNumber;
