@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import whz.pti.eva.praktikum_03.domain.Item;
-import whz.pti.eva.praktikum_03.enums.PizzaSize;
 import whz.pti.eva.praktikum_03.service.CartService;
 import whz.pti.eva.praktikum_03.service.ItemService;
 

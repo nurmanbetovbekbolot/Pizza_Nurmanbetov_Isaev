@@ -6,19 +6,9 @@
     </head>
 
 <body>
-<div th:include="fragments/body :: nav"></div>
-
+<div th:include="fragments/body :: nav (all=true)"></div>
 <div class="container">
 
-    <h2 class="text-center" style="padding: 15px">hallo :: was kann ich für dich tun?</h2>
-
-    <div class="col-lg-12 alert alert-dark border rounded-0" role="alert">
-        <img th:src="@{/img/pizza.png}" alt="Pizza" width="50" height="50">
-        <span><strong> PizzaForever-App</strong>
-                </span>
-        <button class="btn btn-outline-success float-right" type="button">einloggen</button>
-        <button class="btn btn-outline-secondary float-right" style="margin-right: 5px" type="button">Auswahl</button>
-    </div>
 
     <table class="table table-hover table-bordered table-sm">
 
@@ -64,15 +54,13 @@
     <!--   -->
     <!--    </div>-->
     <h4 th:text="${'IM WARENKORB ::: Anzahl der bestellten Pizzas:'+totalAmount+' mit Gesamtbetrag: '+totalPrice}"></h4>
-<!--    <form method="post" th:action="@{/cart/}">-->
+    <!--    <form method="post" th:action="@{/cart/}">-->
     <a th:href="@{/cart/}">
         <button class="btn btn-success btn-block btn-lg" type="button">
-
             zum Warenkorb
-
         </button>
     </a>
-<!--    </form>-->
+    <!--    </form>-->
 </div>
 
 <div th:include="fragments/footer :: footer"></div>

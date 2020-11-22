@@ -1,4 +1,4 @@
-package whz.pti.eva.praktikum_03.domain;
+package whz.pti.eva.praktikum_03.common;
 
 import lombok.Getter;
 import lombok.Setter;

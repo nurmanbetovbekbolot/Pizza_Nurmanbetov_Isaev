@@ -4,25 +4,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
+import whz.pti.eva.praktikum_03.enums.Role;
+import whz.pti.eva.praktikum_03.security.domain.User;
+import whz.pti.eva.praktikum_03.security.domain.UserRepository;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 @Component
 public class InitializeDB {
 
     @Autowired
     CartRepository cartRepository;
+
     @Autowired
     ItemRepository itemRepository;
+
     @Autowired
     OrderedRepository orderedRepository;
+
     @Autowired
     OrderedItemRepository orderedItemRepository;
+
     @Autowired
     PizzaRepository pizzaRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
 
     @Transactional
@@ -48,6 +57,28 @@ public class InitializeDB {
         pizzaTonno.setPriceMedium(new BigDecimal("10.0"));
         pizzaTonno.setPriceLarge(new BigDecimal("13.0"));
         pizzaRepository.save(pizzaTonno);
+
+        User user = new User();
+        user.setNickname("Admin");
+        user.setEmail("admin@gmail.com");
+        user.setPassword("n1");
+        user.setRole(Role.ADMIN);
+        userRepository.save(user);
+
+        user = new User();
+        user.setNickname("Nutzer1");
+        user.setEmail("bnutz");
+        user.setPassword("n1");
+        user.setRole(Role.USER);
+        userRepository.save(user);
+
+        user = new User();
+        user.setNickname("Nutzer2");
+        user.setEmail("cnutz");
+        user.setPassword("n2");
+        user.setRole(Role.USER);
+        userRepository.save(user);
+
 
 //
 //        OrderedItem orderedItem = new OrderedItem();
@@ -77,6 +108,4 @@ public class InitializeDB {
 //        cart.setQuantity(5);
 //        cart.setUserId("ATAI1");
     }
-
-
 }

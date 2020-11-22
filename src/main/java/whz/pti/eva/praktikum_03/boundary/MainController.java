@@ -3,15 +3,15 @@ package whz.pti.eva.praktikum_03.boundary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.service.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -28,22 +28,17 @@ public class MainController {
     @Autowired
     private OrderedItemService orderedItemService;
 
-//    @RequestMapping("/all")
-//    public String listAllPizza(Model model) {
-//        List<Pizza> pizzaList = pizzaService.listAllPizza();
-//        List<Cart> cartList = cartService.listAllCarts();
-//        List<Item> itemList = itemService.listAllItems();
-//        List<Ordered> orderedList = orderedService.listAllOrdered();
-//        List<OrderedItem> orderedItemList = orderedItemService.listAllOrderedItem();
-//        model.addAttribute("pizzaList", pizzaList);
-//        model.addAttribute("cartList", cartList);
-//        model.addAttribute("itemList", itemList);
-//        model.addAttribute("orderedList", orderedList);
-//        model.addAttribute("orderedItemList", orderedItemList);
-//        return "index";
-//    }
+    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+    public String getLoginPage(@RequestParam Optional<String> error, Model model) {
+        return "login";
+    }
 
-    @GetMapping("/")
+    @RequestMapping("/403")
+    public String accessDenied() {
+        return "error/403";
+    }
+
+    @RequestMapping("/index")
     public String root(Model model) {
         List<Pizza> pizzaList = pizzaService.listAllPizza();
         model.addAttribute("pizzaList", pizzaList);
