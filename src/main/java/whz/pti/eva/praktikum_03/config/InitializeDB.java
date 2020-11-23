@@ -68,6 +68,7 @@ public class InitializeDB {
         user.setEmail("admin@gmail.com");
         user.setPasswordHash(passwordEncoder.encode("admin"));
         user.setRole(Role.ADMIN);
+        user.setIsActive(true);
         userRepository.save(user);
 
         user = new User();
@@ -75,6 +76,7 @@ public class InitializeDB {
         user.setEmail("bnutz");
         user.setPasswordHash(passwordEncoder.encode("n1"));
         user.setRole(Role.USER);
+        user.setIsActive(true);
         userRepository.save(user);
 
         user = new User();
@@ -82,6 +84,7 @@ public class InitializeDB {
         user.setEmail("cnutz");
         user.setPasswordHash(passwordEncoder.encode("n2"));
         user.setRole(Role.USER);
+        user.setIsActive(true);
         userRepository.save(user);
 
 
