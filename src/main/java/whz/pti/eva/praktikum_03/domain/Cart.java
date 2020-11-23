@@ -15,7 +15,6 @@ import java.util.Map;
 @Entity
 public class Cart extends BaseEntity<Long> {
 
-
     private int quantity;
 
     private String userId;
