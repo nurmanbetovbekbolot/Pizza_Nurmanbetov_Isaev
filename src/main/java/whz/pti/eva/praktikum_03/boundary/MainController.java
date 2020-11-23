@@ -28,17 +28,16 @@ public class MainController {
 
     private UserService userService;
 
-    private CurrentUser currentUser;
 
     @Autowired
-    public MainController(PizzaService pizzaService, CartService cartService, ItemService itemService, OrderedService orderedService, OrderedItemService orderedItemService, UserService userService, CurrentUser currentUser) {
+    public MainController(PizzaService pizzaService, CartService cartService, ItemService itemService, OrderedService orderedService, OrderedItemService orderedItemService, UserService userService) {
+  
         this.pizzaService = pizzaService;
         this.cartService = cartService;
         this.itemService = itemService;
         this.orderedService = orderedService;
         this.orderedItemService = orderedItemService;
         this.userService = userService;
-        this.currentUser = currentUser;
     }
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
@@ -52,20 +51,10 @@ public class MainController {
     }
 
     @RequestMapping(value = "/index", method = {RequestMethod.POST, RequestMethod.GET})
-    public String root(@RequestParam String email, @RequestParam String password, Model model) {
-//        if (!userService.existsByEmail(email)) { //).existsByEmail
-//            model.addAttribute("error","falscher Login");
-//            return "login";
-//        }
-//        if (!password.equals(userService.getUserByEmail(email).get().getPassword())) {
-//            model.addAttribute("error","falscher llLogin");
-//            return "login";
-//        }
+    public String root(Model model) {
 
         List<Pizza> pizzaList = pizzaService.listAllPizza();
         model.addAttribute("pizzaList", pizzaList);
-            currentUser.setUser(userService.getUserByEmail(email).get());
-        model.addAttribute("currentUser", currentUser.getNickname());
 
 
         int totalAmount = itemService.calculateTotalAmountOfPizzaInItems();

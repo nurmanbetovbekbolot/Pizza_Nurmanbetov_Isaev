@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(form.getEmail());
         user.setNickname(form.getNickname());
-        user.setPassword(form.getPassword());
+        user.setPasswordHash(form.getPassword());
         user.setRole(form.getRole());
         return userRepository.save(user);
     }

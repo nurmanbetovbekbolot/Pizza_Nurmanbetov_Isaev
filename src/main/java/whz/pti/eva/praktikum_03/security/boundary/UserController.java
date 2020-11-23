@@ -4,6 +4,7 @@ package whz.pti.eva.praktikum_03.security.boundary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,6 +42,7 @@ public class UserController {
         return "users";
     }
 
+    @PreAuthorize("#id==principal.id or hasAnyAuthority('ADMIN')")
     @RequestMapping(value = "/users/{id}", method = {RequestMethod.POST,RequestMethod.GET})
     public String getUserPage(@PathVariable Long id, Model model) {
         log.debug("Getting user page for user= " + id);
