@@ -22,6 +22,15 @@ public class CurrentUser implements Serializable {
     private String email;
     private String password;
 
+    public String getNickname() {
+        return user.getNickname();}
+
+    public void setUser(User user) {
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "CurrentUser{" +
