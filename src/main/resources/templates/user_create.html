@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head">
+	<meta charset="utf-8">
+</head>
+<body>
+
+<!--	<div th:include="fragments/body :: headline (txt='als admin neuen nutzer anlegen?' )"></div>-->
+	<div th:include="fragments/body :: nav (all=false)"></div>
+
+	<br>
+
+	<div class="container">
+
+		<h5>neuer nutzer ...</h5>
+		<form class="bs-example error" th:action="@{/users/create}"
+			th:object="${myform}" method="post" role="form">
+
+			<input type="text" name="nickname" class="form-control"
+				placeholder="nickname" required="required" autofocus="autofocus" >
+			<input type="text" name="email" class="form-control"
+				placeholder="email" required="required" > 
+			<input type="password" name="password" class="form-control"
+				placeholder="passwort" required="required" > 
+			<input type="password"
+				name="passwordRepeated" class="form-control"
+				placeholder="passwort wiederholen" required="required"> <br>
+			<div class="error">
+				<input type="submit" class="btn btn-outline-primary"
+					th:value="speichern" > 
+				<a><span class="error text-danger"
+					th:if="${error}" th:text="${error}">The email or password
+						you have entered is invalid, try again.</span></a>
+			</div>
+		</form>
+
+		<br>
+		<hr>
+
+		<h5>liste aller nutzer</h5>
+
+		<table class="table table-hover table-bordered table-sm">
+			<thead class="thead-light">
+				<tr>
+					<th scope="col">nickname</th>
+					<th scope="col">email</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${users}">
+					<td> <a th:href="${'/users/' + user.id}"
+							th:text="${user.nickname}">nix</a>
+					</td>
+					<td th:text="${user.email}">nix</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+	<br>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+</html>

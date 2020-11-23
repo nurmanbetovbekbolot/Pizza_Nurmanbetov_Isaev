@@ -15,9 +15,6 @@ import java.io.Serializable;
 @Entity
 public class Item implements Serializable{
 
-//    @Id
-//    @GeneratedValue
-//    private Long id;
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")

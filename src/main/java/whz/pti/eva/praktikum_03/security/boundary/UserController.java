@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
 import whz.pti.eva.praktikum_03.security.domain.UserCreateForm;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
@@ -38,14 +39,18 @@ public class UserController {
     @RequestMapping("/users")
     public String getUsersPage(Model model) {
         log.info("Getting users page");
+        String currentUser = CurrentUserUtil.getCurrentUser(model);
+        model.addAttribute("loggedInUser",currentUser);
         model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
 
-    @PreAuthorize("#id==principal.id or hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("#id==principal.id or hasAnyAuthority('ADMIN')")
     @RequestMapping(value = "/users/{id}", method = {RequestMethod.POST,RequestMethod.GET})
     public String getUserPage(@PathVariable Long id, Model model) {
         log.debug("Getting user page for user= " + id);
+        String currentUser = CurrentUserUtil.getCurrentUser(model);
+        model.addAttribute("loggedInUser",currentUser);
         UserDTO userDTO = userService.getUserById(id);
         model.addAttribute("user", userDTO);
         model.addAttribute("fromUser", userDTO.getNickname());
@@ -56,6 +61,8 @@ public class UserController {
     @RequestMapping(value = "/users/managed", method = {RequestMethod.POST,RequestMethod.GET}) 
     public String getUserManagedPage(Model model) {
         log.debug("Getting user create form");
+        String currentUser = CurrentUserUtil.getCurrentUser(model);
+        model.addAttribute("loggedInUser",currentUser);
         model.addAttribute("myform", new UserCreateForm());
         model.addAttribute("users", userService.getAllUsers());
         return "user_create";
@@ -65,6 +72,8 @@ public class UserController {
     @RequestMapping(value = "/users/create", method = RequestMethod.POST)
     public String handleUserCreateForm(@Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
         log.info("Processing user create form= " + form + " bindingResult= " + bindingResult);
+        String currentUser = CurrentUserUtil.getCurrentUser(model);
+        model.addAttribute("loggedInUser",currentUser);
         model.addAttribute("users", userService.getAllUsers());
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());

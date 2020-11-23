@@ -6,8 +6,8 @@ import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 public class CurrentUserUtil {
     public static String getCurrentUser(Model model) {
         CurrentUser currentUser = (CurrentUser) model.asMap().get("currentUser");
-        String from = currentUser.getNickname();
-        model.addAttribute("fromUser", from);
-        return from;
+        String loggedInUser = currentUser.getNickname();
+        model.addAttribute("loggedInUser", loggedInUser);
+        return loggedInUser;
     }
 }
