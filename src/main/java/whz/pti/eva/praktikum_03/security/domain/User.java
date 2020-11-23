@@ -22,8 +22,8 @@ public class User extends BaseEntity<Long> {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
     @Column(name = "role", nullable = false)
     private Role role;
@@ -34,7 +34,7 @@ public class User extends BaseEntity<Long> {
                 "id=" + getId() +
                 "nicknameo=" + nickname +
                 ", email='" + email.replaceFirst("@.*", "@***") +
-                ", password='" + password.substring(0, 10) +
+                ", password='" + passwordHash.substring(0, 10) +
                 ", role=" + role +
                 '}';
     }

@@ -1,6 +1,8 @@
 package whz.pti.eva.praktikum_03.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
@@ -37,6 +39,9 @@ public class InitializeDB {
     @Transactional
     @PostConstruct
     public void init() {
+
+        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
         Pizza pizzaMargherita = new Pizza();
         pizzaMargherita.setName("Margherita");
         pizzaMargherita.setPriceSmall(new BigDecimal("5.0"));
@@ -61,21 +66,21 @@ public class InitializeDB {
         User user = new User();
         user.setNickname("Admin");
         user.setEmail("admin@gmail.com");
-        user.setPassword("n1");
+        user.setPasswordHash(passwordEncoder.encode("admin"));
         user.setRole(Role.ADMIN);
         userRepository.save(user);
 
         user = new User();
         user.setNickname("Nutzer1");
         user.setEmail("bnutz");
-        user.setPassword("n1");
+        user.setPasswordHash(passwordEncoder.encode("n1"));
         user.setRole(Role.USER);
         userRepository.save(user);
 
         user = new User();
         user.setNickname("Nutzer2");
         user.setEmail("cnutz");
-        user.setPassword("n2");
+        user.setPasswordHash(passwordEncoder.encode("n2"));
         user.setRole(Role.USER);
         userRepository.save(user);
 

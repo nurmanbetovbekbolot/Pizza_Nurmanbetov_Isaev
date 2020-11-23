@@ -20,29 +20,21 @@ public class ItemController {
 
     private ItemService itemService;
     private UserService userService;
-    private CurrentUser currentUser;
 
     @Autowired
-    public ItemController( ItemService itemService,UserService userService, CurrentUser currentUser) {
+    public ItemController( ItemService itemService,UserService userService) {
         this.itemService = itemService;
         this.userService = userService;
-        this.currentUser = currentUser;
     }
     @PostMapping(value = "/add")
     public String addItemToCart(Model model,@ModelAttribute("pizzaSize") PizzaSize pizzaSize, @RequestParam Integer menge, @RequestParam("pizzaName") String pizzaName) {
 //        getCurrentUser(model);
         itemService.addItem(pizzaSize, menge, pizzaName);
-        return "redirect:index";
+        return "redirect:/index";
     }
 
 //    @GetMapping(value = "/add")
 //    public String getInfo(Model model, @ModelAttribute("pizzaSize") PizzaSize pizzaSize, @RequestParam Integer menge, @RequestParam("pizzaName") String pizzaName) {
 //        return "redirect:/index";
 //    }
-
-    private User getCurrentUser(Model model) {
-        User from = currentUser.getUser();
-        model.addAttribute("currentUser", from);
-        return from;
-    }
 }
