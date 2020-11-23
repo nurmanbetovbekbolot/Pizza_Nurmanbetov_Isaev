@@ -26,6 +26,9 @@ public class User extends BaseEntity<Long> {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
 
     public Long getId() {
         return super.getId();

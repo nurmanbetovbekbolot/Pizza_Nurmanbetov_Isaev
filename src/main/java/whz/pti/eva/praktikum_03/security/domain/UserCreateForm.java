@@ -26,6 +26,8 @@ public class UserCreateForm {
     @NotEmpty()
     private String passwordRepeated = "";
 
+    private Boolean isActive;
+
 //    @NotNull
     private Role role = Role.USER;
 

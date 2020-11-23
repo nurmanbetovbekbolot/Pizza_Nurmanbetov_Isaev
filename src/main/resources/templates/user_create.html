@@ -24,7 +24,10 @@
 				placeholder="passwort" required="required" > 
 			<input type="password"
 				name="passwordRepeated" class="form-control"
-				placeholder="passwort wiederholen" required="required"> <br>
+				placeholder="passwort wiederholen" required="required">
+			<input type="checkbox" checked
+				   name="isActive" class="form-control"
+				    ><br>
 			<div class="error">
 				<input type="submit" class="btn btn-outline-primary"
 					th:value="speichern" > 
@@ -44,6 +47,7 @@
 				<tr>
 					<th scope="col">nickname</th>
 					<th scope="col">email</th>
+					<th scope="col">active</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,6 +56,7 @@
 							th:text="${user.nickname}">nix</a>
 					</td>
 					<td th:text="${user.email}">nix</td>
+					<td th:text="${user.isActive}">nix</td>
 				</tr>
 			</tbody>
 		</table>
