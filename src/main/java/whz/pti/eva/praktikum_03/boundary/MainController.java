@@ -30,6 +30,7 @@ public class MainController {
 
     private CurrentUser currentUser;
 
+    @Autowired
     public MainController(PizzaService pizzaService, CartService cartService, ItemService itemService, OrderedService orderedService, OrderedItemService orderedItemService, UserService userService, CurrentUser currentUser) {
         this.pizzaService = pizzaService;
         this.cartService = cartService;
