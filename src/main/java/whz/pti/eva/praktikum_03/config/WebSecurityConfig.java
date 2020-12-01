@@ -23,16 +23,17 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // http.csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/login/**", "/css/**").permitAll()
-                .antMatchers("/users/m**").hasAuthority("ADMIN")
-                .antMatchers("/users/c**").hasAuthority("ADMIN")
+                .antMatchers("/login/**", "/css/**", "/registration/**").permitAll()
+                .antMatchers("/users/m**").permitAll()
+                .antMatchers("/users/c**").permitAll()
+                .antMatchers("/user/c**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/index", true)
                 .failureUrl("/login?error")
-                .usernameParameter("email")
+                .usernameParameter("loginName")
                 .permitAll()
                 .and()
                 .logout()
@@ -44,6 +45,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
         ;
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 
     @Override

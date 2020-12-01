@@ -13,6 +13,8 @@ import whz.pti.eva.praktikum_03.security.domain.UserRepository;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class InitializeDB {
@@ -34,6 +36,12 @@ public class InitializeDB {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    DeliveryAddressRepository deliveryAddressRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
 
     @Transactional
@@ -64,28 +72,59 @@ public class InitializeDB {
         pizzaRepository.save(pizzaTonno);
 
         User user = new User();
-        user.setNickname("Admin");
+        user.setLoginName("Admin");
         user.setEmail("admin@gmail.com");
         user.setPasswordHash(passwordEncoder.encode("admin"));
         user.setRole(Role.ADMIN);
         user.setIsActive(true);
         userRepository.save(user);
 
-        user = new User();
-        user.setNickname("Nutzer1");
-        user.setEmail("bnutz");
-        user.setPasswordHash(passwordEncoder.encode("n1"));
-        user.setRole(Role.USER);
-        user.setIsActive(true);
-        userRepository.save(user);
+        User user1 = new User();
+        user1.setLoginName("Nutzer1");
+        user1.setEmail("bnutz");
+        user1.setPasswordHash(passwordEncoder.encode("n1"));
+        user1.setRole(Role.USER);
+        user1.setIsActive(true);
+        userRepository.save(user1);
 
-        user = new User();
-        user.setNickname("Nutzer2");
-        user.setEmail("cnutz");
-        user.setPasswordHash(passwordEncoder.encode("n2"));
-        user.setRole(Role.USER);
-        user.setIsActive(true);
-        userRepository.save(user);
+        User user2 = new User();
+        user2.setLoginName("Nutzer2");
+        user2.setEmail("cnutz");
+        user2.setPasswordHash(passwordEncoder.encode("n2"));
+        user2.setRole(Role.USER);
+        user2.setIsActive(true);
+        userRepository.save(user2);
+
+        List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
+        DeliveryAddress deliveryAddress = new DeliveryAddress("","","","");
+        deliveryAddresses.add(deliveryAddress);
+        deliveryAddressRepository.save(deliveryAddress);
+
+        Customer customer = new Customer();
+        customer.setLoginName(user2.getLoginName());
+        customer.setFirstName("Tom");
+        customer.setLastName("Soyer");
+        customer.setDeliveryAddress(deliveryAddresses);
+        customer.setIsActive(true);
+        customer.setPasswordHash(user2.getPasswordHash());
+        customer.setUser(user2);
+        customerRepository.save(customer);
+
+        List<DeliveryAddress> deliveryAddresses1 = new ArrayList<>();
+        DeliveryAddress deliveryAddress1 = new DeliveryAddress("","","","");
+        deliveryAddresses1.add(deliveryAddress1);
+        deliveryAddressRepository.save(deliveryAddress1);
+
+        Customer customer1 = new Customer();
+        customer1.setLoginName(user1.getLoginName());
+        customer1.setFirstName("John");
+        customer1.setLastName("Smith");
+        customer1.setDeliveryAddress(deliveryAddresses1);
+        customer1.setIsActive(true);
+        customer1.setPasswordHash(user1.getPasswordHash());
+        customer1.setUser(user1);
+        customerRepository.save(customer1);
+
 
 
 //

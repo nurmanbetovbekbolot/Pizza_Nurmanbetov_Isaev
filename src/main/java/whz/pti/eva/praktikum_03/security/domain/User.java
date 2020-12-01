@@ -1,6 +1,7 @@
 package whz.pti.eva.praktikum_03.security.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import whz.pti.eva.praktikum_03.common.BaseEntity;
 import whz.pti.eva.praktikum_03.enums.Role;
 
@@ -14,8 +15,8 @@ import javax.persistence.Table;
 @Table(name = "secuser")
 public class User extends BaseEntity<Long> {
 
-	@Column(name = "nickname", nullable = false, unique = true)
-    private String nickname;
+    @Column(name = "loginName", nullable = false, unique = true)
+    private String loginName;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -34,20 +35,20 @@ public class User extends BaseEntity<Long> {
         return super.getId();
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public String getPasswordHash() {
@@ -66,12 +67,19 @@ public class User extends BaseEntity<Long> {
         this.role = role;
     }
 
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + getId() +
-                "nicknameo=" + nickname +
+                "loginName=" + loginName +
                 ", email='" + email.replaceFirst("@.*", "@***") +
                 ", password='" + passwordHash.substring(0, 10) +
                 ", role=" + role +

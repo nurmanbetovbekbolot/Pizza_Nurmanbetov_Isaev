@@ -12,7 +12,8 @@ public interface UserService {
 
 	UserDTO getUserById(long id);
 	Optional<User> getUserByEmail(String email);
-    boolean existsByNickname(String nickname);
+	Optional<User> getUserByLoginName(String loginName);
+    boolean existByLoginName(String loginName);
     boolean existsByEmail(String email);
     Collection<UserDTO> getAllUsers();
     User create(UserCreateForm form);

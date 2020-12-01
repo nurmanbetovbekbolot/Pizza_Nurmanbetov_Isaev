@@ -5,7 +5,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.internal.CustomizerRegistry;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import whz.pti.eva.praktikum_03.domain.Customer;
+import whz.pti.eva.praktikum_03.domain.CustomerRepository;
+import whz.pti.eva.praktikum_03.domain.DeliveryAddress;
+import whz.pti.eva.praktikum_03.domain.DeliveryAddressRepository;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
 import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.domain.UserCreateForm;
@@ -21,11 +29,17 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
+    private CustomerRepository customerRepository;
+    private DeliveryAddressRepository deliveryAddressRepository;
+
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, CustomerRepository customerRepository, DeliveryAddressRepository deliveryAddressRepository) {
         this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
+        this.deliveryAddressRepository = deliveryAddressRepository;
     }
+
 
     @Override
     public UserDTO getUserById(long id) {
@@ -44,8 +58,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean existsByNickname(String nickname) {
-        return userRepository.existsByNickname(nickname);
+    public boolean existByLoginName(String loginName) {
+        return userRepository.existsByLoginName(loginName);
     }
 
     @Override
@@ -56,7 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getAllUsers() {
         log.debug("Getting all users");
-        List<User> targetListOrigin = userRepository.findAllByOrderByNicknameAsc(); 
+        List<User> targetListOrigin = userRepository.findAllByOrderByLoginNameAsc();
 		List<UserDTO> targetList= new ArrayList<>(); 
 		for (User source: targetListOrigin ) {
 		  	 UserDTO target= new UserDTO();
@@ -67,12 +81,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> getUserByLoginName(String loginName) {
+        log.debug("Getting user by loginName");
+        return userRepository.findOneByLoginName(loginName);
+    }
+
+    @Override
+    @Transactional
     public User create(UserCreateForm form) {
+        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+        Customer customer = new Customer();
+        customer.setIsActive(Boolean.TRUE);
+        customer.setLoginName(form.getLoginName());
+        customer.setFirstName(form.getFirstName());
+        customer.setLastName(form.getLastName());
+        customer.setPasswordHash(passwordEncoder.encode(form.getPassword()));
+        DeliveryAddress deliveryAddress = new DeliveryAddress(form.getStreet(), form.getHouseNumber(), form.getTown(), form.getPostalCode());
+        List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
+        deliveryAddresses.add(deliveryAddress);
+        List<Customer> customers = new ArrayList<>();
+        customers.add(customer);
+        customer.setDeliveryAddress(deliveryAddresses);
+        deliveryAddress.setCustomer(customers);
+
+
+
         User user = new User();
         user.setEmail(form.getEmail());
-        user.setNickname(form.getNickname());
-        user.setPasswordHash(form.getPassword());
+        user.setLoginName(form.getLoginName());
+        user.setPasswordHash(passwordEncoder.encode(form.getPassword()));
         user.setRole(form.getRole());
+
+        customer.setUser(user);
+
+        customerRepository.save(customer);
+        deliveryAddressRepository.save(deliveryAddress);
 
         user.setIsActive(form.getIsActive() != null);
         return userRepository.save(user);

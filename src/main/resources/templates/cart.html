@@ -35,12 +35,15 @@
             <td>
                 <span th:text="${item.getPizzaSize()}"></span>
             </td>
-            <td>
-
-            </td>
         </tr>
         </tbody>
     </table>
+
+    <a th:href="@{/index/}">
+        <button class="btn btn-success btn-block btn-lg" type="button">
+            zum Pizza-Menü
+        </button>
+    </a>
 </div>
 <div th:include="fragments/footer :: footer"></div>
 </body>

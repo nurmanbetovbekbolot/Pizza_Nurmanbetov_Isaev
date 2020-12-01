@@ -20,6 +20,13 @@ public class DeliveryAddress extends BaseEntity<Long> {
     private String town;
     private String postalCode;
 
+    public DeliveryAddress(String street, String houseNumber, String town, String postalCode) {
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.town = town;
+        this.postalCode = postalCode;
+    }
+
     @ManyToMany(mappedBy = "deliveryAddress")
     private List<Customer> customer;
 }
