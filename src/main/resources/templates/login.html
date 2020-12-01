@@ -18,8 +18,8 @@
 					<div class="alert alert-info">You have been logged out.</div>
 				</div>
 				<div class="form-group">
-					<input type="text" name="email" id="email"
-						class="form-control input-lg" placeholder="email" required="true"
+					<input type="text" name="loginName" id="loginName"
+						class="form-control input-lg" placeholder="loginName" required="true"
 						autofocus="true">
 				</div>
 				<div class="form-group">
@@ -46,7 +46,12 @@
 							versuchen</span>
 					</div>
 				</div>
+				<div class="form-group">
+					<span><a th:href="@{/registration}">neuer Nutzer</a></span>
+				</div>
 			</form>
+
+
 		</div>
 	</div>
 </body>

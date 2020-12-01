@@ -53,7 +53,7 @@ public class UserController {
         model.addAttribute("loggedInUser",currentUser);
         UserDTO userDTO = userService.getUserById(id);
         model.addAttribute("user", userDTO);
-        model.addAttribute("fromUser", userDTO.getNickname());
+        model.addAttribute("fromUser", userDTO.getLoginName());
         return "user";
     }
     
@@ -82,6 +82,23 @@ public class UserController {
             userService.create(form);
 //            chatUserService.createChatUser(form);
         return "redirect:/users/managed";
+    }
+
+    @RequestMapping(value = "/user/create", method = RequestMethod.POST)
+    public String handleCustomerCreate(@Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
+        log.info("Processing user create form= " + form + " bindingResult= " + bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());
+            return "user_create";
+        }
+        userService.create(form);
+        return "redirect:/login";
+    }
+
+    @RequestMapping(value = "/registration", method = {RequestMethod.POST,RequestMethod.GET})
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("myform", new UserCreateForm());
+        return "registration";
     }
 
 }

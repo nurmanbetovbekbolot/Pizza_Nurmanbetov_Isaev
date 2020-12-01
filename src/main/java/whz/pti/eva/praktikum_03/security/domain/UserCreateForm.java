@@ -15,10 +15,28 @@ import javax.validation.constraints.NotEmpty;
 public class UserCreateForm {
 
     @NotEmpty
-    private String nickname = "";
+    private String firstName = "";
+
+    @NotEmpty
+    private String lastName = "";
+
+    @NotEmpty
+    private String loginName = "";
 
     @NotEmpty
     private String email = "";
+
+    @NotEmpty
+    private String street = "";
+
+    @NotEmpty
+    private String houseNumber = "";
+
+    @NotEmpty
+    private String town = "";
+
+    @NotEmpty
+    private String postalCode = "";
 
     @NotEmpty
     private String password = "";
@@ -26,7 +44,7 @@ public class UserCreateForm {
     @NotEmpty()
     private String passwordRepeated = "";
 
-    private Boolean isActive;
+    private Boolean isActive = Boolean.TRUE;
 
 //    @NotNull
     private Role role = Role.USER;
@@ -34,13 +52,19 @@ public class UserCreateForm {
     @Override
     public String toString() {
         return "UserCreateForm{" +
-                "email='" + email.replaceFirst("@.+", "@***") + '\'' +
-                ", password=***" + '\'' +
-                ", passwordRepeated=***" + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", email='" + email.replaceFirst("@.+", "@***") + '\'' +
+                ", street='" + street + '\'' +
+                ", houseNumber='" + houseNumber + '\'' +
+                ", town='" + town + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", password=***'" + password + '\'' +
+                ", passwordRepeated=***'" + passwordRepeated + '\'' +
+                ", isActive=" + isActive +
                 ", role=" + role +
-                ", nickname=" + nickname +
                 '}';
-
     }
 
 

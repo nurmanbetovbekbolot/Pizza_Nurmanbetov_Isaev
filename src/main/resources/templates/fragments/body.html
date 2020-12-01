@@ -9,7 +9,7 @@
             <br>
             <header>
                 <h5 class="text-center">
-                    hi <span th:if="${currentUser != null}" th:text="${currentUser.getNickname()}"></span>
+                    hi <span th:if="${currentUser != null}" th:text="${currentUser.getLoginName()}"></span>
                     :: <span th:if="${txt != null}" th:text="${txt}"></span>
                 </h5>
             </header>
@@ -20,8 +20,8 @@
     <div th:fragment="nav (all)">
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-light bg-light">
-                <img th:src="@{/img/pizza.png}" alt="Pizza" width="50" height="50">
-                <a class="navbar-brand p-1 mr-5"><strong>PizzaForever-App</strong></a>
+                <img th:href="@{/index/}" th:src="@{/img/pizza.png}"  alt="Pizza" width="50" height="50">
+                <a class="navbar-brand p-1 mr-5" th:href="@{/index/}"><strong>PizzaForever-App</strong></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#thenavbarDefault" aria-controls="thenavbarDefault"
                         aria-expanded="false" aria-label="Toggle navigation">
