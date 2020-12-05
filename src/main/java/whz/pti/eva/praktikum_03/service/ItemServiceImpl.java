@@ -9,6 +9,7 @@ import whz.pti.eva.praktikum_03.security.domain.User;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -24,6 +25,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CartService cartService;
+
 
     public ItemServiceImpl(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -68,6 +73,19 @@ public class ItemServiceImpl implements ItemService {
         item.setPizzaSize(pizzaSize);
         cart.getItems().put(UUID.randomUUID().toString(), item);
         cart.increment();
+    }
+
+    //Migrate all Items from sessions Cart
+    @Override
+    public void updateCustomersCart(Cart cart, Customer customer) {
+        Map<String, Item> cartItems = cart.getItems();
+        for (Map.Entry<String, Item> entry : cartItems.entrySet()) {
+            itemRepository.save(entry.getValue());
+        }
+
+        Cart customersCart = cartService.findCartByCustomer(customer);
+        customersCart.getItems().putAll(cart.getItems());
+        cartRepository.save(customersCart);
     }
 
     @Override

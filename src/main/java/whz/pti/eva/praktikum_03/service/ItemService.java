@@ -20,6 +20,8 @@ public interface ItemService {
 
     void addItem(PizzaSize pizzaSize, Integer amount, String pizza, Cart cart);
 
+    void updateCustomersCart(Cart cart, Customer customer);
+
     Item getItemById(String id);
 
     boolean deleteItem(String id);

@@ -15,11 +15,14 @@ import java.util.List;
 @RequestMapping("/pizza")
 public class PizzaController {
 
-    @Autowired
     private PizzaService pizzaService;
+    private ItemService itemService;
 
     @Autowired
-    private ItemService itemService;
+    public PizzaController(PizzaService pizzaService, ItemService itemService) {
+        this.pizzaService = pizzaService;
+        this.itemService = itemService;
+    }
 
     @RequestMapping("/all")
     public String listAllPizza(Model model) {

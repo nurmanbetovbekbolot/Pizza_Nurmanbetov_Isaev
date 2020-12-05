@@ -12,6 +12,8 @@ import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.domain.UserRepository;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
 import whz.pti.eva.praktikum_03.security.service.validator.UserCreateFormValidator;
+import whz.pti.eva.praktikum_03.service.CartService;
+import whz.pti.eva.praktikum_03.service.CustomerService;
 import whz.pti.eva.praktikum_03.service.ItemService;
 import whz.pti.eva.praktikum_03.service.PizzaService;
 
@@ -28,25 +30,19 @@ public class ItemController {
 
     private ItemService itemService;
     private UserService userService;
-
-    @Autowired
     private PizzaService pizzaService;
+    private CartService cartService;
+    private CustomerService customerService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-
-    @Autowired
-    public ItemController( ItemService itemService,UserService userService) {
+    public ItemController(ItemService itemService, UserService userService, PizzaService pizzaService, CartService cartService, CustomerService customerService) {
         this.itemService = itemService;
         this.userService = userService;
+        this.pizzaService = pizzaService;
+        this.cartService = cartService;
+        this.customerService = customerService;
     }
+
     @PostMapping(value = "/add")
     public String addItemToCart(HttpSession session, Model model, @ModelAttribute("pizzaSize") PizzaSize pizzaSize, @RequestParam Integer menge, @RequestParam("pizzaName") String pizzaName) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
@@ -60,9 +56,9 @@ public class ItemController {
         else {
             //!!!!
 //            session.removeAttribute("cart");
-            Customer customer =  customerRepository.findByUser(currentUser.getUser());
+            Customer customer =  customerService.findByUser(currentUser.getUser());
             if (customer != null){
-                Cart cart = cartRepository.findByCustomer(customer);
+                Cart cart = cartService.findCartByCustomer(customer);
                 if (cart!=null) {
                     itemService.addItem(pizzaSize, menge, pizzaName, cart, customer);
                 }
@@ -76,16 +72,13 @@ public class ItemController {
 
         }
 
-//        if (currentUser!=null)itemService.addItem(pizzaSize, menge, pizzaName);
-//        else
-//            CartDto
         return "redirect:/index";
     }
-
-    private Optional<User> getLoggedInUser(Principal principal) {
-        String loginName = principal.getName();
-
-        return userRepository.findOneByLoginName(loginName);
-    }
+//
+//    private Optional<User> getLoggedInUser(Principal principal) {
+//        String loginName = principal.getName();
+//
+//        return userRepository.findOneByLoginName(loginName);
+//    }
 
 }
