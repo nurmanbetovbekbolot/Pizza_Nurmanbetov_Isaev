@@ -23,29 +23,14 @@ public class MainController {
     private PizzaService pizzaService;
     private CartService cartService;
     private ItemService itemService;
-
-    private OrderedService orderedService;
-
-    private OrderedItemService orderedItemService;
-
-    private UserService userService;
+    private CustomerService customerService;
 
     @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private CartRepository cartRepository;
-
-
-    @Autowired
-    public MainController(PizzaService pizzaService, CartService cartService, ItemService itemService, OrderedService orderedService, OrderedItemService orderedItemService,UserService userService) {
-
+    public MainController(PizzaService pizzaService, CartService cartService, ItemService itemService, CustomerService customerService) {
         this.pizzaService = pizzaService;
         this.cartService = cartService;
         this.itemService = itemService;
-        this.orderedService = orderedService;
-        this.orderedItemService = orderedItemService;
-        this.userService = userService;
+        this.customerService = customerService;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -70,9 +55,12 @@ public class MainController {
         BigDecimal totalPrice = BigDecimal.ZERO;
 
         if (currentUser != null){
-            Customer currentCustomer =  customerRepository.findByUser(currentUser.getUser());
-            Cart customersCart = cartRepository.findByCustomer(currentCustomer);
+            Customer currentCustomer =  customerService.findByUser(currentUser.getUser());
+            Cart customersCart = cartService.findCartByCustomer(currentCustomer);
             if (customersCart != null){
+                Cart cart = (Cart) session.getAttribute("cart");
+                if (cart!=null) itemService.updateCustomersCart(cart, currentCustomer);
+
                 totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(customersCart);
                 totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(customersCart);
             }

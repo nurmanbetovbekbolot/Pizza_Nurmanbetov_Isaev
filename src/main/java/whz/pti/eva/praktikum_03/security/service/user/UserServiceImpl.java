@@ -133,4 +133,21 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(user.getId());
     }
 
+    @Override
+    public void registration(Cart cart) {
+//        if (cart == null)
+//        {
+//            Cart newCart = new Cart();
+//            newCart.setCustomer(customer);
+//            cartRepository.save(newCart);
+//        }
+//        else {
+//            Map<String, Item> cartItems = cart.getItems();
+//            for (Map.Entry<String, Item> entry : cartItems.entrySet()) {
+//                itemRepository.save(entry.getValue());
+//            }
+//            cart.setCustomer(customer);
+//            cartRepository.save(cart);
+//        }
+    }
 }

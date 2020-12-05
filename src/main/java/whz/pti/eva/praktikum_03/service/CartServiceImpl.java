@@ -3,6 +3,7 @@ package whz.pti.eva.praktikum_03.service;
 import org.springframework.stereotype.Service;
 import whz.pti.eva.praktikum_03.domain.Cart;
 import whz.pti.eva.praktikum_03.domain.CartRepository;
+import whz.pti.eva.praktikum_03.domain.Customer;
 import whz.pti.eva.praktikum_03.domain.Item;
 
 import java.math.BigDecimal;
@@ -61,5 +62,11 @@ public class CartServiceImpl implements CartService {
         }
 
         return totalPrice;
+    }
+
+    @Override
+    public Cart findCartByCustomer(Customer customer) {
+        Optional<Cart> cart = cartRepository.findByCustomer(customer);
+        return cart.orElse(new Cart());
     }
 }

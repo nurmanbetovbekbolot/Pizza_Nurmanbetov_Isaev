@@ -1,6 +1,7 @@
 package whz.pti.eva.praktikum_03.service;
 
 import whz.pti.eva.praktikum_03.domain.Cart;
+import whz.pti.eva.praktikum_03.domain.Customer;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,4 +18,6 @@ public interface CartService {
     int calculateTotalAmountOfPizzasInItemsInCart(Cart cart);
 
     BigDecimal calculateTotalPriceOfPizzaInItemsInCart(Cart cart);
+
+    Cart findCartByCustomer(Customer customer);
 }

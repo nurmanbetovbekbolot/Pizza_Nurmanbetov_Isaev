@@ -18,5 +18,6 @@ public interface UserService {
     boolean existsByEmail(String email);
     Collection<UserDTO> getAllUsers();
     User create(UserCreateForm form, Cart cart);
+    void registration(Cart cart);
 
 }

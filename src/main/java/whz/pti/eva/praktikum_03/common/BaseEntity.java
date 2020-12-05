@@ -29,7 +29,7 @@ public abstract class BaseEntity<PK extends Serializable> {
         if (this == obj) return true;
         if (obj == null) return false;
         if (!(obj instanceof BaseEntity)) return false;
-        BaseEntity other = (BaseEntity) obj;
+        BaseEntity<?> other = (BaseEntity<?>) obj;
         return this.getId() != null && this.getId().equals(other.getId()); }
 
 
