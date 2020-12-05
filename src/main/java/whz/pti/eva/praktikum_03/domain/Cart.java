@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -17,13 +18,17 @@ import java.util.Map;
 @Entity
 public class Cart extends BaseEntity<Long> {
 
-    private int quantity;
+    private int quantity = 0;
 
-//    @OneToOne
-    @JoinColumn(referencedColumnName = "user_id")
-    private String userId;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Customer customer;
 
     @OneToMany
-    private Map<String, Item> items;
+    private Map<String, Item> items = new HashMap<>();
+
+    public void increment(){
+        quantity++;
+    }
 
 }

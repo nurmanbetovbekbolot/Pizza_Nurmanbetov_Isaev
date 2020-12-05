@@ -10,7 +10,7 @@
             <header>
                 <h5 class="text-center">
                     hi <span th:if="${currentUser != null}" th:text="${currentUser.getLoginName()}"></span>
-                    :: <span th:if="${txt != null}" th:text="${txt}"></span>
+                    :: <span th:if="${txt != null}" th:text="${txt}"></span>unbekannte/ unbekannter
                 </h5>
             </header>
             <br>
@@ -20,7 +20,7 @@
     <div th:fragment="nav (all)">
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-light bg-light">
-                <img th:href="@{/index/}" th:src="@{/img/pizza.png}"  alt="Pizza" width="50" height="50">
+                <img th:href="@{/index/}" th:src="@{/img/pizza.png}" alt="Pizza" width="50" height="50">
                 <a class="navbar-brand p-1 mr-5" th:href="@{/index/}"><strong>PizzaForever-App</strong></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#thenavbarDefault" aria-controls="thenavbarDefault"
@@ -32,7 +32,7 @@
                     <ul class="navbar-nav ml-auto">
 
                         <li class="nav-item navbar-nav p-1"
-                            th:if="${all == true and #strings.toString(currentUser.user.role) == 'ADMIN'}">
+                            th:if="${currentUser!=null and #strings.toString(currentUser.user.role) == 'ADMIN'}">
                             <form th:action="@{/users/managed}" method="post">
                                 <input type="submit" class="btn btn-outline-secondary"
                                        value="verwaltete nutzer">

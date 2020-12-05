@@ -25,15 +25,15 @@
         <tbody th:each="item:${itemList}">
         <tr>
             <td>
-                <span th:text="${item.getPizza().getName()}"></span>
+                <span th:text="${item.getValue().getPizza().getName()}"></span>
             </td>
 
             <td>
-                <span th:text="${item.getQuantity()}"></span>
+                <span th:text="${item.getValue().getQuantity()}"></span>
 
             </td>
             <td>
-                <span th:text="${item.getPizzaSize()}"></span>
+                <span th:text="${item.getValue().getPizzaSize()}"></span>
             </td>
         </tr>
         </tbody>

@@ -2,14 +2,14 @@ package whz.pti.eva.praktikum_03.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import whz.pti.eva.praktikum_03.domain.Item;
-import whz.pti.eva.praktikum_03.domain.ItemRepository;
-import whz.pti.eva.praktikum_03.domain.Pizza;
+import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
+import whz.pti.eva.praktikum_03.security.domain.User;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -18,6 +18,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private PizzaService pizzaService;
+
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     public ItemServiceImpl(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -37,49 +43,31 @@ public class ItemServiceImpl implements ItemService {
     }
 
 
+    //For LoggedIn
     @Override
-    public boolean addItem(PizzaSize pizzaSize, Integer quantity, String pizzaName) {
+    public void addItem(PizzaSize pizzaSize, Integer quantity, String pizzaName, Cart cart, Customer customer) {
         Item item = new Item();
         Pizza pizzaInDb = pizzaService.findPizzaByName(pizzaName);
         item.setQuantity(quantity);
-
-//        if (pizzaSize.equals(PizzaSize.SMALL)) {
-//            pizzaInDb.setPriceSmall(pizzaInDb.getPriceSmall());
-//        } else if (pizzaSize.equals(PizzaSize.MEDIUM)) {
-//            pizzaInDb.setPriceMedium(pizzaInDb.getPriceMedium());
-//        } else if (pizzaSize.equals(PizzaSize.LARGE)) {
-//            pizzaInDb.setPriceLarge(pizzaInDb.getPriceLarge());
-//        }
         item.setPizza(pizzaInDb);
         item.setPizzaSize(pizzaSize);
         itemRepository.save(item);
-        return false;
+        cart.getItems().put(UUID.randomUUID().toString(), item);
+        cart.increment();
+        cart.setCustomer(customer);
+        cartRepository.save(cart);
     }
 
+    //For NotLogedIn
     @Override
-    public int calculateTotalAmountOfPizzaInItems() {
-        ArrayList<Item> itemList = (ArrayList<Item>) listAllItems();
-
-        int totalAmount = 0;
-        for (Item i : itemList) {
-            totalAmount += i.getQuantity();
-        }
-
-        return totalAmount;
-    }
-
-    @Override
-    public BigDecimal calculateTotalPriceOfPizzaInItems() {
-
-        ArrayList<Item> itemList = (ArrayList<Item>) listAllItems();
-
-        BigDecimal totalPrice = BigDecimal.ZERO;
-        for (Item i : itemList) {
-            BigDecimal tempItemPrice = i.getPizza().getPriceByEnum(i.getPizzaSize());
-            totalPrice = totalPrice.add(tempItemPrice.multiply(new BigDecimal(i.getQuantity())));
-        }
-
-        return totalPrice;
+    public void addItem(PizzaSize pizzaSize, Integer quantity, String pizzaName, Cart cart) {
+        Item item = new Item();
+        Pizza pizzaInDb = pizzaService.findPizzaByName(pizzaName);
+        item.setQuantity(quantity);
+        item.setPizza(pizzaInDb);
+        item.setPizzaSize(pizzaSize);
+        cart.getItems().put(UUID.randomUUID().toString(), item);
+        cart.increment();
     }
 
     @Override

@@ -25,11 +25,11 @@ public class PizzaController {
     public String listAllPizza(Model model) {
         List<Pizza> pizzaList = pizzaService.listAllPizza();
         model.addAttribute("pizzaList", pizzaList);
-        int totalAmount = itemService.calculateTotalAmountOfPizzaInItems();
-        BigDecimal totalPrice = itemService.calculateTotalPriceOfPizzaInItems();
-
-        model.addAttribute("totalAmount", totalAmount);
-        model.addAttribute("totalPrice", totalPrice);
+//        int totalAmount = itemService.calculateTotalAmountOfPizzaInItems();
+//        BigDecimal totalPrice = itemService.calculateTotalPriceOfPizzaInItems();
+//
+//        model.addAttribute("totalAmount", totalAmount);
+//        model.addAttribute("totalPrice", totalPrice);
         return "index";
     }
 }

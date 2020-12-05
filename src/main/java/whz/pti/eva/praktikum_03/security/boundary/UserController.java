@@ -11,11 +11,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
+import whz.pti.eva.praktikum_03.domain.Cart;
+import whz.pti.eva.praktikum_03.domain.CartRepository;
+import whz.pti.eva.praktikum_03.domain.Customer;
+import whz.pti.eva.praktikum_03.domain.CustomerRepository;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
+import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.security.domain.UserCreateForm;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
 import whz.pti.eva.praktikum_03.security.service.validator.UserCreateFormValidator;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -24,6 +30,12 @@ public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private UserService userService;
     private UserCreateFormValidator userCreateFormValidator;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Autowired
     public UserController(UserService userService,UserCreateFormValidator userCreateFormValidator) {
@@ -45,7 +57,7 @@ public class UserController {
         return "users";
     }
 
-//    @PreAuthorize("#id==principal.id or hasAnyAuthority('ADMIN')")
+    //    @PreAuthorize("#id==principal.id or hasAnyAuthority('ADMIN')")
     @RequestMapping(value = "/users/{id}", method = {RequestMethod.POST,RequestMethod.GET})
     public String getUserPage(@PathVariable Long id, Model model) {
         log.debug("Getting user page for user= " + id);
@@ -56,9 +68,9 @@ public class UserController {
         model.addAttribute("fromUser", userDTO.getLoginName());
         return "user";
     }
-    
 
-    @RequestMapping(value = "/users/managed", method = {RequestMethod.POST,RequestMethod.GET}) 
+
+    @RequestMapping(value = "/users/managed", method = {RequestMethod.POST,RequestMethod.GET})
     public String getUserManagedPage(Model model) {
         log.debug("Getting user create form");
         String currentUser = CurrentUserUtil.getCurrentUser(model);
@@ -68,30 +80,35 @@ public class UserController {
         return "user_create";
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/users/create", method = RequestMethod.POST)
-    public String handleUserCreateForm(@Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
-        log.info("Processing user create form= " + form + " bindingResult= " + bindingResult);
-        String currentUser = CurrentUserUtil.getCurrentUser(model);
-        model.addAttribute("loggedInUser",currentUser);
-        model.addAttribute("users", userService.getAllUsers());
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());
-            return "user_create";
-        }
-            userService.create(form);
-//            chatUserService.createChatUser(form);
-        return "redirect:/users/managed";
-    }
+    //    @PreAuthorize("hasAuthority('ADMIN')")
+//    @RequestMapping(value = "/users/create", method = RequestMethod.POST)
+//    public String handleUserCreateForm(@Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
+//        log.info("Processing user create form= " + form + " bindingResult= " + bindingResult);
+//        String currentUser = CurrentUserUtil.getCurrentUser(model);
+//        model.addAttribute("loggedInUser",currentUser);
+//        model.addAttribute("users", userService.getAllUsers());
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());
+//            return "user_create";
+//        }
+//            userService.create(form);
+////            chatUserService.createChatUser(form);
+//        return "redirect:/users/managed";
+//    }
 
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
-    public String handleCustomerCreate(@Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
+    public String handleCustomerCreate(HttpSession session, @Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
         log.info("Processing user create form= " + form + " bindingResult= " + bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());
             return "user_create";
         }
-        userService.create(form);
+
+//        CurrentUser currentUser = CurrentUserUtil.getUser(model);
+//        Customer currentCustomer =  customerRepository.findByUser(currentUser.getUser());
+//        Cart customersCart = cartRepository.findByCustomer(currentCustomer);
+
+        userService.create(form, (Cart) session.getAttribute("cart"));
         return "redirect:/login";
     }
 

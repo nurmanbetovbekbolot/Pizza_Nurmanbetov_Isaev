@@ -10,4 +10,9 @@ public class CurrentUserUtil {
         model.addAttribute("loggedInUser", loggedInUser);
         return loggedInUser;
     }
+
+    public static CurrentUser getUser(Model model) {
+        CurrentUser currentUser = (CurrentUser) model.asMap().get("currentUser");
+        return currentUser;
+    }
 }
