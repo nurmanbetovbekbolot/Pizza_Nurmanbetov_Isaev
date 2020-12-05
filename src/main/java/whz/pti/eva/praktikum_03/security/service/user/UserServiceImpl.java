@@ -5,24 +5,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.internal.CustomizerRegistry;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import whz.pti.eva.praktikum_03.domain.Customer;
-import whz.pti.eva.praktikum_03.domain.CustomerRepository;
-import whz.pti.eva.praktikum_03.domain.DeliveryAddress;
-import whz.pti.eva.praktikum_03.domain.DeliveryAddressRepository;
+import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
+import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
+import whz.pti.eva.praktikum_03.enums.Role;
+import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.domain.UserCreateForm;
 import whz.pti.eva.praktikum_03.security.domain.UserRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,6 +27,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private CustomerRepository customerRepository;
     private DeliveryAddressRepository deliveryAddressRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
 
 
     @Autowired
@@ -45,12 +47,12 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserById(long id) {
         log.debug("Getting user={}", id);
         User user = userRepository.findById(id).orElseThrow(() ->
-		new NoSuchElementException(String.format(">>> User=%s not found", id)));
+                new NoSuchElementException(String.format(">>> User=%s not found", id)));
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(user, userDTO);
         return userDTO;
     }
-    
+
     @Override
     public Optional<User> getUserByEmail(String email) {
         log.debug("Getting user by email={}", email.replaceFirst("@.*", "@***"));
@@ -71,12 +73,12 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getAllUsers() {
         log.debug("Getting all users");
         List<User> targetListOrigin = userRepository.findAllByOrderByLoginNameAsc();
-		List<UserDTO> targetList= new ArrayList<>(); 
-		for (User source: targetListOrigin ) {
-		  	 UserDTO target= new UserDTO();
-		     BeanUtils.copyProperties(source , target);
-		     targetList.add(target);
-		}
+        List<UserDTO> targetList= new ArrayList<>();
+        for (User source: targetListOrigin ) {
+            UserDTO target= new UserDTO();
+            BeanUtils.copyProperties(source , target);
+            targetList.add(target);
+        }
         return targetList;
     }
 
@@ -88,38 +90,47 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User create(UserCreateForm form) {
+    public User create(UserCreateForm form, Cart cart) {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
-        Customer customer = new Customer();
-        customer.setIsActive(Boolean.TRUE);
-        customer.setLoginName(form.getLoginName());
-        customer.setFirstName(form.getFirstName());
-        customer.setLastName(form.getLastName());
-        customer.setPasswordHash(passwordEncoder.encode(form.getPassword()));
-        DeliveryAddress deliveryAddress = new DeliveryAddress(form.getStreet(), form.getHouseNumber(), form.getTown(), form.getPostalCode());
-        List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
-        deliveryAddresses.add(deliveryAddress);
-        List<Customer> customers = new ArrayList<>();
-        customers.add(customer);
-        customer.setDeliveryAddress(deliveryAddresses);
-        deliveryAddress.setCustomer(customers);
-
 
 
         User user = new User();
-        user.setEmail(form.getEmail());
         user.setLoginName(form.getLoginName());
+        user.setEmail(form.getEmail());
         user.setPasswordHash(passwordEncoder.encode(form.getPassword()));
         user.setRole(form.getRole());
+        user.setIsActive(form.getIsActive());
+        userRepository.save(user);
 
+        Customer customer = new Customer();
+        customer.setUser(user);
+        customer.setLoginName(user.getLoginName());
+        customer.setFirstName(form.getFirstName());
+        customer.setLastName(form.getLastName());
+        DeliveryAddress deliveryAddress = new DeliveryAddress(form.getStreet(), form.getHouseNumber(), form.getTown(), form.getPostalCode());
+        deliveryAddressRepository.save(deliveryAddress);
+        customer.getDeliveryAddress().add(deliveryAddress);
+        customer.setIsActive(form.getIsActive());
+        customer.setPasswordHash(user.getPasswordHash());
         customer.setUser(user);
 
+        if (cart == null)
+        {
+            Cart newCart = new Cart();
+            newCart.setCustomer(customer);
+            cartRepository.save(newCart);
+        }
+        else {
+            Map<String, Item> cartItems = cart.getItems();
+            for (Map.Entry<String, Item> entry : cartItems.entrySet()) {
+                itemRepository.save(entry.getValue());
+            }
+            cart.setCustomer(customer);
+            cartRepository.save(cart);
+        }
         customerRepository.save(customer);
-        deliveryAddressRepository.save(deliveryAddress);
 
-        user.setIsActive(form.getIsActive() != null);
-        return userRepository.save(user);
+        return userRepository.findById(user.getId());
     }
 
 }

@@ -87,6 +87,23 @@ public class InitializeDB {
         user1.setIsActive(true);
         userRepository.save(user1);
 
+        Customer customer1 = new Customer();
+        customer1.setLoginName(user1.getLoginName());
+        customer1.setFirstName("John");
+        customer1.setLastName("Smith");
+        DeliveryAddress deliveryAddress = new DeliveryAddress("","","","");
+        deliveryAddress = new DeliveryAddress("","","","");
+        deliveryAddressRepository.save(deliveryAddress);
+        customer1.getDeliveryAddress().add(deliveryAddress);
+        customer1.setIsActive(true);
+        customer1.setPasswordHash(user1.getPasswordHash());
+        customer1.setUser(user1);
+        customerRepository.save(customer1);
+
+        Cart cart = new Cart();
+        cart.setCustomer(customer1);
+        cartRepository.save(cart);
+
         User user2 = new User();
         user2.setLoginName("Nutzer2");
         user2.setEmail("cnutz");
@@ -94,36 +111,22 @@ public class InitializeDB {
         user2.setRole(Role.USER);
         user2.setIsActive(true);
         userRepository.save(user2);
-
-        List<DeliveryAddress> deliveryAddresses = new ArrayList<>();
-        DeliveryAddress deliveryAddress = new DeliveryAddress("","","","");
-        deliveryAddresses.add(deliveryAddress);
-        deliveryAddressRepository.save(deliveryAddress);
-
         Customer customer = new Customer();
         customer.setLoginName(user2.getLoginName());
         customer.setFirstName("Tom");
         customer.setLastName("Soyer");
-        customer.setDeliveryAddress(deliveryAddresses);
+        deliveryAddressRepository.save(deliveryAddress);
+        customer.getDeliveryAddress().add(deliveryAddress);
         customer.setIsActive(true);
         customer.setPasswordHash(user2.getPasswordHash());
         customer.setUser(user2);
         customerRepository.save(customer);
 
-        List<DeliveryAddress> deliveryAddresses1 = new ArrayList<>();
-        DeliveryAddress deliveryAddress1 = new DeliveryAddress("","","","");
-        deliveryAddresses1.add(deliveryAddress1);
-        deliveryAddressRepository.save(deliveryAddress1);
 
-        Customer customer1 = new Customer();
-        customer1.setLoginName(user1.getLoginName());
-        customer1.setFirstName("John");
-        customer1.setLastName("Smith");
-        customer1.setDeliveryAddress(deliveryAddresses1);
-        customer1.setIsActive(true);
-        customer1.setPasswordHash(user1.getPasswordHash());
-        customer1.setUser(user1);
-        customerRepository.save(customer1);
+
+
+
+
 
 
 

@@ -4,6 +4,8 @@ import lombok.*;
 import whz.pti.eva.praktikum_03.common.BaseEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -17,7 +19,10 @@ public class Ordered extends BaseEntity<Long> {
 
 
     private int numberOfItems;
-    private String userId;
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "user_id")
+    private Customer userId;
 
     @OneToMany
     private List<OrderedItem> items;

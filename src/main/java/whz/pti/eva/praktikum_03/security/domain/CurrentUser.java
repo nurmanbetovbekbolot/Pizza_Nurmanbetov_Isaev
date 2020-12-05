@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.springframework.security.core.authority.AuthorityUtils;
 import whz.pti.eva.praktikum_03.enums.Role;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public class CurrentUser extends org.springframework.security.core.userdetails.User {
@@ -24,7 +26,7 @@ public class CurrentUser extends org.springframework.security.core.userdetails.U
         return user;
     }
 
-    public Long getId(){
+    public String getId(){
         return user.getId();
     }
 

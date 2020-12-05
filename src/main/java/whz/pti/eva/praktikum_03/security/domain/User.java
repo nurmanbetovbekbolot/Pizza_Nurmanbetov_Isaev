@@ -8,12 +8,13 @@ import whz.pti.eva.praktikum_03.enums.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.UUID;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "secuser")
-public class User extends BaseEntity<Long> {
+public class User extends BaseEntity<String> {
 
     @Column(name = "loginName", nullable = false, unique = true)
     private String loginName;
@@ -29,11 +30,6 @@ public class User extends BaseEntity<Long> {
 
     @Column(name = "is_active")
     private Boolean isActive;
-
-
-    public Long getId() {
-        return super.getId();
-    }
 
     public String getEmail() {
         return email;

@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,11 +24,11 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // http.csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/login/**", "/css/**", "/registration/**").permitAll()
-                .antMatchers("/users/m**").permitAll()
+                .antMatchers("/login/", "/css/", "/registration/").permitAll()
+                .antMatchers("/users/m").permitAll()
                 .antMatchers("/users/c**").permitAll()
                 .antMatchers("/user/c**").permitAll()
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -45,6 +46,10 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
         ;
+
+//        http.sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+
         http.csrf().disable();
         http.headers().frameOptions().disable();
     }

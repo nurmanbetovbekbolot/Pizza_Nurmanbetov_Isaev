@@ -13,6 +13,7 @@ import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
 import whz.pti.eva.praktikum_03.service.*;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -29,10 +30,16 @@ public class MainController {
 
     private UserService userService;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
 
     @Autowired
     public MainController(PizzaService pizzaService, CartService cartService, ItemService itemService, OrderedService orderedService, OrderedItemService orderedItemService,UserService userService) {
-  
+
         this.pizzaService = pizzaService;
         this.cartService = cartService;
         this.itemService = itemService;
@@ -41,7 +48,7 @@ public class MainController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String getLoginPage(@RequestParam Optional<String> error, Model model) {
         return "login";
     }
@@ -51,14 +58,33 @@ public class MainController {
         return "error/403";
     }
 
-    @RequestMapping(value = "/index", method = {RequestMethod.POST, RequestMethod.GET})
-    public String root(Model model) {
-        String currentUser = CurrentUserUtil.getCurrentUser(model);
+    @RequestMapping(value = {"/","/index"}, method = {RequestMethod.POST, RequestMethod.GET})
+    public String root(HttpSession session, Model model) {
+        CurrentUser currentUser = CurrentUserUtil.getUser(model);
+
         List<Pizza> pizzaList = pizzaService.listAllPizza();
         model.addAttribute("pizzaList", pizzaList);
-        model.addAttribute("loggedInUser", currentUser);
-        int totalAmount = itemService.calculateTotalAmountOfPizzaInItems();
-        BigDecimal totalPrice = itemService.calculateTotalPriceOfPizzaInItems();
+
+
+        int totalAmount = 0;
+        BigDecimal totalPrice = BigDecimal.ZERO;
+
+        if (currentUser != null){
+            Customer currentCustomer =  customerRepository.findByUser(currentUser.getUser());
+            Cart customersCart = cartRepository.findByCustomer(currentCustomer);
+            if (customersCart != null){
+                totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(customersCart);
+                totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(customersCart);
+            }
+        }
+        else {
+            Cart cart = (Cart) session.getAttribute("cart");
+            if (cart!=null){
+                totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(cart);
+                totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(cart);
+            }
+        }
+
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("totalPrice", totalPrice);
         return "index";
