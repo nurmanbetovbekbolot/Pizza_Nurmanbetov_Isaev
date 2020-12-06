@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.dto.CartDTO;
+import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.security.domain.User;
@@ -48,22 +50,22 @@ public class ItemController {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
         if (currentUser== null){
             if(session.getAttribute("cart") == null){
-                session.setAttribute("cart", new Cart());
+                session.setAttribute("cart", new CartDTO());
             }
-            Cart cart = (Cart) session.getAttribute("cart");
+            CartDTO cart = (CartDTO) session.getAttribute("cart");
             itemService.addItem(pizzaSize, menge,pizzaName, cart);
         }
         else {
             //!!!!
 //            session.removeAttribute("cart");
-            Customer customer =  customerService.findByUser(currentUser.getUser());
+            CustomerDTO customer =  customerService.findByUserId(currentUser.getUser().getId());
             if (customer != null){
-                Cart cart = cartService.findCartByCustomer(customer);
+                CartDTO cart = cartService.findCartByCustomer(customer.getId());
                 if (cart!=null) {
                     itemService.addItem(pizzaSize, menge, pizzaName, cart, customer);
                 }
                 else {
-                    Cart cart1 = new Cart();
+                    CartDTO cart1 = new CartDTO();
                     itemService.addItem(pizzaSize, menge, pizzaName, cart1, customer);
                 }
 

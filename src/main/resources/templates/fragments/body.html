@@ -10,7 +10,8 @@
             <header>
                 <h5 class="text-center">
                     hi <span th:if="${currentUser != null}" th:text="${currentUser.getLoginName()}"></span>
-                    :: <span th:if="${txt != null}" th:text="${txt}"></span>unbekannte/ unbekannter
+                    <span th:if="${currentUser == null}">unbekannte/ unbekannter</span>
+                    :: <span th:if="${txt != null }" th:text="${txt}"></span>
                 </h5>
             </header>
             <br>

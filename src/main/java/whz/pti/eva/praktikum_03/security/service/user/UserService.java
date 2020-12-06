@@ -1,6 +1,7 @@
 package whz.pti.eva.praktikum_03.security.service.user;
 
 
+import org.springframework.data.repository.query.Param;
 import whz.pti.eva.praktikum_03.domain.Cart;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
 import whz.pti.eva.praktikum_03.security.domain.User;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    UserDTO getUserById(long id);
+    UserDTO getUserById(String id);
     Optional<User> getUserByEmail(String email);
     Optional<User> getUserByLoginName(String loginName);
     boolean existByLoginName(String loginName);
@@ -19,5 +20,6 @@ public interface UserService {
     Collection<UserDTO> getAllUsers();
     User create(UserCreateForm form, Cart cart);
     void registration(Cart cart);
+    User  findUserByCustomerId(String id);
 
 }

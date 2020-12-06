@@ -15,11 +15,13 @@ import java.util.Map;
 @NoArgsConstructor
 @ToString
 public class CartDTO {
+    private Long id;
     private int quantity=0;
     private Map<String, Item> items = new HashMap<>();
     private String userId;
 
-    public void incrementQuantity() {
-        this.quantity++;
+    public void increment(){
+        quantity++;
     }
+
 }

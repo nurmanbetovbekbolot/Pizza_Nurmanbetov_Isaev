@@ -2,6 +2,8 @@ package whz.pti.eva.praktikum_03.service;
 
 import whz.pti.eva.praktikum_03.domain.Cart;
 import whz.pti.eva.praktikum_03.domain.Customer;
+import whz.pti.eva.praktikum_03.dto.CartDTO;
+import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,9 +17,10 @@ public interface CartService {
 
     boolean deleteCart(Long id);
 
-    int calculateTotalAmountOfPizzasInItemsInCart(Cart cart);
+    int calculateTotalAmountOfPizzasInItemsInCart(CartDTO cart);
 
-    BigDecimal calculateTotalPriceOfPizzaInItemsInCart(Cart cart);
+    BigDecimal calculateTotalPriceOfPizzaInItemsInCart(CartDTO cart);
 
-    Cart findCartByCustomer(Customer customer);
+    CartDTO findCartByCustomer(String customerId);
+
 }

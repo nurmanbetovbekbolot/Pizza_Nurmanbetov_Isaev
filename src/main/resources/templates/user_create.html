@@ -13,27 +13,62 @@
 	<div class="container">
 
 		<h5>neuer nutzer ...</h5>
-		<form class="bs-example error" th:action="@{/users/create}"
-			th:object="${myform}" method="post" role="form">
+		<form class="bs-example error" method="post"
+			  role="form" th:action="@{/user/create}" th:object="${myform}">
+			<div class="form-group">
+				<input autofocus="autofocus" class="form-control" name="firstName"
+					   placeholder="First name" required="required" type="text">
+			</div>
+			<div class="form-group">
+				<input class="form-control" name="lastName" placeholder="Last name"
+					   required="required" type="text">
+			</div>
+			<div class="form-group">
+				<input class="form-control" name="loginName" placeholder="Login name"
+					   required="required" type="text">
+			</div>
+			<div class="form-group">
+				<input class="form-control" name="email" placeholder="email"
+					   required="required" type="text">
 
-			<input type="text" name="loginName" class="form-control"
-				placeholder="loginName" required="required" autofocus="autofocus" >
-			<input type="text" name="email" class="form-control"
-				placeholder="email" required="required" > 
-			<input type="password" name="password" class="form-control"
-				placeholder="passwort" required="required" > 
-			<input type="password"
-				name="passwordRepeated" class="form-control"
-				placeholder="passwort wiederholen" required="required">
-			<input type="checkbox" checked
-				   name="isActive" class="form-control"
-				    ><br>
-			<div class="error">
-				<input type="submit" class="btn btn-outline-primary"
-					th:value="speichern" > 
-				<a><span class="error text-danger"
-					th:if="${error}" th:text="${error}">The email or password
-						you have entered is invalid, try again.</span></a>
+			</div>
+			<div class="form-group">
+				<input class="form-control" name="street" placeholder="street"
+					   required="required" type="text">
+			</div>
+			<div class="form-group">
+				<input class="form-control" name="houseNumber" placeholder="houseNumber"
+					   required="required" type="text">
+			</div>
+			<div class="form-group">
+				<input class="form-control" name="town" placeholder="town"
+					   required="required" type="text">
+			</div>
+			<div class="form-group">
+				<input class="form-control" name="postalCode" placeholder="postalCode"
+					   required="required" type="text">
+			</div>
+			<div class="form-group">
+				<input class="form-control" name="password" placeholder="Passwort"
+					   required="required" type="password">
+			</div>
+			<div class="form-group">
+				<input class="form-control"
+					   name="passwordRepeated" placeholder="Passwort wiederholen"
+					   required="required" type="password">
+			</div>
+			<div class="row">
+				<div class="col-xs-6 col-sm-6 col-md-6">
+					<input class="btn btn-outline-primary btn-block" th:value="speichern"
+						   type="submit">
+				</div>
+			</div>
+			<div th:if="${param.error}">
+				<br>
+				<div class="alert alert-danger">
+						<span>manche daten ist falsch, bitte nochmal
+							versuchen</span>
+				</div>
 			</div>
 		</form>
 
@@ -57,6 +92,7 @@
 					</td>
 					<td th:text="${user.email}">nix</td>
 					<td th:text="${user.isActive}">nix</td>
+
 				</tr>
 			</tbody>
 		</table>

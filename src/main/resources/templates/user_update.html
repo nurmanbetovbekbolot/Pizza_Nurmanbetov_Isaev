@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head">
+    <meta charset="utf-8">
+</head>
+<body>
+
+<!--	<div th:include="fragments/body :: headline (txt='als admin neuen nutzer anlegen?' )"></div>-->
+<div th:include="fragments/body :: nav (all=false)"></div>
+
+<br>
+
+<div class="container">
+<form action="#"  enctype="multipart/form-data" class="needs-valid"
+      th:action="${add} ? '/user/create/' : '/customer/update/' + ${customer.id}"
+      method="post">
+
+
+    <div class="form-group">
+        <label for="passwordInput">Password</label>
+        <input type="password" name="passwordHash" class="form-control" id="passwordInput"
+               aria-describedby="passwordHelp" placeholder="Password" minlength="5" maxlength="20"
+               th:required="${add} ? 'required' : null">
+        <div class="valid-feedback">
+            Geht!
+        </div>
+        <div class="invalid-feedback">
+            Bitte, die richtige Daten geben!
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="firstNameInput">First Name</label>
+        <input th:value="${add} ? '' : ${customer.firstName}" type="text" name="firstName"
+               class="form-control"
+               id="firstNameInput" aria-describedby="firstNameHelp" placeholder="Vorname" minlength="2"
+               maxlength="20" required>
+        <div class="valid-feedback">
+            Geht!
+        </div>
+        <div class="invalid-feedback">
+            Bitte, die richtige Daten geben!
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="firstNameInput">Last Name</label>
+        <input th:value="${add} ? '' : ${customer.lastName}" type="text" name="lastName"
+               class="form-control"
+               id="lastNameInput" aria-describedby="lastNameHelp" placeholder="Nachname" minlength="2"
+               maxlength="20" required>
+        <div class="valid-feedback">
+            Geht!
+        </div>
+        <div class="invalid-feedback">
+            Bitte, die richtige Daten geben!
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="firstNameInput">Login Name</label>
+        <input th:value="${add} ? '' : ${customer.loginName}" type="text" name="loginName"
+               class="form-control"
+               id="loginNameInput" aria-describedby="loginNameHelp" placeholder="Nachname" minlength="2"
+               maxlength="20" required>
+        <div class="valid-feedback">
+            Geht!
+        </div>
+        <div class="invalid-feedback">
+            Bitte, die richtige Daten geben!
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="activeInput">Active
+            <input th:checked="${add} ? '' : ${customer.isActive}" type="checkbox" name="isActive"
+                   class="form-control"
+                   id="activeInput" aria-describedby="activeHelp"></label>
+        <div class="valid-feedback">
+            Geht!
+        </div>
+        <div class="invalid-feedback">
+            Bitte, die richtige Daten geben!
+        </div>
+    </div>
+    <button type="submit" >Speichern</button>
+</form>
+
+
+</div>
+
+<br>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+</html>

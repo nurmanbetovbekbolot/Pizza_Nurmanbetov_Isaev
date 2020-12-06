@@ -1,16 +1,16 @@
 package whz.pti.eva.praktikum_03.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.dto.CartDTO;
+import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
 import whz.pti.eva.praktikum_03.security.domain.User;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -23,8 +23,6 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private CartRepository cartRepository;
 
-    @Autowired
-    private CustomerRepository customerRepository;
 
     @Autowired
     private CartService cartService;
@@ -50,22 +48,26 @@ public class ItemServiceImpl implements ItemService {
 
     //For LoggedIn
     @Override
-    public void addItem(PizzaSize pizzaSize, Integer quantity, String pizzaName, Cart cart, Customer customer) {
+    public void addItem(PizzaSize pizzaSize, Integer quantity, String pizzaName, CartDTO cartDTO, CustomerDTO customerDTO) {
         Item item = new Item();
         Pizza pizzaInDb = pizzaService.findPizzaByName(pizzaName);
         item.setQuantity(quantity);
         item.setPizza(pizzaInDb);
         item.setPizzaSize(pizzaSize);
         itemRepository.save(item);
-        cart.getItems().put(UUID.randomUUID().toString(), item);
-        cart.increment();
+        cartDTO.getItems().put(UUID.randomUUID().toString(), item);
+        cartDTO.increment();
+        Cart cart = new Cart();
+        BeanUtils.copyProperties(cartDTO,cart);
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO,customer);
         cart.setCustomer(customer);
         cartRepository.save(cart);
     }
 
     //For NotLogedIn
     @Override
-    public void addItem(PizzaSize pizzaSize, Integer quantity, String pizzaName, Cart cart) {
+    public void addItem(PizzaSize pizzaSize, Integer quantity, String pizzaName, CartDTO cart) {
         Item item = new Item();
         Pizza pizzaInDb = pizzaService.findPizzaByName(pizzaName);
         item.setQuantity(quantity);
@@ -77,15 +79,17 @@ public class ItemServiceImpl implements ItemService {
 
     //Migrate all Items from sessions Cart
     @Override
-    public void updateCustomersCart(Cart cart, Customer customer) {
+    public void updateCustomersCart(CartDTO cart, CustomerDTO customer) {
         Map<String, Item> cartItems = cart.getItems();
         for (Map.Entry<String, Item> entry : cartItems.entrySet()) {
             itemRepository.save(entry.getValue());
         }
 
-        Cart customersCart = cartService.findCartByCustomer(customer);
+        CartDTO customersCart = cartService.findCartByCustomer(customer.getId());
         customersCart.getItems().putAll(cart.getItems());
-        cartRepository.save(customersCart);
+        Cart cartToDB = new Cart();
+        BeanUtils.copyProperties(customersCart,cartToDB);
+        cartRepository.save(cartToDB);
     }
 
     @Override

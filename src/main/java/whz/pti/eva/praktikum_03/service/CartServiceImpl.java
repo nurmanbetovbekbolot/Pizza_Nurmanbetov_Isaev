@@ -1,15 +1,17 @@
 package whz.pti.eva.praktikum_03.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import whz.pti.eva.praktikum_03.domain.Cart;
 import whz.pti.eva.praktikum_03.domain.CartRepository;
 import whz.pti.eva.praktikum_03.domain.Customer;
 import whz.pti.eva.praktikum_03.domain.Item;
+import whz.pti.eva.praktikum_03.dto.CartDTO;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -28,7 +30,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public boolean addCart(Cart cart) {
-        if(cart==null) return false;
+        if (cart == null) return false;
 
         cartRepository.save(cart);
         return true;
@@ -40,7 +42,19 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public int calculateTotalAmountOfPizzasInItemsInCart(Cart cart) {
+    public CartDTO findCartByCustomer(String customerId) {
+        Cart cart = cartRepository.findByCustomerId(customerId).orElseThrow(() ->
+                new NoSuchElementException(String.format(">>> Cart not found with customerId=%s", customerId)));
+        CartDTO cartDTO = new CartDTO();
+        cartDTO.setId(cart.getId());
+        cartDTO.setQuantity(cart.getQuantity());
+        cartDTO.setItems(cart.getItems());
+        cartDTO.setUserId(cart.getCustomer().getId());
+        return cartDTO;
+    }
+
+    @Override
+    public int calculateTotalAmountOfPizzasInItemsInCart(CartDTO cart) {
         Map<String, Item> cartItems = cart.getItems();
 
         int totalAmount = 0;
@@ -52,7 +66,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public BigDecimal calculateTotalPriceOfPizzaInItemsInCart(Cart cart) {
+    public BigDecimal calculateTotalPriceOfPizzaInItemsInCart(CartDTO cart) {
         Map<String, Item> cartItems = cart.getItems();
 
         BigDecimal totalPrice = BigDecimal.ZERO;
@@ -62,11 +76,5 @@ public class CartServiceImpl implements CartService {
         }
 
         return totalPrice;
-    }
-
-    @Override
-    public Cart findCartByCustomer(Customer customer) {
-        Optional<Cart> cart = cartRepository.findByCustomer(customer);
-        return cart.orElse(new Cart());
     }
 }

@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.dto.CartDTO;
+import whz.pti.eva.praktikum_03.dto.CustomerDTO;
+import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
@@ -46,19 +49,17 @@ public class MainController {
     @RequestMapping(value = {"/","/index"}, method = {RequestMethod.POST, RequestMethod.GET})
     public String root(HttpSession session, Model model) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
-
         List<Pizza> pizzaList = pizzaService.listAllPizza();
         model.addAttribute("pizzaList", pizzaList);
-
-
         int totalAmount = 0;
         BigDecimal totalPrice = BigDecimal.ZERO;
 
-        if (currentUser != null){
-            Customer currentCustomer =  customerService.findByUser(currentUser.getUser());
-            Cart customersCart = cartService.findCartByCustomer(currentCustomer);
+        if (currentUser != null&& currentUser.getRole() != Role.ADMIN){
+            CustomerDTO currentCustomer =  customerService.findByUserId(currentUser.getUser().getId());
+            CartDTO customersCart = cartService.findCartByCustomer(currentCustomer.getId());
             if (customersCart != null){
-                Cart cart = (Cart) session.getAttribute("cart");
+                CartDTO cart = (CartDTO) session.getAttribute("cart");
+
                 if (cart!=null) itemService.updateCustomersCart(cart, currentCustomer);
 
                 totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(customersCart);
@@ -66,10 +67,10 @@ public class MainController {
             }
         }
         else {
-            Cart cart = (Cart) session.getAttribute("cart");
-            if (cart!=null){
-                totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(cart);
-                totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(cart);
+            CartDTO cartDTO = (CartDTO) session.getAttribute("cart");
+            if (cartDTO!=null){
+                totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(cartDTO);
+                totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(cartDTO);
             }
         }
 

@@ -1,6 +1,7 @@
 package whz.pti.eva.praktikum_03.security.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import whz.pti.eva.praktikum_03.common.BaseEntity;
 import whz.pti.eva.praktikum_03.enums.Role;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Setter
 @Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "secuser")
 public class User extends BaseEntity<String> {
@@ -30,6 +32,10 @@ public class User extends BaseEntity<String> {
 
     @Column(name = "is_active")
     private Boolean isActive;
+
+    public String getId() {
+        return super.getId();
+    }
 
     public String getEmail() {
         return email;
