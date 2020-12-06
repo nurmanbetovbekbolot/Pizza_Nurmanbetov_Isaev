@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.dto.CartDTO;
+import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.service.CartService;
 import whz.pti.eva.praktikum_03.service.CustomerService;
@@ -39,15 +41,15 @@ public class CartController {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
         if (currentUser== null){
             if(session.getAttribute("cart") != null){
-                Cart cart = (Cart) session.getAttribute("cart");
+                CartDTO cart = (CartDTO) session.getAttribute("cart");
                 Map<String, Item> cartItems = cart.getItems();
                 model.addAttribute("itemList",cartItems) ;
             }
         }
         else {
-            Customer customer =  customerService.findByUser(currentUser.getUser());
+            CustomerDTO customer =  customerService.findByUserId(currentUser.getUser().getId());
             if (customer != null){
-                Cart cart = cartService.findCartByCustomer(customer);
+                CartDTO cart = cartService.findCartByCustomer(customer.getId());
                 if (cart!=null) {
                     Map<String, Item> cartItems = cart.getItems();
                     model.addAttribute("itemList",cartItems) ;

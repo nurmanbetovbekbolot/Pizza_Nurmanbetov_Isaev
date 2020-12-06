@@ -122,6 +122,9 @@ public class InitializeDB {
         customer.setUser(user2);
         customerRepository.save(customer);
 
+        cart.setCustomer(customer);
+        cartRepository.save(cart);
+
 
 
 

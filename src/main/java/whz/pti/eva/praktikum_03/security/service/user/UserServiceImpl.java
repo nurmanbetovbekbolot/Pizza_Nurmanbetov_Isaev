@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDTO getUserById(long id) {
+    public UserDTO getUserById(String id) {
         log.debug("Getting user={}", id);
         User user = userRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException(String.format(">>> User=%s not found", id)));
@@ -129,8 +129,8 @@ public class UserServiceImpl implements UserService {
             cartRepository.save(cart);
         }
         customerRepository.save(customer);
-
-        return userRepository.findById(user.getId());
+        Optional<User> user1 = userRepository.findById(user.getId());
+        return user1.orElse(new User());
     }
 
     @Override
@@ -149,5 +149,11 @@ public class UserServiceImpl implements UserService {
 //            cart.setCustomer(customer);
 //            cartRepository.save(cart);
 //        }
+    }
+
+    @Override
+    public User findUserByCustomerId(String id) {
+        Optional<User> user = userRepository.findUserByCustomerId(id);
+        return user.orElse(new User());
     }
 }
