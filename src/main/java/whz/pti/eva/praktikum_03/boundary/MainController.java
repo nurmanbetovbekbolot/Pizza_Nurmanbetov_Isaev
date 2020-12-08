@@ -7,14 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
-import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.domain.Pizza;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
-import whz.pti.eva.praktikum_03.security.domain.User;
-import whz.pti.eva.praktikum_03.security.service.user.UserService;
-import whz.pti.eva.praktikum_03.service.*;
+import whz.pti.eva.praktikum_03.service.CartService;
+import whz.pti.eva.praktikum_03.service.CustomerService;
+import whz.pti.eva.praktikum_03.service.ItemService;
+import whz.pti.eva.praktikum_03.service.PizzaService;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -46,7 +47,7 @@ public class MainController {
         return "error/403";
     }
 
-    @RequestMapping(value = {"/","/index"}, method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = {"/", "/index"}, method = {RequestMethod.POST, RequestMethod.GET})
     public String root(HttpSession session, Model model) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
         List<Pizza> pizzaList = pizzaService.listAllPizza();
@@ -54,25 +55,29 @@ public class MainController {
         int totalAmount = 0;
         BigDecimal totalPrice = BigDecimal.ZERO;
 
-        if (currentUser != null&& currentUser.getRole() != Role.ADMIN){
-            CustomerDTO currentCustomer =  customerService.findByUserId(currentUser.getUser().getId());
+        if (currentUser != null && currentUser.getRole() != Role.ADMIN) {
+            CustomerDTO currentCustomer = customerService.findByUserId(currentUser.getUser().getId());
             CartDTO customersCart = cartService.findCartByCustomer(currentCustomer.getId());
-            if (customersCart != null){
+            if (customersCart != null) {
                 CartDTO cart = (CartDTO) session.getAttribute("cart");
 
-                if (cart!=null) itemService.updateCustomersCart(cart, currentCustomer);
+                if (cart != null) {
+                    itemService.updateCustomersCart(cart, currentCustomer);
+                    session.removeAttribute("cart");
+                }
 
                 totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(customersCart);
                 totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(customersCart);
             }
-        }
-        else {
+        } else if (currentUser == null){
             CartDTO cartDTO = (CartDTO) session.getAttribute("cart");
-            if (cartDTO!=null){
+            if (cartDTO != null) {
                 totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(cartDTO);
                 totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(cartDTO);
             }
         }
+
+        //Unnesesarry
 
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("totalPrice", totalPrice);

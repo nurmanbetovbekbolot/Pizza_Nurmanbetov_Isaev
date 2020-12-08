@@ -40,17 +40,24 @@
                             </form>
                         </li>
 
-                        <li class="nav-item navbar-nav p-1" th:if="${currentUser != null}">
-                            <form action="#" method="post">
+                        <li class="nav-item navbar-nav p-1">
+                            <form th:action="@{/index}" method="post">
                                 <input type="submit" class="btn btn-outline-secondary"
                                        value="Auswahl">
+                            </form>
+                        </li>
+
+                        <li class="nav-item navbar-nav p-1" th:if="${currentUser == null}">
+                            <form th:action="@{/login}" method="get">
+                                <input type="submit" class="btn btn-outline-primary"
+                                       value="Einloggen">
                             </form>
                         </li>
 
                         <li class="nav-item navbar-nav p-1" th:if="${currentUser != null}">
                             <form th:action="@{/logout}" method="post">
                                 <input type="submit" class="btn btn-outline-success"
-                                       value="ausloggen">
+                                       value="Ausloggen">
                             </form>
                         </li>
                     </ul>

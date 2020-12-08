@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,14 +19,14 @@ import java.util.List;
 public class Ordered extends BaseEntity<Long> {
 
 
-    private int numberOfItems;
+    private int numberOfItems = 0;
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "user_id")
     private Customer userId;
 
     @OneToMany
-    private List<OrderedItem> items;
+    private List<OrderedItem> items = new ArrayList<>();
 
 
 }

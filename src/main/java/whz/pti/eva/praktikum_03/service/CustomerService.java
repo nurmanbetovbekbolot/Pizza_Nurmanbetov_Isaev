@@ -12,4 +12,5 @@ public interface CustomerService {
 //    CustomerDTO findByUser(User user);
     CustomerDTO findByUserId(String userId);
     Customer updateCustomer(CustomerDTO customerDTO);
+    Customer getCustomerById(String customerId);
 }

@@ -134,6 +134,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
+    public User createByAdmin(UserCreateForm form) {
+        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
+        User user = new User();
+        user.setLoginName(form.getLoginName());
+        user.setEmail(form.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(form.getPassword()));
+        user.setRole(form.getRole());
+        user.setIsActive(form.getIsActive());
+        userRepository.save(user);
+
+        Customer customer = new Customer();
+        customer.setUser(user);
+        customer.setLoginName(user.getLoginName());
+        customer.setFirstName(form.getFirstName());
+        customer.setLastName(form.getLastName());
+        DeliveryAddress deliveryAddress = new DeliveryAddress(form.getStreet(), form.getHouseNumber(), form.getTown(), form.getPostalCode());
+        deliveryAddressRepository.save(deliveryAddress);
+        customer.getDeliveryAddress().add(deliveryAddress);
+        customer.setIsActive(form.getIsActive());
+        customer.setPasswordHash(user.getPasswordHash());
+        customer.setUser(user);
+
+        customerRepository.save(customer);
+        Optional<User> user1 = userRepository.findById(user.getId());
+        return user1.orElse(new User());
+    }
+
+    @Override
     public void registration(Cart cart) {
 //        if (cart == null)
 //        {

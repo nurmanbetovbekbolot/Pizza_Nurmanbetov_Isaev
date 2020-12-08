@@ -26,5 +26,7 @@ public interface ItemService {
 
     Item getItemById(String id);
 
-    boolean deleteItem(String id);
+    void deleteItemById(String id);
+
+    boolean deleteItems(CartDTO cartDTO, CustomerDTO customerDTO);
 }

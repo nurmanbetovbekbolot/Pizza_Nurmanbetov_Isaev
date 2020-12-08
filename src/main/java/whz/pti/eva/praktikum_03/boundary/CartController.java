@@ -8,6 +8,7 @@ import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
+import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.service.CartService;
 import whz.pti.eva.praktikum_03.service.CustomerService;
@@ -37,22 +38,22 @@ public class CartController {
 
     @GetMapping(value = "/")
     public String toCart(HttpSession session, Model model) {
-
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
-        if (currentUser== null){
+        if (currentUser== null) {
             if(session.getAttribute("cart") != null){
                 CartDTO cart = (CartDTO) session.getAttribute("cart");
                 Map<String, Item> cartItems = cart.getItems();
                 model.addAttribute("itemList",cartItems) ;
             }
         }
-        else {
+        else if (currentUser.getRole() != Role.ADMIN){
             CustomerDTO customer =  customerService.findByUserId(currentUser.getUser().getId());
             if (customer != null){
                 CartDTO cart = cartService.findCartByCustomer(customer.getId());
                 if (cart!=null) {
                     Map<String, Item> cartItems = cart.getItems();
                     model.addAttribute("itemList",cartItems) ;
+//                    session.setAttribute("items", cartItems);
                 }
             }
         }

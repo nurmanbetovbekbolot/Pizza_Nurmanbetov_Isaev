@@ -12,9 +12,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.domain.Cart;
-import whz.pti.eva.praktikum_03.domain.CartRepository;
-import whz.pti.eva.praktikum_03.domain.Customer;
-import whz.pti.eva.praktikum_03.domain.CustomerRepository;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
@@ -59,9 +56,9 @@ public class UserController {
         log.debug("Getting user page for user= " + id);
 
         UserDTO userDTO = userService.getUserById(id);
-        CustomerDTO customerDTO =customerService.findByUserId(id);
-                model.addAttribute("user", userDTO);
-                model.addAttribute("customer", customerDTO);
+        CustomerDTO customerDTO = customerService.findByUserId(id);
+        model.addAttribute("user", userDTO);
+        model.addAttribute("customer", customerDTO);
         return "user";
     }
 
@@ -77,31 +74,30 @@ public class UserController {
     }
 
     @RequestMapping(value = "users/{userId}/customer/{id}", method = {RequestMethod.POST, RequestMethod.GET})
-    public String getEditCustomerView(@PathVariable("userId") String userId,@PathVariable("id") String id, Model model) {
+    public String getEditCustomerView(@PathVariable("userId") String userId, @PathVariable("id") String id, Model model) {
         UserDTO userDTO = userService.getUserById(userId);
-        CustomerDTO customerDTO =customerService.findByUserId(userDTO.getId());
+        CustomerDTO customerDTO = customerService.findByUserId(userDTO.getId());
         model.addAttribute("customer", customerDTO);
-        model.addAttribute("add",false);
+        model.addAttribute("add", false);
         model.addAttribute("user", userDTO);
         return "user_update";
     }
 
 
-
-        @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/users/create", method = RequestMethod.POST)
-    public String handleUserCreateForm(HttpSession session,@Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
-        log.info("Processing user create form= " + form + " bindingResult= " + bindingResult);
-        String currentUser = CurrentUserUtil.getCurrentUser(model);
-        model.addAttribute("loggedInUser",currentUser);
-        model.addAttribute("users", userService.getAllUsers());
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());
-            return "user_create";
-        }
-            userService.create(form,(Cart) session.getAttribute("cart"));
-        return "redirect:/users/managed";
-    }
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    @RequestMapping(value = "/users/create", method = RequestMethod.POST)
+//    public String handleUserCreateForm(HttpSession session, @Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
+//        log.info("Processing user create form= " + form + " bindingResult= " + bindingResult);
+//        String currentUser = CurrentUserUtil.getCurrentUser(model);
+//        model.addAttribute("loggedInUser", currentUser);
+//        model.addAttribute("users", userService.getAllUsers());
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());
+//            return "user_create";
+//        }
+//        userService.create(form, (Cart) session.getAttribute("cart"));
+//        return "redirect:/users/managed";
+//    }
 
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
     public String handleCustomerCreate(HttpSession session, @Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
@@ -111,11 +107,14 @@ public class UserController {
             return "user_create";
         }
 
-//        CurrentUser currentUser = CurrentUserUtil.getUser(model);
-//        Customer currentCustomer =  customerRepository.findByUser(currentUser.getUser());
-//        Cart customersCart = cartRepository.findByCustomer(currentCustomer);
 
-        userService.create(form, (Cart) session.getAttribute("cart"));
+        userService.createByAdmin(form);
+
+        CurrentUser currentUser = CurrentUserUtil.getUser(model);
+
+        if (currentUser != null) return "redirect:/users/managed";
+
+
         return "redirect:/login";
     }
 

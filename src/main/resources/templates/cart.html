@@ -12,33 +12,37 @@
 
     <h2 class="text-center" style="padding: 15px">hallo :: was kann ich für dich tun?</h2>
 
-    <table class="table table-hover table-bordered table-sm">
+        <table class="table table-hover table-bordered table-sm">
 
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Menge</th>
-            <th>Preis+Größe</th>
-        </tr>
-        </thead>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Menge</th>
+                <th>Preis+Größe</th>
+            </tr>
+            </thead>
 
-        <tbody th:each="item:${itemList}">
-        <tr>
-            <td>
-                <span th:text="${item.getValue().getPizza().getName()}"></span>
-            </td>
+            <tbody >
+            <tr th:each="item : ${itemList}">
+                <td>
+                    <span  th:text="${item.getValue().getPizza().getName()}"></span>
+                </td>
+                <td>
+                    <span th:text="${item.getValue().getQuantity()}"></span>
 
-            <td>
-                <span th:text="${item.getValue().getQuantity()}"></span>
-
-            </td>
-            <td>
-                <span th:text="${item.getValue().getPizzaSize()}"></span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
+                </td>
+                <td>
+                    <span  th:text="${item.getValue().getPizzaSize()}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    <a th:href="@{/ordered/}">
+        <button class="btn btn-danger btn-block btn-lg" type="button">
+            Zum Bestellungen
+        </button>
+    </a>
+    <br>
     <a th:href="@{/index/}">
         <button class="btn btn-success btn-block btn-lg" type="button">
             zum Pizza-Menü
