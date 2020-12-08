@@ -37,6 +37,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Cart findCartByCustomerBYId(String customerId) {
+        return cartRepository.findByCustomerId(customerId).orElseThrow(() ->
+                new NoSuchElementException(String.format(">>> Cart not found with customerId=%s", customerId)));
+    }
+
+    @Override
     public boolean deleteCart(Long id) {
         return false;
     }
@@ -76,5 +82,10 @@ public class CartServiceImpl implements CartService {
         }
 
         return totalPrice;
+    }
+
+    @Override
+    public Cart saveCart(Cart cart) {
+        return cartRepository.save(cart);
     }
 }

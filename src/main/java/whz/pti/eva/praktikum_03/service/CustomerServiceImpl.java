@@ -75,4 +75,10 @@ public class CustomerServiceImpl implements CustomerService {
         } else
             throw new NoSuchElementException(String.format(">>> Customer=%s not found", customerDTO.getId()));
     }
+
+    @Override
+    public Customer getCustomerById(String customerId) {
+         Optional<Customer> customer = customerRepository.findById(customerId);
+         return customer.orElse(new Customer());
+    }
 }

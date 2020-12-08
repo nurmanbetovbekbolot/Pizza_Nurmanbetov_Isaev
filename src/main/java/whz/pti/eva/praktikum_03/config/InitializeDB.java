@@ -5,7 +5,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import whz.pti.eva.praktikum_03.domain.*;
-import whz.pti.eva.praktikum_03.enums.PizzaSize;
 import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.domain.UserRepository;
@@ -13,8 +12,6 @@ import whz.pti.eva.praktikum_03.security.domain.UserRepository;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class InitializeDB {
@@ -72,16 +69,16 @@ public class InitializeDB {
         pizzaRepository.save(pizzaTonno);
 
         User user = new User();
-        user.setLoginName("Admin");
+        user.setLoginName("admin");
         user.setEmail("admin@gmail.com");
-        user.setPasswordHash(passwordEncoder.encode("admin"));
+        user.setPasswordHash(passwordEncoder.encode("a1"));
         user.setRole(Role.ADMIN);
         user.setIsActive(true);
         userRepository.save(user);
 
         User user1 = new User();
-        user1.setLoginName("Nutzer1");
-        user1.setEmail("bnutz");
+        user1.setLoginName("bnutz");
+        user1.setEmail("bnutz@gmail.com");
         user1.setPasswordHash(passwordEncoder.encode("n1"));
         user1.setRole(Role.USER);
         user1.setIsActive(true);
@@ -91,8 +88,8 @@ public class InitializeDB {
         customer1.setLoginName(user1.getLoginName());
         customer1.setFirstName("John");
         customer1.setLastName("Smith");
-        DeliveryAddress deliveryAddress = new DeliveryAddress("","","","");
-        deliveryAddress = new DeliveryAddress("","","","");
+        DeliveryAddress deliveryAddress = new DeliveryAddress("Innere Schneeberger Str", "23", "Zwickau", "08056");
+//        customer1.getDeliveryAddress().add(deliveryAddress);
         deliveryAddressRepository.save(deliveryAddress);
         customer1.getDeliveryAddress().add(deliveryAddress);
         customer1.setIsActive(true);
@@ -105,8 +102,8 @@ public class InitializeDB {
         cartRepository.save(cart);
 
         User user2 = new User();
-        user2.setLoginName("Nutzer2");
-        user2.setEmail("cnutz");
+        user2.setLoginName("cnutz");
+        user2.setEmail("cnutz@gmail.com");
         user2.setPasswordHash(passwordEncoder.encode("n2"));
         user2.setRole(Role.USER);
         user2.setIsActive(true);
@@ -115,22 +112,18 @@ public class InitializeDB {
         customer.setLoginName(user2.getLoginName());
         customer.setFirstName("Tom");
         customer.setLastName("Soyer");
-        deliveryAddressRepository.save(deliveryAddress);
-        customer.getDeliveryAddress().add(deliveryAddress);
+        DeliveryAddress deliveryAddress1 = new DeliveryAddress("Kepler Str", "7", "Zwickau", "08056");
+//        customer.getDeliveryAddress().add(deliveryAddress1);
+        deliveryAddressRepository.save(deliveryAddress1);
+        customer.getDeliveryAddress().add(deliveryAddress1);
         customer.setIsActive(true);
         customer.setPasswordHash(user2.getPasswordHash());
         customer.setUser(user2);
         customerRepository.save(customer);
 
-        cart.setCustomer(customer);
-        cartRepository.save(cart);
-
-
-
-
-
-
-
+        Cart cart1 = new Cart();
+        cart1.setCustomer(customer);
+        cartRepository.save(cart1);
 
 
 //

@@ -23,4 +23,8 @@ public interface CartService {
 
     CartDTO findCartByCustomer(String customerId);
 
+    Cart findCartByCustomerBYId(String customerId);
+
+    Cart saveCart(Cart cart);
+
 }

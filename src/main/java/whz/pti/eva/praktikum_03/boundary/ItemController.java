@@ -9,6 +9,7 @@ import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
+import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.domain.UserRepository;
@@ -55,7 +56,7 @@ public class ItemController {
             CartDTO cart = (CartDTO) session.getAttribute("cart");
             itemService.addItem(pizzaSize, menge,pizzaName, cart);
         }
-        else {
+        else if (currentUser.getRole() != Role.ADMIN){
             //!!!!
 //            session.removeAttribute("cart");
             CustomerDTO customer =  customerService.findByUserId(currentUser.getUser().getId());
