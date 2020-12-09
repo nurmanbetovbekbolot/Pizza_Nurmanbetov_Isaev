@@ -1,5 +1,7 @@
 package whz.pti.eva.praktikum_03.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,14 +9,18 @@ import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
+import whz.pti.eva.praktikum_03.security.service.user.UserServiceImpl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
+/**
+ * The class ItemServiceImpl for middleware. All business logic is here
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Service
 public class ItemServiceImpl implements ItemService {
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private ItemRepository itemRepository;
@@ -32,6 +38,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public boolean addItem(Item item) {
+        log.debug("Adding item");
+
         if (item == null) return false;
 
         itemRepository.save(item);
@@ -42,6 +50,7 @@ public class ItemServiceImpl implements ItemService {
     //For LoggedIn
     @Override
     public void addItem(PizzaSize pizzaSize, Integer quantity, String pizzaName, CartDTO cartDTO, CustomerDTO customerDTO) {
+        log.debug("Adding item");
         Item item = new Item();
         Pizza pizzaInDb = pizzaService.findPizzaByName(pizzaName);
         item.setQuantity(quantity);
@@ -61,6 +70,7 @@ public class ItemServiceImpl implements ItemService {
     //For NotLogedIn
     @Override
     public void addItem(PizzaSize pizzaSize, Integer quantity, String pizzaName, CartDTO cart) {
+        log.debug("Adding item");
         Item item = new Item();
         Pizza pizzaInDb = pizzaService.findPizzaByName(pizzaName);
         item.setQuantity(quantity);
@@ -73,8 +83,7 @@ public class ItemServiceImpl implements ItemService {
     //Migrate all Items from sessions Cart
     @Override
     public void updateCustomersCart(CartDTO cart, CustomerDTO customer) {
-
-
+        log.debug("Updating cart");
         CartDTO customersCart = cartService.findCartByCustomer(customer.getId());
 
         Map<String, Item> cartItems = cart.getItems();
@@ -95,12 +104,16 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item getItemById(String id) {
-        return null;
+        log.debug("Getting item with id{}=", id);
+        Item item = itemRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException(String.format(">>> Item not found with id=%s", id)));
+        return item;
     }
 
     @Override
 //    @Transactional
     public boolean deleteItems(CartDTO cartDTO, CustomerDTO customerDTO) {
+        log.debug("Deleting item");
 
         Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
 
@@ -121,16 +134,21 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item saveItem(Item item) {
+        log.debug("Saving item");
+
         return itemRepository.save(item);
     }
 
+
     @Override
     public void deleteItemById(String id) {
+        log.debug("Deleting item");
         itemRepository.deleteById(id);
     }
 
     @Override
     public void deleteItemInCart(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey) {
+        log.debug("Deleting items in cart");
         Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
         Item item = customersCart.getItems().get(itemKey);
         customersCart.getItems().remove(itemKey);
@@ -141,6 +159,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void decreaseItemQuantity(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey) {
+        log.debug("Decreasing items quantity with Key{}",itemKey);
         Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
         Item item = customersCart.getItems().get(itemKey);
 
@@ -150,6 +169,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void increaseItemQuantity(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey) {
+        log.debug("Increasing items quantity with Key{}",itemKey);
         Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
         Item item = customersCart.getItems().get(itemKey);
 

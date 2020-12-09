@@ -8,6 +8,11 @@ import whz.pti.eva.praktikum_03.enums.Role;
 
 import javax.validation.constraints.NotEmpty;
 
+/**
+ * The class UserCreateform. It is a model of user to get from user_create view
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -46,7 +51,6 @@ public class UserCreateForm {
 
     private Boolean isActive = Boolean.TRUE;
 
-//    @NotNull
     private Role role = Role.USER;
 
     @Override

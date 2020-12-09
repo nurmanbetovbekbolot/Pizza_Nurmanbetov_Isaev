@@ -10,12 +10,22 @@ import org.springframework.validation.Validator;
 import whz.pti.eva.praktikum_03.security.domain.UserCreateForm;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
 
+/**
+ * The class UserCreateDormValidator to validate fields.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Component
 public class UserCreateFormValidator implements Validator {
 
     private static final Logger log = LoggerFactory.getLogger(UserCreateFormValidator.class);
     private UserService userService;
 
+    /**
+     * Instantiates a new User create form validator.
+     *
+     * @param userService the user service
+     */
     @Autowired
     public UserCreateFormValidator(UserService userService) {
         this.userService = userService;
