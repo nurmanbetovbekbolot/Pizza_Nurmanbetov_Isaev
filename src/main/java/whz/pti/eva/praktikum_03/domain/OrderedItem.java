@@ -8,6 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+/**
+ * The class Ordered item.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

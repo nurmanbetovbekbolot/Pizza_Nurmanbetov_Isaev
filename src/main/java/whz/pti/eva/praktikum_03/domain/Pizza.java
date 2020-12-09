@@ -7,6 +7,11 @@ import whz.pti.eva.praktikum_03.enums.PizzaSize;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 
+/**
+ * The class Pizza.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,6 +26,12 @@ public class Pizza extends BaseEntity<Long> {
     private BigDecimal priceMedium;
     private BigDecimal priceSmall;
 
+    /**
+     * Get price by enum big decimal.
+     *
+     * @param pizzaSize the pizza size
+     * @return the big decimal
+     */
     public BigDecimal getPriceByEnum(PizzaSize pizzaSize){
         switch (pizzaSize){
             case LARGE: return this.getPriceLarge();

@@ -5,6 +5,11 @@ import whz.pti.eva.praktikum_03.domain.DeliveryAddress;
 
 import java.util.List;
 
+/**
+ * The class Customer dto.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,6 +25,15 @@ public class CustomerDTO {
     private Boolean isActive;
     private List<DeliveryAddress> deliveryAddresses;
 
+    /**
+     * Instantiates a new Customer dto.
+     *
+     * @param id        the id
+     * @param firstName the first name
+     * @param lastName  the last name
+     * @param loginName the login name
+     * @param isActive  the is active
+     */
     public CustomerDTO(String id, String firstName, String lastName, String loginName, Boolean isActive) {
         this.id = id;
         this.firstName = firstName;

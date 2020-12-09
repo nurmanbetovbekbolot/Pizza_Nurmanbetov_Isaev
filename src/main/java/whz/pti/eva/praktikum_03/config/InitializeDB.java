@@ -15,34 +15,66 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class Initialize db.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Component
 public class InitializeDB {
 
+    /**
+     * The Cart repository.
+     */
     @Autowired
     CartRepository cartRepository;
 
+    /**
+     * The Item repository.
+     */
     @Autowired
     ItemRepository itemRepository;
 
+    /**
+     * The Ordered repository.
+     */
     @Autowired
     OrderedRepository orderedRepository;
 
+    /**
+     * The Ordered item repository.
+     */
     @Autowired
     OrderedItemRepository orderedItemRepository;
 
+    /**
+     * The Pizza repository.
+     */
     @Autowired
     PizzaRepository pizzaRepository;
 
+    /**
+     * The User repository.
+     */
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * The Delivery address repository.
+     */
     @Autowired
     DeliveryAddressRepository deliveryAddressRepository;
 
+    /**
+     * The Customer repository.
+     */
     @Autowired
     CustomerRepository customerRepository;
 
 
+    /**
+     * Init.
+     */
     @Transactional
     @PostConstruct
     public void init() {

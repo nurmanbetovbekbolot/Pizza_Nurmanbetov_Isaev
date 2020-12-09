@@ -11,6 +11,11 @@ import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class Customer.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

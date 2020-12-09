@@ -11,6 +11,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * The class Web security config.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true,
         securedEnabled = true,
@@ -25,7 +30,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // http.csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/login/", "/css/", "/registration/").permitAll()
+                .antMatchers("/login/", "/css/", "/registration/", "/cart/*").permitAll()
                 .antMatchers("/cart/**").permitAll()
                 .antMatchers("/item/**").permitAll()
                 .antMatchers("/users/m").permitAll()
@@ -64,6 +69,11 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+    /**
+     * Password encoder password encoder.
+     *
+     * @return the password encoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
