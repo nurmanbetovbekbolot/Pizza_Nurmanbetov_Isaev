@@ -130,4 +130,32 @@ public class ItemServiceImpl implements ItemService {
     public void deleteItemById(String id) {
         itemRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteItemInCart(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey) {
+        Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
+        Item item = customersCart.getItems().get(itemKey);
+        customersCart.getItems().remove(itemKey);
+        customersCart.setQuantity(customersCart.getItems().size());
+        deleteItemById(item.getId());
+        cartService.saveCart(customersCart);
+    }
+
+    @Override
+    public void decreaseItemQuantity(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey) {
+        Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
+        Item item = customersCart.getItems().get(itemKey);
+
+        item.setQuantity(item.getQuantity()-1);
+        itemRepository.save(item);
+    }
+
+    @Override
+    public void increaseItemQuantity(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey) {
+        Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
+        Item item = customersCart.getItems().get(itemKey);
+
+        item.setQuantity(item.getQuantity()+1);
+        itemRepository.save(item);
+    }
 }

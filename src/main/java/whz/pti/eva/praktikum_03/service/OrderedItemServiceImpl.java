@@ -32,25 +32,28 @@ public class OrderedItemServiceImpl implements OrderedItemService{
 
     //Add OrderedItems to Ordered
     @Override
-    public boolean addOrderedItem(CartDTO cartDTO, CustomerDTO customerDTO) {
+    public Ordered addOrderedItem(CartDTO cartDTO, CustomerDTO customerDTO) {
 
         Ordered ordered = new Ordered();
 
         Map<String, Item> itemMap = cartDTO.getItems();
         ordered.setNumberOfItems(itemMap.size());
-        for (Map.Entry<String, Item> entry : itemMap.entrySet()) {
-            OrderedItem orderedItem = new OrderedItem();
-            orderedItem.setName(entry.getValue().getPizza().getName());
-            orderedItem.setQuantity(entry.getValue().getQuantity());
-            orderedItem.setSize(entry.getValue().getPizzaSize());
-            orderedItem.setPizzaId(entry.getValue().getPizza().getId());
-            orderedItem.setUserId(customerDTO.getId());
-            orderedItemRepository.save(orderedItem);
-            ordered.getItems().add(orderedItem);
+        if (itemMap.size()!=0){
+            for (Map.Entry<String, Item> entry : itemMap.entrySet()) {
+                OrderedItem orderedItem = new OrderedItem();
+                orderedItem.setName(entry.getValue().getPizza().getName());
+                orderedItem.setQuantity(entry.getValue().getQuantity());
+                orderedItem.setSize(entry.getValue().getPizzaSize());
+                orderedItem.setPizzaId(entry.getValue().getPizza().getId());
+                orderedItem.setUserId(customerDTO.getId());
+                orderedItemRepository.save(orderedItem);
+                ordered.getItems().add(orderedItem);
+            }
+
+            ordered.setUserId(customerRepository.getOne(customerDTO.getId()));
+            return orderedRepository.save(ordered);
         }
-        ordered.setUserId(customerRepository.getOne(customerDTO.getId()));
-        orderedRepository.save(ordered);
-        return true;
+        return null;
     }
 
     @Override

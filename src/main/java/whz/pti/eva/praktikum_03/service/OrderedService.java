@@ -14,4 +14,6 @@ public interface OrderedService {
     Item getOrderedById(String id);
 
     boolean deleteOrdered(String id);
+
+//    List<Ordered> findAllByCustomerId(String customerId);
 }
