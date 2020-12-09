@@ -1,5 +1,7 @@
 package whz.pti.eva.praktikum_03.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -10,13 +12,21 @@ import whz.pti.eva.praktikum_03.domain.CustomerRepository;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
+import whz.pti.eva.praktikum_03.security.service.user.UserServiceImpl;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
+/**
+ * The class CustomerServiceImpl for middleware. All business logic is here
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Service
 public class CustomerServiceImpl implements CustomerService {
-
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    /**
+     * Field injection
+     */
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
@@ -26,6 +36,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO findByUserId(String userId) {
+        log.debug("Finding customer by userId={}", userId);
+
         Customer customer = customerRepository.findCustomerByUserId(userId).orElseThrow(() ->
                 new NoSuchElementException(String.format(">>> Customer not found with userId=%s", userId)));
         CustomerDTO customerDTO = new CustomerDTO();
@@ -38,6 +50,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer updateCustomer(CustomerDTO customerDTO) {
+        log.debug("Updating customer");
+
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         Customer customer = getCustomerById(customerDTO.getId());
         User user = userService.findUserByCustomerId(customerDTO.getId());
@@ -56,19 +70,19 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setIsActive(customerDTO.getIsActive());
             user.setIsActive(customerDTO.getIsActive());
         }
-//            DeliveryAddress deliveryAddress = new DeliveryAddress(customerDTO.getStreet(),customerDTO.getHouseNumber(),customerDTO.getPostalCode(),customerDTO.getTown());
         customer.setDeliveryAddress(customerDTO.getDeliveryAddresses());
-//            addressService.save(deliveryAddress);
         return customerRepository.save(customer);
     }
 
     @Override
     public Customer saveCustomer(Customer customer) {
+        log.debug("Saving customer");
         return customerRepository.save(customer);
     }
 
     @Override
     public Customer getCustomerById(String customerId) {
+        log.debug("Getting customer By id={}", customerId);
         Customer customer = customerRepository.findById(customerId).orElseThrow(() ->
                 new NoSuchElementException(String.format(">>> Customer not found with id=%s", customerId)));
         return customer;
