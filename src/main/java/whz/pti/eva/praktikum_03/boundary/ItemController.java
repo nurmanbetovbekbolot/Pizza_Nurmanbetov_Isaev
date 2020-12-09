@@ -3,45 +3,35 @@ package whz.pti.eva.praktikum_03.boundary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
-import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
 import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
-import whz.pti.eva.praktikum_03.security.domain.User;
-import whz.pti.eva.praktikum_03.security.domain.UserRepository;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
-import whz.pti.eva.praktikum_03.security.service.validator.UserCreateFormValidator;
 import whz.pti.eva.praktikum_03.service.CartService;
 import whz.pti.eva.praktikum_03.service.CustomerService;
 import whz.pti.eva.praktikum_03.service.ItemService;
 import whz.pti.eva.praktikum_03.service.PizzaService;
 
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/item")
 public class ItemController {
 
     private ItemService itemService;
-    private UserService userService;
-    private PizzaService pizzaService;
     private CartService cartService;
     private CustomerService customerService;
 
     @Autowired
-    public ItemController(ItemService itemService, UserService userService, PizzaService pizzaService, CartService cartService, CustomerService customerService) {
+    public ItemController(ItemService itemService,CartService cartService, CustomerService customerService) {
         this.itemService = itemService;
-        this.userService = userService;
-        this.pizzaService = pizzaService;
         this.cartService = cartService;
         this.customerService = customerService;
     }
@@ -49,39 +39,24 @@ public class ItemController {
     @PostMapping(value = "/add")
     public String addItemToCart(HttpSession session, Model model, @ModelAttribute("pizzaSize") PizzaSize pizzaSize, @RequestParam Integer menge, @RequestParam("pizzaName") String pizzaName) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
-        if (currentUser== null){
-            if(session.getAttribute("cart") == null){
+        if (currentUser == null) {
+            if (session.getAttribute("cart") == null) {
                 session.setAttribute("cart", new CartDTO());
             }
             CartDTO cart = (CartDTO) session.getAttribute("cart");
-            itemService.addItem(pizzaSize, menge,pizzaName, cart);
-        }
-        else if (currentUser.getRole() != Role.ADMIN){
-            //!!!!
-//            session.removeAttribute("cart");
-            CustomerDTO customer =  customerService.findByUserId(currentUser.getUser().getId());
-            if (customer != null){
+            itemService.addItem(pizzaSize, menge, pizzaName, cart);
+        } else if (currentUser.getRole() != Role.ADMIN) {
+            CustomerDTO customer = customerService.findByUserId(currentUser.getUser().getId());
+            if (customer != null) {
                 CartDTO cart = cartService.findCartByCustomer(customer.getId());
-                if (cart!=null) {
+                if (cart != null) {
                     itemService.addItem(pizzaSize, menge, pizzaName, cart, customer);
-                }
-                else {
+                } else {
                     CartDTO cart1 = new CartDTO();
                     itemService.addItem(pizzaSize, menge, pizzaName, cart1, customer);
                 }
-
-
             }
-
         }
-
         return "redirect:/index";
     }
-//
-//    private Optional<User> getLoggedInUser(Principal principal) {
-//        String loginName = principal.getName();
-//
-//        return userRepository.findOneByLoginName(loginName);
-//    }
-
 }

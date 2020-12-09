@@ -18,7 +18,6 @@ import java.util.List;
 @Entity
 public class Ordered extends BaseEntity<Long> {
 
-
     private int numberOfItems = 0;
 
     @ManyToOne
@@ -27,6 +26,5 @@ public class Ordered extends BaseEntity<Long> {
 
     @OneToMany
     private List<OrderedItem> items = new ArrayList<>();
-
 
 }

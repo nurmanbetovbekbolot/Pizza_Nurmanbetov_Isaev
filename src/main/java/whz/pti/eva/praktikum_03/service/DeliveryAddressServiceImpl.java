@@ -1,19 +1,18 @@
 package whz.pti.eva.praktikum_03.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import whz.pti.eva.praktikum_03.domain.Customer;
 import whz.pti.eva.praktikum_03.domain.DeliveryAddress;
 import whz.pti.eva.praktikum_03.domain.DeliveryAddressRepository;
 import whz.pti.eva.praktikum_03.dto.DeliveryAddressDTO;
 
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class DeliveryAddressServiceImpl implements DeliveryAddressService {
     private DeliveryAddressRepository deliveryAddressRepository;
 
+    @Autowired
     public DeliveryAddressServiceImpl(DeliveryAddressRepository deliveryAddressRepository) {
         this.deliveryAddressRepository = deliveryAddressRepository;
     }
@@ -49,18 +48,7 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
     }
 
     @Override
-    public void save(DeliveryAddress address) {
-        deliveryAddressRepository.save(address);
+    public DeliveryAddress save(DeliveryAddress address) {
+        return deliveryAddressRepository.save(address);
     }
-
-//    @Override
-//    public List<DeliveryAddress> getDeliveryAddressesByCustomer(String customerId) {
-//        return deliveryAddressRepository.findDeliveryAddressesByCustomer(customerId);
-//    }
-//
-//    @Override
-//    public DeliveryAddress getOneDeliveryAddressByCustomer(String customerId) {
-//        Optional<DeliveryAddress> deliveryAddress = deliveryAddressRepository.findDeliveryAddressByCustomer(customerId);
-//        return deliveryAddress.orElse(new DeliveryAddress());
-//    }
 }

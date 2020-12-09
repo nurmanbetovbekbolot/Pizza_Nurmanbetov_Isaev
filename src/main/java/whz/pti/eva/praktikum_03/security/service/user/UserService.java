@@ -1,7 +1,6 @@
 package whz.pti.eva.praktikum_03.security.service.user;
 
 
-import org.springframework.data.repository.query.Param;
 import whz.pti.eva.praktikum_03.domain.Cart;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
 import whz.pti.eva.praktikum_03.security.domain.User;
@@ -20,7 +19,6 @@ public interface UserService {
     Collection<UserDTO> getAllUsers();
     User create(UserCreateForm form, Cart cart);
     User createByAdmin(UserCreateForm form);
-    void registration(Cart cart);
     User  findUserByCustomerId(String id);
 
 }

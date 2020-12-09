@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class BaseEntity<PK extends Serializable> {
+public abstract class BaseEntity<PK extends Serializable> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +21,19 @@ public abstract class BaseEntity<PK extends Serializable> {
     @Override
     public int hashCode() {
         if (getId() != null) {
-            return getId().hashCode(); }
+            return getId().hashCode();
+        }
         return super.hashCode();
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
         if (!(obj instanceof BaseEntity)) return false;
         BaseEntity<?> other = (BaseEntity<?>) obj;
-        return this.getId() != null && this.getId().equals(other.getId()); }
+        return this.getId() != null && this.getId().equals(other.getId());
+    }
 
 
 }

@@ -65,20 +65,16 @@ public class MainController {
                     itemService.updateCustomersCart(cart, currentCustomer);
                     session.removeAttribute("cart");
                 }
-
                 totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(customersCart);
                 totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(customersCart);
             }
-        } else if (currentUser == null){
+        } else if (currentUser == null) {
             CartDTO cartDTO = (CartDTO) session.getAttribute("cart");
             if (cartDTO != null) {
                 totalAmount = cartService.calculateTotalAmountOfPizzasInItemsInCart(cartDTO);
                 totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(cartDTO);
             }
         }
-
-        //Unnesesarry
-
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("totalPrice", totalPrice);
         return "index";

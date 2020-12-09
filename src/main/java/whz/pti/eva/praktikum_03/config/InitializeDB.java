@@ -92,14 +92,12 @@ public class InitializeDB {
         customer1.setLastName("Smith");
         DeliveryAddress deliveryAddress = new DeliveryAddress("Innere Schneeberger Str", "23", "Zwickau", "08056");
         DeliveryAddress deliveryAddress2 = new DeliveryAddress("Schneeberger Str", "25", "Zwickau", "08056");
-//        customer1.getDeliveryAddress().add(deliveryAddress);
         deliveryAddressRepository.save(deliveryAddress);
         deliveryAddressRepository.save(deliveryAddress2);
         List<DeliveryAddress> addressList = new ArrayList<>();
         addressList.add(deliveryAddress);
         addressList.add(deliveryAddress2);
         customer1.setDeliveryAddress(addressList);
-//        customer1.getDeliveryAddress().add(deliveryAddress);
         customer1.setIsActive(true);
         customer1.setPasswordHash(user1.getPasswordHash());
         customer1.setUser(user1);
@@ -121,7 +119,6 @@ public class InitializeDB {
         customer.setFirstName("Tom");
         customer.setLastName("Soyer");
         DeliveryAddress deliveryAddress1 = new DeliveryAddress("Kepler Str", "7", "Zwickau", "08056");
-//        customer.getDeliveryAddress().add(deliveryAddress1);
         deliveryAddressRepository.save(deliveryAddress1);
         customer.getDeliveryAddress().add(deliveryAddress1);
         customer.setIsActive(true);
@@ -132,34 +129,5 @@ public class InitializeDB {
         Cart cart1 = new Cart();
         cart1.setCustomer(customer);
         cartRepository.save(cart1);
-
-
-//
-//        OrderedItem orderedItem = new OrderedItem();
-//        orderedItem.setName(pizzaHawai.getName());
-//        orderedItem.setPizzaId(pizzaHawai.getId());
-//        orderedItem.setQuantity(5);
-//        orderedItem.setUserId("Atai");
-//        orderedItemRepository.save(orderedItem);
-//
-//        OrderedItem orderedItem2 = new OrderedItem();
-//        orderedItem2.setName(pizzaMargherita.getName());
-//        orderedItem2.setPizzaId(pizzaMargherita.getId());
-//        orderedItem2.setQuantity(2);
-//        orderedItem2.setUserId("Atai");
-//        orderedItemRepository.save(orderedItem2);
-//
-//        ArrayList<OrderedItem> orderedItems = new ArrayList<>();
-//        orderedItems.add(orderedItem);
-//        orderedItems.add(orderedItem2);
-//
-//        Ordered order1 = new Ordered();
-//        order1.setItems(orderedItems);
-//        order1.setNumberOfItems(10);
-//        orderedRepository.save(order1);
-//
-//        Cart cart = new Cart();
-//        cart.setQuantity(5);
-//        cart.setUserId("ATAI1");
     }
 }

@@ -1,12 +1,13 @@
 package whz.pti.eva.praktikum_03.domain;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import whz.pti.eva.praktikum_03.common.BaseEntity;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter

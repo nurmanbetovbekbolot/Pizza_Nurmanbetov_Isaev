@@ -2,24 +2,25 @@ package whz.pti.eva.praktikum_03.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.domain.Customer;
+import whz.pti.eva.praktikum_03.domain.Item;
+import whz.pti.eva.praktikum_03.domain.Ordered;
+import whz.pti.eva.praktikum_03.domain.OrderedRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class OrderedServiceImpl implements OrderedService{
+public class OrderedServiceImpl implements OrderedService {
 
-    private final OrderedRepository orderedRepository;
+    private OrderedRepository orderedRepository;
 
+    private CustomerService customerService;
 
     @Autowired
-    private CustomerRepository customerRepository;
-
-    public OrderedServiceImpl(OrderedRepository orderedRepository) {
+    public OrderedServiceImpl(OrderedRepository orderedRepository, CustomerService customerService) {
         this.orderedRepository = orderedRepository;
+        this.customerService = customerService;
     }
-
 
     @Override
     public List<Ordered> listAllOrdered() {
@@ -28,7 +29,7 @@ public class OrderedServiceImpl implements OrderedService{
 
     @Override
     public boolean addOrdered(Ordered ordered) {
-        if(ordered==null) return false;
+        if (ordered == null) return false;
 
         orderedRepository.save(ordered);
         return true;
@@ -45,17 +46,15 @@ public class OrderedServiceImpl implements OrderedService{
     }
 
 
-//    @Override
-//    public List<Ordered> findAllByCustomerId(String customerId) {
-//        Optional<Customer> customer = customerRepository.findById(customerId);
-//
-//        if (customer.isPresent()){
-//
-//
-//        List<Ordered> orderedList = orderedRepository.findAllByUserId(customer.get());
-//
-//            return orderedList;
-//        }
-//        return null;
-//    }
+    @Override
+    public Ordered saveOrdered(Ordered ordered) {
+        return orderedRepository.save(ordered);
+    }
+
+    @Override
+    public List<Ordered> findAllByCustomerId(String customerId) {
+        Customer customer = customerService.getCustomerById(customerId);
+        List<Ordered> orderedList = orderedRepository.findAllByUserId(customer);
+        return orderedList;
+    }
 }

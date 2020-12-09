@@ -1,5 +1,6 @@
 package whz.pti.eva.praktikum_03.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import whz.pti.eva.praktikum_03.domain.Item;
 import whz.pti.eva.praktikum_03.domain.Pizza;
@@ -10,8 +11,9 @@ import java.util.List;
 @Service
 public class PizzaServiceImpl implements PizzaService {
 
-    private final PizzaRepository pizzaRepository;
+    private PizzaRepository pizzaRepository;
 
+    @Autowired
     public PizzaServiceImpl(PizzaRepository pizzaRepository) {
         this.pizzaRepository = pizzaRepository;
     }

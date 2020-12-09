@@ -2,6 +2,7 @@ package whz.pti.eva.praktikum_03.boundary;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class OrderedController {
         this.orderedItemService = orderedItemService;
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping(value = "/")
     public String root(Model model) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
@@ -44,13 +46,13 @@ public class OrderedController {
         if (currentUser != null && currentUser.getRole() != Role.ADMIN) {
             CustomerDTO currentCustomer = customerService.findByUserId(currentUser.getUser().getId());
             CartDTO customersCart = cartService.findCartByCustomer(currentCustomer.getId());
-            if (customersCart != null) {
+            if (customersCart.getQuantity() != 0) {
                 Ordered ordered = orderedItemService.addOrderedItem(customersCart, currentCustomer);
                 itemService.deleteItems(customersCart, currentCustomer);
             }
-//            List<Ordered> orderedList = orderedService.findAllByCustomerId(currentCustomer.getId());
-//            model.addAttribute("orderedList", orderedList);
-//            model.addAttribute("customer", currentCustomer);
+            List<Ordered> orderedList = orderedService.findAllByCustomerId(currentCustomer.getId());
+            model.addAttribute("orderedList", orderedList);
+            model.addAttribute("customer", currentCustomer);
         }
         return "ordered";
     }

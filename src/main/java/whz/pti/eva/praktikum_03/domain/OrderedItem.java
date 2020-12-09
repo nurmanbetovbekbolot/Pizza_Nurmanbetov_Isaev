@@ -4,7 +4,9 @@ import lombok.*;
 import whz.pti.eva.praktikum_03.common.BaseEntity;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Getter
 @Setter
@@ -13,10 +15,6 @@ import javax.persistence.*;
 @ToString
 @Entity
 public class OrderedItem extends BaseEntity<Long> {
-
-
-//    @OneToOne
-//    private Pizza pizzaId;
 
     private Long pizzaId;
     private String name;

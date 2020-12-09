@@ -15,5 +15,7 @@ public interface OrderedService {
 
     boolean deleteOrdered(String id);
 
-//    List<Ordered> findAllByCustomerId(String customerId);
+    List<Ordered> findAllByCustomerId(String customerId);
+
+    Ordered saveOrdered (Ordered ordered);
 }

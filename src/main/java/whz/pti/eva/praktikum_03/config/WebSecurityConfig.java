@@ -7,13 +7,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -25,6 +26,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/login/", "/css/", "/registration/").permitAll()
+                .antMatchers("/cart/**").permitAll()
+                .antMatchers("/item/**").permitAll()
                 .antMatchers("/users/m").permitAll()
                 .antMatchers("/users/c**").permitAll()
                 .antMatchers("/user/c**").permitAll()
@@ -32,7 +35,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/index", true)
+                .defaultSuccessUrl("/", true)
                 .failureUrl("/login?error")
                 .usernameParameter("loginName")
                 .permitAll()
@@ -41,7 +44,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                // .logoutUrl("/logout")
+                .logoutUrl("/logout")
                 .permitAll()
                 .and()
                 .rememberMe()
