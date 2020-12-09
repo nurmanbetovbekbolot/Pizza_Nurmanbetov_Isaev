@@ -9,14 +9,18 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
-import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.domain.Cart;
+import whz.pti.eva.praktikum_03.domain.Customer;
+import whz.pti.eva.praktikum_03.domain.DeliveryAddress;
+import whz.pti.eva.praktikum_03.domain.Item;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
-import whz.pti.eva.praktikum_03.enums.Role;
-import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.domain.UserCreateForm;
 import whz.pti.eva.praktikum_03.security.domain.UserRepository;
+import whz.pti.eva.praktikum_03.service.CartService;
+import whz.pti.eva.praktikum_03.service.CustomerService;
+import whz.pti.eva.praktikum_03.service.DeliveryAddressService;
+import whz.pti.eva.praktikum_03.service.ItemService;
 
 import java.util.*;
 
@@ -24,23 +28,16 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-    private final UserRepository userRepository;
-    private CustomerRepository customerRepository;
-    private DeliveryAddressRepository deliveryAddressRepository;
-
     @Autowired
-    private CartRepository cartRepository;
-
+    private UserRepository userRepository;
     @Autowired
-    private ItemRepository itemRepository;
-
-
+    private CustomerService customerService;
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, CustomerRepository customerRepository, DeliveryAddressRepository deliveryAddressRepository) {
-        this.userRepository = userRepository;
-        this.customerRepository = customerRepository;
-        this.deliveryAddressRepository = deliveryAddressRepository;
-    }
+    private DeliveryAddressService deliveryAddressService;
+    @Autowired
+    private CartService cartService;
+    @Autowired
+    private ItemService itemService;
 
 
     @Override
@@ -73,10 +70,10 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getAllUsers() {
         log.debug("Getting all users");
         List<User> targetListOrigin = userRepository.findAllByOrderByLoginNameAsc();
-        List<UserDTO> targetList= new ArrayList<>();
-        for (User source: targetListOrigin ) {
-            UserDTO target= new UserDTO();
-            BeanUtils.copyProperties(source , target);
+        List<UserDTO> targetList = new ArrayList<>();
+        for (User source : targetListOrigin) {
+            UserDTO target = new UserDTO();
+            BeanUtils.copyProperties(source, target);
             targetList.add(target);
         }
         return targetList;
@@ -93,7 +90,6 @@ public class UserServiceImpl implements UserService {
     public User create(UserCreateForm form, Cart cart) {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-
         User user = new User();
         user.setLoginName(form.getLoginName());
         user.setEmail(form.getEmail());
@@ -108,27 +104,25 @@ public class UserServiceImpl implements UserService {
         customer.setFirstName(form.getFirstName());
         customer.setLastName(form.getLastName());
         DeliveryAddress deliveryAddress = new DeliveryAddress(form.getStreet(), form.getHouseNumber(), form.getTown(), form.getPostalCode());
-        deliveryAddressRepository.save(deliveryAddress);
+        deliveryAddressService.save(deliveryAddress);
         customer.getDeliveryAddress().add(deliveryAddress);
         customer.setIsActive(form.getIsActive());
         customer.setPasswordHash(user.getPasswordHash());
         customer.setUser(user);
 
-        if (cart == null)
-        {
+        if (cart == null) {
             Cart newCart = new Cart();
             newCart.setCustomer(customer);
-            cartRepository.save(newCart);
-        }
-        else {
+            cartService.saveCart(newCart);
+        } else {
             Map<String, Item> cartItems = cart.getItems();
             for (Map.Entry<String, Item> entry : cartItems.entrySet()) {
-                itemRepository.save(entry.getValue());
+                itemService.saveItem(entry.getValue());
             }
             cart.setCustomer(customer);
-            cartRepository.save(cart);
+            cartService.saveCart(cart);
         }
-        customerRepository.save(customer);
+        customerService.saveCustomer(customer);
         Optional<User> user1 = userRepository.findById(user.getId());
         return user1.orElse(new User());
     }
@@ -152,7 +146,7 @@ public class UserServiceImpl implements UserService {
         customer.setFirstName(form.getFirstName());
         customer.setLastName(form.getLastName());
         DeliveryAddress deliveryAddress = new DeliveryAddress(form.getStreet(), form.getHouseNumber(), form.getTown(), form.getPostalCode());
-        deliveryAddressRepository.save(deliveryAddress);
+        deliveryAddressService.save(deliveryAddress);
         customer.getDeliveryAddress().add(deliveryAddress);
         customer.setIsActive(form.getIsActive());
         customer.setPasswordHash(user.getPasswordHash());
@@ -160,34 +154,16 @@ public class UserServiceImpl implements UserService {
 
         Cart newCart = new Cart();
         newCart.setCustomer(customer);
-        cartRepository.save(newCart);
-
-        customerRepository.save(customer);
+        cartService.saveCart(newCart);
+        customerService.saveCustomer(customer);
         Optional<User> user1 = userRepository.findById(user.getId());
         return user1.orElse(new User());
     }
 
     @Override
-    public void registration(Cart cart) {
-//        if (cart == null)
-//        {
-//            Cart newCart = new Cart();
-//            newCart.setCustomer(customer);
-//            cartRepository.save(newCart);
-//        }
-//        else {
-//            Map<String, Item> cartItems = cart.getItems();
-//            for (Map.Entry<String, Item> entry : cartItems.entrySet()) {
-//                itemRepository.save(entry.getValue());
-//            }
-//            cart.setCustomer(customer);
-//            cartRepository.save(cart);
-//        }
-    }
-
-    @Override
     public User findUserByCustomerId(String id) {
-        Optional<User> user = userRepository.findUserByCustomerId(id);
-        return user.orElse(new User());
+        User user = userRepository.findUserByCustomerId(id).orElseThrow(() ->
+                new NoSuchElementException(String.format(">>> User=%s not found", id)));
+        return user;
     }
 }

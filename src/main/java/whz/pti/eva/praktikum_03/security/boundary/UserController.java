@@ -34,13 +34,11 @@ public class UserController {
     private CustomerService customerService;
     private UserService userService;
     private UserCreateFormValidator userCreateFormValidator;
-    private DeliveryAddressService addressService;
 
-    public UserController(CustomerService customerService, UserService userService, UserCreateFormValidator userCreateFormValidator, DeliveryAddressService addressService) {
+    public UserController(CustomerService customerService, UserService userService, UserCreateFormValidator userCreateFormValidator) {
         this.customerService = customerService;
         this.userService = userService;
         this.userCreateFormValidator = userCreateFormValidator;
-        this.addressService = addressService;
     }
 
 
@@ -56,11 +54,11 @@ public class UserController {
         return "user";
     }
 
-    //    @PreAuthorize("#id==principal.id or hasAnyAuthority('ADMIN')")
-    @RequestMapping(value = "/users/{id}", method = {RequestMethod.POST, RequestMethod.GET})
+//        @PreAuthorize("#id==principal.id or hasAnyAuthority('ADMIN')")
+        @PreAuthorize("hasAuthority('ADMIN')")
+        @RequestMapping(value = "/users/{id}", method = {RequestMethod.POST, RequestMethod.GET})
     public String getUserPage(@PathVariable String id, Model model) {
         log.debug("Getting user page for user= " + id);
-
         UserDTO userDTO = userService.getUserById(id);
         CustomerDTO customerDTO = customerService.findByUserId(id);
         model.addAttribute("user", userDTO);
@@ -68,17 +66,16 @@ public class UserController {
         return "user";
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/users/managed", method = {RequestMethod.POST, RequestMethod.GET})
     public String getUserManagedPage(Model model) {
         log.debug("Getting user create form");
-        String currentUser = CurrentUserUtil.getCurrentUser(model);
-        model.addAttribute("loggedInUser", currentUser);
         model.addAttribute("myform", new UserCreateForm());
         model.addAttribute("users", userService.getAllUsers());
         return "user_create";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "users/{userId}/customer/{id}", method = {RequestMethod.POST, RequestMethod.GET})
     public String getEditCustomerView(@PathVariable("userId") String userId, @PathVariable("id") String id, Model model) {
         UserDTO userDTO = userService.getUserById(userId);

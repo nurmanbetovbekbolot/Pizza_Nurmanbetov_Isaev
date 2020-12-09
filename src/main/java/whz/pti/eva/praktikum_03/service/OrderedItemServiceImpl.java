@@ -2,26 +2,28 @@ package whz.pti.eva.praktikum_03.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.domain.Item;
+import whz.pti.eva.praktikum_03.domain.Ordered;
+import whz.pti.eva.praktikum_03.domain.OrderedItem;
+import whz.pti.eva.praktikum_03.domain.OrderedItemRepository;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class OrderedItemServiceImpl implements OrderedItemService{
 
-    private final OrderedItemRepository orderedItemRepository;
+    private OrderedItemRepository orderedItemRepository;
+    private CustomerService customerService;
+    private OrderedService orderedService;
 
     @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private OrderedRepository orderedRepository;
-
-    public OrderedItemServiceImpl(OrderedItemRepository orderedItemRepository) {
+    public OrderedItemServiceImpl(OrderedItemRepository orderedItemRepository, CustomerService customerService, OrderedService orderedService) {
         this.orderedItemRepository = orderedItemRepository;
+        this.customerService = customerService;
+        this.orderedService = orderedService;
     }
 
     @Override
@@ -50,8 +52,10 @@ public class OrderedItemServiceImpl implements OrderedItemService{
                 ordered.getItems().add(orderedItem);
             }
 
-            ordered.setUserId(customerRepository.getOne(customerDTO.getId()));
-            return orderedRepository.save(ordered);
+            ordered.setUserId(
+                    customerService.getCustomerById(customerDTO.getId()));
+//                    customerRepository.getOne(customerDTO.getId()));
+            return orderedService.saveOrdered(ordered);
         }
         return null;
     }

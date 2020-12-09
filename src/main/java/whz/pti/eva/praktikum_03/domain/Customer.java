@@ -1,15 +1,15 @@
 package whz.pti.eva.praktikum_03.domain;
 
 import lombok.*;
-import org.hibernate.annotations.GeneratorType;
-import org.hibernate.annotations.GenericGenerator;
 import whz.pti.eva.praktikum_03.common.BaseEntity;
 import whz.pti.eva.praktikum_03.security.domain.User;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Customer extends BaseEntity<String> {
+public class Customer extends BaseEntity<String>{
 
     private String firstName;
     private String lastName;

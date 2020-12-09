@@ -1,10 +1,9 @@
 package whz.pti.eva.praktikum_03.service;
 
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import whz.pti.eva.praktikum_03.domain.Cart;
 import whz.pti.eva.praktikum_03.domain.CartRepository;
-import whz.pti.eva.praktikum_03.domain.Customer;
 import whz.pti.eva.praktikum_03.domain.Item;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
 
@@ -12,13 +11,13 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
 
-    private final CartRepository cartRepository;
+    private CartRepository cartRepository;
 
+    @Autowired
     public CartServiceImpl(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
     }

@@ -5,19 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
-import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.domain.Item;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
-import whz.pti.eva.praktikum_03.enums.PizzaSize;
 import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.service.CartService;
 import whz.pti.eva.praktikum_03.service.CustomerService;
 import whz.pti.eva.praktikum_03.service.ItemService;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -37,23 +34,23 @@ public class CartController {
         this.customerService = customerService;
     }
 
+
     @GetMapping(value = "/")
     public String toCart(HttpSession session, Model model) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
-        if (currentUser== null) {
-            if(session.getAttribute("cart") != null){
+        if (currentUser == null) {
+            if (session.getAttribute("cart") != null) {
                 CartDTO cart = (CartDTO) session.getAttribute("cart");
                 Map<String, Item> cartItems = cart.getItems();
-                model.addAttribute("itemList",cartItems) ;
+                model.addAttribute("itemList", cartItems);
             }
-        }
-        else if (currentUser.getRole() != Role.ADMIN){
-            CustomerDTO customer =  customerService.findByUserId(currentUser.getUser().getId());
-            if (customer != null){
+        } else if (currentUser.getRole() != Role.ADMIN) {
+            CustomerDTO customer = customerService.findByUserId(currentUser.getUser().getId());
+            if (customer != null) {
                 CartDTO cart = cartService.findCartByCustomer(customer.getId());
-                if (cart!=null) {
+                if (cart != null) {
                     Map<String, Item> cartItems = cart.getItems();
-                    model.addAttribute("itemList",cartItems) ;
+                    model.addAttribute("itemList", cartItems);
 //                    session.setAttribute("items", cartItems);
                 }
             }
@@ -62,22 +59,21 @@ public class CartController {
         return "cart";
     }
 
-    @RequestMapping(value = "/remove",  method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/remove", method = {RequestMethod.POST, RequestMethod.GET})
     public String addItemToCart(HttpSession session, Model model, @RequestParam("itemKey") String itemKey) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
 
-        if (currentUser== null) {
+        if (currentUser == null) {
             CartDTO cartDTO = (CartDTO) session.getAttribute("cart");
-            if(cartDTO != null){
+            if (cartDTO != null) {
                 cartDTO.getItems().remove(itemKey);
                 session.setAttribute("cart", cartDTO);
             }
-        }
-        else if (currentUser.getRole() != Role.ADMIN){
-            CustomerDTO customer =  customerService.findByUserId(currentUser.getUser().getId());
-            if (customer != null){
+        } else if (currentUser.getRole() != Role.ADMIN) {
+            CustomerDTO customer = customerService.findByUserId(currentUser.getUser().getId());
+            if (customer != null) {
                 CartDTO cart = cartService.findCartByCustomer(customer.getId());
-                if (cart!=null) {
+                if (cart != null) {
                     itemService.deleteItemInCart(cart, customer, itemKey);
                 }
             }
@@ -85,22 +81,21 @@ public class CartController {
         return "redirect:/cart/";
     }
 
-    @RequestMapping(value = "/decrease",  method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/decrease", method = {RequestMethod.POST, RequestMethod.GET})
     public String decrease(HttpSession session, Model model, @RequestParam("itemKey") String itemKey) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
 
-        if (currentUser== null) {
+        if (currentUser == null) {
             CartDTO cartDTO = (CartDTO) session.getAttribute("cart");
-            if(cartDTO != null && cartDTO.getItems().get(itemKey).getQuantity()>1){
-                cartDTO.getItems().get(itemKey).setQuantity(cartDTO.getItems().get(itemKey).getQuantity()-1);
+            if (cartDTO != null && cartDTO.getItems().get(itemKey).getQuantity() > 1) {
+                cartDTO.getItems().get(itemKey).setQuantity(cartDTO.getItems().get(itemKey).getQuantity() - 1);
                 session.setAttribute("cart", cartDTO);
             }
-        }
-        else if (currentUser.getRole() != Role.ADMIN){
-            CustomerDTO customer =  customerService.findByUserId(currentUser.getUser().getId());
-            if (customer != null){
+        } else if (currentUser.getRole() != Role.ADMIN) {
+            CustomerDTO customer = customerService.findByUserId(currentUser.getUser().getId());
+            if (customer != null) {
                 CartDTO cart = cartService.findCartByCustomer(customer.getId());
-                if (cart!=null && cart.getItems().get(itemKey).getQuantity()>1) {
+                if (cart != null && cart.getItems().get(itemKey).getQuantity() > 1) {
                     itemService.decreaseItemQuantity(cart, customer, itemKey);
                 }
             }
@@ -108,22 +103,21 @@ public class CartController {
         return "redirect:/cart/";
     }
 
-    @RequestMapping(value = "/increase",  method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/increase", method = {RequestMethod.POST, RequestMethod.GET})
     public String increase(HttpSession session, Model model, @RequestParam("itemKey") String itemKey, @ModelAttribute("item") Item item) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
 
-        if (currentUser== null) {
+        if (currentUser == null) {
             CartDTO cartDTO = (CartDTO) session.getAttribute("cart");
-            if(cartDTO != null){
-                cartDTO.getItems().get(itemKey).setQuantity(cartDTO.getItems().get(itemKey).getQuantity()+1);
+            if (cartDTO != null) {
+                cartDTO.getItems().get(itemKey).setQuantity(cartDTO.getItems().get(itemKey).getQuantity() + 1);
                 session.setAttribute("cart", cartDTO);
             }
-        }
-        else if (currentUser.getRole() != Role.ADMIN){
-            CustomerDTO customer =  customerService.findByUserId(currentUser.getUser().getId());
-            if (customer != null){
+        } else if (currentUser.getRole() != Role.ADMIN) {
+            CustomerDTO customer = customerService.findByUserId(currentUser.getUser().getId());
+            if (customer != null) {
                 CartDTO cart = cartService.findCartByCustomer(customer.getId());
-                if (cart!=null) {
+                if (cart != null) {
                     itemService.increaseItemQuantity(cart, customer, itemKey);
                 }
             }

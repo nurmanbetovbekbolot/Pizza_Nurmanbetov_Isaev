@@ -3,34 +3,27 @@ package whz.pti.eva.praktikum_03.service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import whz.pti.eva.praktikum_03.domain.*;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
-import whz.pti.eva.praktikum_03.security.domain.User;
 
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemRepository itemRepository;
-
-
-
     @Autowired
     private PizzaService pizzaService;
-
     @Autowired
     private CartService cartService;
-
     @Autowired
     private CustomerService customerService;
-
-
 
     @Override
     public List<Item> listAllItems() {
@@ -58,9 +51,9 @@ public class ItemServiceImpl implements ItemService {
         cartDTO.getItems().put(item.getId(), item);
         cartDTO.increment();
         Cart cart = new Cart();
-        BeanUtils.copyProperties(cartDTO,cart);
+        BeanUtils.copyProperties(cartDTO, cart);
         Customer customer = new Customer();
-        BeanUtils.copyProperties(customerDTO,customer);
+        BeanUtils.copyProperties(customerDTO, customer);
         cart.setCustomer(customer);
         cartService.saveCart(cart);
     }
@@ -127,6 +120,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public Item saveItem(Item item) {
+        return itemRepository.save(item);
+    }
+
+    @Override
     public void deleteItemById(String id) {
         itemRepository.deleteById(id);
     }
@@ -146,7 +144,7 @@ public class ItemServiceImpl implements ItemService {
         Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
         Item item = customersCart.getItems().get(itemKey);
 
-        item.setQuantity(item.getQuantity()-1);
+        item.setQuantity(item.getQuantity() - 1);
         itemRepository.save(item);
     }
 
@@ -155,7 +153,7 @@ public class ItemServiceImpl implements ItemService {
         Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
         Item item = customersCart.getItems().get(itemKey);
 
-        item.setQuantity(item.getQuantity()+1);
+        item.setQuantity(item.getQuantity() + 1);
         itemRepository.save(item);
     }
 }

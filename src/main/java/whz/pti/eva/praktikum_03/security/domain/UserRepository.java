@@ -18,9 +18,5 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "select sc.id,sc.login_name,sc.password_hash,sc.is_active from secuser sc inner join customer c on sc.id = c.user_id where c.id = :cus_id",nativeQuery = true)
     Optional<User>  findUserByCustomerId(@Param("cus_id")String id);
 
-//    @Query(value = "select * from secuser where id = :secuser_id",nativeQuery = true)
-//    Optional<User> findById(@Param("secuser_id") String id);
-
-
     List<User> findAllByOrderByLoginNameAsc();
 }
