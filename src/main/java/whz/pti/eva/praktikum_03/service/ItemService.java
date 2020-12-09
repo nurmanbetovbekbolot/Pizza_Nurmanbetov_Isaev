@@ -28,5 +28,12 @@ public interface ItemService {
 
     void deleteItemById(String id);
 
+    void deleteItemInCart(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey);
+
     boolean deleteItems(CartDTO cartDTO, CustomerDTO customerDTO);
+
+    void decreaseItemQuantity(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey);
+
+    void increaseItemQuantity(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey);
+
 }
