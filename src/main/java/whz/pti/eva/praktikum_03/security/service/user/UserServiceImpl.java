@@ -158,6 +158,10 @@ public class UserServiceImpl implements UserService {
         customer.setPasswordHash(user.getPasswordHash());
         customer.setUser(user);
 
+        Cart newCart = new Cart();
+        newCart.setCustomer(customer);
+        cartRepository.save(newCart);
+
         customerRepository.save(customer);
         Optional<User> user1 = userRepository.findById(user.getId());
         return user1.orElse(new User());

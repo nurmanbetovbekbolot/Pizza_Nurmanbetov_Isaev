@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import whz.pti.eva.praktikum_03.domain.Customer;
 import whz.pti.eva.praktikum_03.domain.CustomerRepository;
+import whz.pti.eva.praktikum_03.domain.DeliveryAddress;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
 import whz.pti.eva.praktikum_03.security.domain.User;
@@ -23,19 +24,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DeliveryAddressService addressService;
+
     public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-//
-//    @Override
-//    public CustomerDTO findByUser(User user) {
-//        Customer customer = customerRepository.findByUser(user).orElseThrow(() ->
-//                new NoSuchElementException(String.format(">>> Customer not found with user=%s", user)));
-//        CustomerDTO customerDTO = new CustomerDTO();
-//        BeanUtils.copyProperties(customer,customerDTO);
-//        return customerDTO;
-//    }
 
     @Override
     public CustomerDTO findByUserId(String userId) {
@@ -43,8 +38,8 @@ public class CustomerServiceImpl implements CustomerService {
                 new NoSuchElementException(String.format(">>> Customer not found with userId=%s", userId)));
         CustomerDTO customerDTO = new CustomerDTO();
         BeanUtils.copyProperties(customer,customerDTO);
-
         customerDTO.setId(customer.getId());
+        customerDTO.setDeliveryAddresses(customer.getDeliveryAddress());
         customerDTO.setUser(customer.getUser().getId());
         return customerDTO;
     }
@@ -71,6 +66,9 @@ public class CustomerServiceImpl implements CustomerService {
                 customer.setIsActive(customerDTO.getIsActive());
                 user.setIsActive(customerDTO.getIsActive());
             }
+//            DeliveryAddress deliveryAddress = new DeliveryAddress(customerDTO.getStreet(),customerDTO.getHouseNumber(),customerDTO.getPostalCode(),customerDTO.getTown());
+            customer.setDeliveryAddress(customerDTO.getDeliveryAddresses());
+//            addressService.save(deliveryAddress);
             return customerRepository.save(customer);
         } else
             throw new NoSuchElementException(String.format(">>> Customer=%s not found", customerDTO.getId()));

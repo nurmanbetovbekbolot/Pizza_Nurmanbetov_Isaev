@@ -12,6 +12,8 @@ import whz.pti.eva.praktikum_03.security.domain.UserRepository;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class InitializeDB {
@@ -89,9 +91,15 @@ public class InitializeDB {
         customer1.setFirstName("John");
         customer1.setLastName("Smith");
         DeliveryAddress deliveryAddress = new DeliveryAddress("Innere Schneeberger Str", "23", "Zwickau", "08056");
+        DeliveryAddress deliveryAddress2 = new DeliveryAddress("Schneeberger Str", "25", "Zwickau", "08056");
 //        customer1.getDeliveryAddress().add(deliveryAddress);
         deliveryAddressRepository.save(deliveryAddress);
-        customer1.getDeliveryAddress().add(deliveryAddress);
+        deliveryAddressRepository.save(deliveryAddress2);
+        List<DeliveryAddress> addressList = new ArrayList<>();
+        addressList.add(deliveryAddress);
+        addressList.add(deliveryAddress2);
+        customer1.setDeliveryAddress(addressList);
+//        customer1.getDeliveryAddress().add(deliveryAddress);
         customer1.setIsActive(true);
         customer1.setPasswordHash(user1.getPasswordHash());
         customer1.setUser(user1);

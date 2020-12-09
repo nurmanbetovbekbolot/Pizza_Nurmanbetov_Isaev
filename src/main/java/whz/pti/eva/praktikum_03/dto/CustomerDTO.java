@@ -1,8 +1,10 @@
 package whz.pti.eva.praktikum_03.dto;
 
 import lombok.*;
+import whz.pti.eva.praktikum_03.domain.DeliveryAddress;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +19,11 @@ public class CustomerDTO {
     private String passwordHash;
     private String user;
     private Boolean isActive;
+    private List<DeliveryAddress> deliveryAddresses;
+//    private String street;
+//    private String houseNumber;
+//    private String town;
+//    private String postalCode;
 
     public CustomerDTO(String id, String firstName, String lastName, String loginName, Boolean isActive) {
         this.id = id;
@@ -25,5 +32,7 @@ public class CustomerDTO {
         this.loginName = loginName;
         this.isActive = isActive;
     }
+
+
 
 }

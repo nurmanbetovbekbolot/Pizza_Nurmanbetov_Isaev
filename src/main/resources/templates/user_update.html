@@ -43,7 +43,7 @@
     </div>
 
     <div class="form-group">
-        <label for="firstNameInput">Last Name</label>
+        <label for="lastNameInput">Last Name</label>
         <input th:value="${add} ? '' : ${customer.lastName}" type="text" name="lastName"
                class="form-control"
                id="lastNameInput" aria-describedby="lastNameHelp" placeholder="Nachname" minlength="2"
@@ -57,7 +57,7 @@
     </div>
 
     <div class="form-group">
-        <label for="firstNameInput">Login Name</label>
+        <label for="loginNameInput">Login Name</label>
         <input th:value="${add} ? '' : ${customer.loginName}" type="text" name="loginName"
                class="form-control"
                id="loginNameInput" aria-describedby="loginNameHelp" placeholder="Nachname" minlength="2"
@@ -69,6 +69,64 @@
             Bitte, die richtige Daten geben!
         </div>
     </div>
+
+<!--    <div class="form-group">-->
+<!--        <label for="streetInput">Street</label>-->
+<!--        <input th:value="${add} ? '' : ${customer.deliveryAddresses.get(0).street}" type="text" name="street"-->
+<!--               class="form-control"-->
+<!--               id="streetInput" aria-describedby="streetHelp" placeholder="street" minlength="2"-->
+<!--               maxlength="20" required>-->
+<!--        <div class="valid-feedback">-->
+<!--            Geht!-->
+<!--        </div>-->
+<!--        <div class="invalid-feedback">-->
+<!--            Bitte, die richtige Daten geben!-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="form-group">-->
+<!--        <label for="houseNumberInput">House number</label>-->
+<!--        <input th:value="${add} ? '' : ${customer.deliveryAddresses.get(0).houseNumber}" type="text" name="houseNumber"-->
+<!--               class="form-control"-->
+<!--               id="houseNumberInput" aria-describedby="houseNumberHelp" placeholder="street" minlength="2"-->
+<!--               maxlength="20" required>-->
+<!--        <div class="valid-feedback">-->
+<!--            Geht!-->
+<!--        </div>-->
+<!--        <div class="invalid-feedback">-->
+<!--            Bitte, die richtige Daten geben!-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="form-group">-->
+<!--        <label for="townInput">Town</label>-->
+<!--        <input th:value="${add} ? '' : ${customer.deliveryAddresses.get(0).town}" type="text" name="town"-->
+<!--               class="form-control"-->
+<!--               id="townInput" aria-describedby="townHelp" placeholder="town" minlength="2"-->
+<!--               maxlength="20" required>-->
+<!--        <div class="valid-feedback">-->
+<!--            Geht!-->
+<!--        </div>-->
+<!--        <div class="invalid-feedback">-->
+<!--            Bitte, die richtige Daten geben!-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="form-group">-->
+<!--        <label for="postalCodeInput">Postal code</label>-->
+<!--        <input th:value="${add} ? '' : ${customer.deliveryAddresses.get(0).postalCode}" type="text" name="postalCode"-->
+<!--               class="form-control"-->
+<!--               id="postalCodeInput" aria-describedby="postalCodeHelp" placeholder="postalCode" minlength="2"-->
+<!--               maxlength="20" required>-->
+<!--        <div class="valid-feedback">-->
+<!--            Geht!-->
+<!--        </div>-->
+<!--        <div class="invalid-feedback">-->
+<!--            Bitte, die richtige Daten geben!-->
+<!--        </div>-->
+<!--    </div>-->
+
+
 
     <div class="form-group">
         <label for="activeInput">Active

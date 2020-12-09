@@ -16,12 +16,6 @@ import java.io.Serializable;
 @Entity
 public class Item extends BaseEntity<String> {
 
-//    @Id
-//    @GeneratedValue(generator = "uuid")
-//    @GenericGenerator(name = "uuid", strategy = "uuid2")
-//    private String itemId;
-
-
     private int quantity;
 
     @ManyToOne
