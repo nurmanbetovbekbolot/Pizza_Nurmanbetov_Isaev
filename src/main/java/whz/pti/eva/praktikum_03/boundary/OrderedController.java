@@ -1,6 +1,8 @@
 package whz.pti.eva.praktikum_03.boundary;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,11 @@ import whz.pti.eva.praktikum_03.service.*;
 
 import java.util.List;
 
+/**
+ * The class Ordered controller.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Controller
 @RequestMapping("/ordered")
 public class OrderedController {
@@ -28,6 +35,18 @@ public class OrderedController {
     private OrderedService orderedService;
     private OrderedItemService orderedItemService;
 
+    private static final Logger log = LoggerFactory.getLogger(ItemController.class);
+
+    /**
+     * Instantiates a new Ordered controller.
+     *
+     * @param pizzaService       the pizza service
+     * @param cartService        the cart service
+     * @param itemService        the item service
+     * @param customerService    the customer service
+     * @param orderedService     the ordered service
+     * @param orderedItemService the ordered item service
+     */
     @Autowired
     public OrderedController(PizzaService pizzaService, CartService cartService, ItemService itemService, CustomerService customerService, OrderedService orderedService, OrderedItemService orderedItemService) {
         this.pizzaService = pizzaService;
@@ -38,6 +57,12 @@ public class OrderedController {
         this.orderedItemService = orderedItemService;
     }
 
+    /**
+     * Ordered index.
+     *
+     * @param model the model
+     * @return ordered
+     */
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping(value = "/")
     public String root(Model model) {
@@ -47,6 +72,7 @@ public class OrderedController {
             CustomerDTO currentCustomer = customerService.findByUserId(currentUser.getUser().getId());
             CartDTO customersCart = cartService.findCartByCustomer(currentCustomer.getId());
             if (customersCart.getQuantity() != 0) {
+                log.info("Creating ordered and ordered items. Delete items from customers cart");
                 Ordered ordered = orderedItemService.addOrderedItem(customersCart, currentCustomer);
                 itemService.deleteItems(customersCart, currentCustomer);
             }

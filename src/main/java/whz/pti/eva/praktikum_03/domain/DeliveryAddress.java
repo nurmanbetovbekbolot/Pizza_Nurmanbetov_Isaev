@@ -7,6 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import java.util.List;
 
+/**
+ * The class Delivery address.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,6 +25,14 @@ public class DeliveryAddress extends BaseEntity<Long> {
     private String town;
     private String postalCode;
 
+    /**
+     * Instantiates a new Delivery address.
+     *
+     * @param street      the street
+     * @param houseNumber the house number
+     * @param town        the town
+     * @param postalCode  the postal code
+     */
     public DeliveryAddress(String street, String houseNumber, String town, String postalCode) {
         this.street = street;
         this.houseNumber = houseNumber;

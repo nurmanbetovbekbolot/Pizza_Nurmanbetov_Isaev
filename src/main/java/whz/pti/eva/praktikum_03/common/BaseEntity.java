@@ -9,6 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
+/**
+ * The class Base entity.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ *
+ * @param <PK> id PK
+ */
 @Getter
 @Setter
 @MappedSuperclass

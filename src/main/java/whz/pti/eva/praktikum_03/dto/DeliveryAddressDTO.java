@@ -5,6 +5,11 @@ import whz.pti.eva.praktikum_03.domain.Customer;
 
 import java.util.List;
 
+/**
+ * The class Delivery address dto.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,5 +21,8 @@ public class DeliveryAddressDTO {
     private String houseNumber;
     private String town;
     private String postalCode;
+    /**
+     * The Customer list.
+     */
     List<Customer> customerList;
 }

@@ -6,6 +6,11 @@ import whz.pti.eva.praktikum_03.domain.Item;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class Cart dto.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,6 +22,9 @@ public class CartDTO {
     private Map<String, Item> items = new HashMap<>();
     private String userId;
 
+    /**
+     * Increment.
+     */
     public void increment(){
         quantity++;
     }
