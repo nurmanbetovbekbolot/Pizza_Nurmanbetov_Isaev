@@ -1,71 +1,103 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: head">
-	<meta charset="utf-8">
+    <meta charset="utf-8">
 </head>
 <body>
 
-	<div th:include="fragments/body :: headline (txt='deine nutzerdaten' )"></div>
-	<div th:include="fragments/body :: nav (all=false)"></div>
+<div th:include="fragments/body :: headline (txt='deine nutzerdaten' )"></div>
+<div th:include="fragments/body :: nav (all=false)"></div>
 
-	<div class="container">
-		<!-- <table class="table table-hover table-bordered table-fixed"> -->
-		<table class="table table-hover table-bordered table-sm">
-			<thead class="thead-light">
-				<tr>
-					<th scope="col">nutzerdetails</th>
-					<th scope="col"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Login Name</td>
-					<td th:text="${user.loginName}">loginname</td>
-				</tr>
-				<tr>
-					<td>email</td>
-					<td th:text="${user.email}">email</td>
-				</tr>
-				<tr>
-					<td>isActive</td>
-					<td th:text="${user.isActive}">isActive</td>
-				</tr>
-			</tbody>
-		</table>
+<div class="container">
+    <!-- <table class="table table-hover table-bordered table-fixed"> -->
+    <table class="table table-hover table-bordered table-sm">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">nutzerdetails</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Login Name</td>
+            <td th:text="${user.loginName}">loginname</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td th:text="${user.email}">email</td>
+        </tr>
+        <tr>
+            <td>isActive</td>
+            <td th:text="${user.isActive}">isActive</td>
+        </tr>
 
-		<table class="table table-hover table-bordered table-sm" th:if="${customer!=null}">
-			<thead class="thead-light">
-			<tr>
-				<th scope="col">customerdetails</th>
-				<th scope="col">
-					<a th:href="${user.id}+'/customer/' + ${customer.id}">
-					Bearbeiten
-					</a>
-				</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>First Name</td>
-				<td th:text="${customer.firstName}">firstName</td>
-			</tr>
-			<tr>
-				<td>Last Name</td>
-				<td th:text="${customer.lastName}">lastName</td>
-			</tr>
-			<tr>
-				<td>Login Name</td>
-				<td th:text="${customer.loginName}">loginName</td>
-			</tr>
-			<tr>
-				<td>isActive</td>
-				<td th:text="${customer.isActive}">isActive</td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
+        </tbody>
+    </table>
+
+    <table class="table table-hover table-bordered table-sm" th:if="${customer!=null}">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">customerdetails</th>
+            <th scope="col">
+                <a th:href="${user.id}+'/customer/' + ${customer.id}">
+                    Bearbeiten
+                </a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>First Name</td>
+            <td th:text="${customer.firstName}">firstName</td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td th:text="${customer.lastName}">lastName</td>
+        </tr>
+        <tr>
+            <td>Login Name</td>
+            <td th:text="${customer.loginName}">loginName</td>
+        </tr>
+        <tr>
+            <td>isActive</td>
+            <td th:text="${customer.isActive}">isActive</td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover table-bordered table-sm" th:if="${customer!=null}">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Street</th>
+            <th scope="col">House number</th>
+            <th scope="col">Town</th>
+            <th scope="col">Postal code</th>
+            <th scope="col">Bearbeiten</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <tr th:each="cde :${customer.deliveryAddresses}">
+            <td th:text="${cde.street}"></td>
+            <td th:text="${cde.houseNumber}"></td>
+            <td th:text="${cde.town}"></td>
+            <td th:text="${cde.postalCode}"></td>
+            <td>
+                <a th:href="'/deliveryaddress/update/' + ${cde.id}">
+                    Bearbeiten
+                </a>
+
+<!--                <form th:action="@{'/deliveryaddress/update/'}" method="get">-->
+<!--                <input type="hidden" name="customerId" th:value="${customer.id}">-->
+<!--                <input type="hidden" name="deliveryaddress" th:value="${cde}">-->
+<!--                <input type="hidden" name="userId" th:value="${user.id}">-->
+<!--                <button type="submit">Bearbeiten</button></form>-->
+           </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 
-	<div th:include="fragments/footer :: footer"></div>
+<div th:include="fragments/footer :: footer"></div>
 </body>
 </html>

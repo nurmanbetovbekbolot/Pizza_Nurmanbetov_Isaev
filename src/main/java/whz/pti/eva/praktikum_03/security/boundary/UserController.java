@@ -12,16 +12,20 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.domain.Cart;
+import whz.pti.eva.praktikum_03.domain.DeliveryAddress;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
+import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.security.domain.UserCreateForm;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
 import whz.pti.eva.praktikum_03.security.service.validator.UserCreateFormValidator;
 import whz.pti.eva.praktikum_03.service.CustomerService;
+import whz.pti.eva.praktikum_03.service.DeliveryAddressService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -30,13 +34,15 @@ public class UserController {
     private CustomerService customerService;
     private UserService userService;
     private UserCreateFormValidator userCreateFormValidator;
+    private DeliveryAddressService addressService;
 
-    @Autowired
-    public UserController(CustomerService customerService, UserService userService, UserCreateFormValidator userCreateFormValidator) {
+    public UserController(CustomerService customerService, UserService userService, UserCreateFormValidator userCreateFormValidator, DeliveryAddressService addressService) {
         this.customerService = customerService;
         this.userService = userService;
         this.userCreateFormValidator = userCreateFormValidator;
+        this.addressService = addressService;
     }
+
 
     @InitBinder("myform")
     public void initBinder(WebDataBinder binder) {
@@ -77,6 +83,7 @@ public class UserController {
     public String getEditCustomerView(@PathVariable("userId") String userId, @PathVariable("id") String id, Model model) {
         UserDTO userDTO = userService.getUserById(userId);
         CustomerDTO customerDTO = customerService.findByUserId(userDTO.getId());
+//        List<DeliveryAddress> deliveryAddresses = addressService.getDeliveryAddressesByCustomer(customerDTO.getId());
         model.addAttribute("customer", customerDTO);
         model.addAttribute("add", false);
         model.addAttribute("user", userDTO);
@@ -84,21 +91,7 @@ public class UserController {
     }
 
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    @RequestMapping(value = "/users/create", method = RequestMethod.POST)
-//    public String handleUserCreateForm(HttpSession session, @Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
-//        log.info("Processing user create form= " + form + " bindingResult= " + bindingResult);
-//        String currentUser = CurrentUserUtil.getCurrentUser(model);
-//        model.addAttribute("loggedInUser", currentUser);
-//        model.addAttribute("users", userService.getAllUsers());
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());
-//            return "user_create";
-//        }
-//        userService.create(form, (Cart) session.getAttribute("cart"));
-//        return "redirect:/users/managed";
-//    }
-
+    //    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
     public String handleCustomerCreate(HttpSession session, @Valid @ModelAttribute("myform") UserCreateForm form, BindingResult bindingResult, Model model) {
         log.info("Processing user create form= " + form + " bindingResult= " + bindingResult);
@@ -106,15 +99,12 @@ public class UserController {
             model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());
             return "user_create";
         }
-
-
-        userService.createByAdmin(form);
-
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
-
-        if (currentUser != null) return "redirect:/users/managed";
-
-
+        if (currentUser != null) {
+            userService.createByAdmin(form);
+            return "redirect:/users/managed";
+        }
+        userService.create(form, (Cart) session.getAttribute("cart"));
         return "redirect:/login";
     }
 

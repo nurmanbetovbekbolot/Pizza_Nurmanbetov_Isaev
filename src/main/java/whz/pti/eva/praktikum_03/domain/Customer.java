@@ -19,13 +19,11 @@ import java.util.UUID;
 @Entity
 public class Customer extends BaseEntity<String> {
 
-
     private String firstName;
     private String lastName;
     private String loginName;
     private String passwordHash;
     private Boolean isActive;
-
 
     @OneToOne
     @JoinColumn(name = "user_id")

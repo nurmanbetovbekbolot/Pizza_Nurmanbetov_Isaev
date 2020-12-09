@@ -1,4 +1,4 @@
-package whz.pti.eva.praktikum_03.security.boundary;
+package whz.pti.eva.praktikum_03.boundary;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
