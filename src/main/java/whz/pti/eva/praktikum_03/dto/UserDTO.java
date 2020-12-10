@@ -17,7 +17,7 @@ public class UserDTO {
     private String id;
     private String loginName;
     private String email;
-    private Boolean isActive;
+    private Boolean active;
 
 
 }

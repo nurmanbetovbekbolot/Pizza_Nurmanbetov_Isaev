@@ -53,7 +53,7 @@ public interface UserRepository extends JpaRepository<User, String> {
      * @param id the id
      * @return the optional
      */
-    @Query(value = "select sc.id,sc.login_name,sc.password_hash,sc.is_active from secuser sc inner join customer c on sc.id = c.user_id where c.id = :cus_id",nativeQuery = true)
+    @Query(value = "select sc.id,sc.login_name,sc.password_hash,sc.active from secuser sc inner join customer c on sc.id = c.user_id where c.id = :cus_id",nativeQuery = true)
     Optional<User>  findUserByCustomerId(@Param("cus_id")String id);
 
     /**

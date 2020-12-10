@@ -49,7 +49,7 @@ public class UserCreateForm {
     @NotEmpty()
     private String passwordRepeated = "";
 
-    private Boolean isActive = Boolean.TRUE;
+    private Boolean active = Boolean.TRUE;
 
     private Role role = Role.USER;
 
@@ -66,7 +66,7 @@ public class UserCreateForm {
                 ", postalCode='" + postalCode + '\'' +
                 ", password=***'" + password + '\'' +
                 ", passwordRepeated=***'" + passwordRepeated + '\'' +
-                ", isActive=" + isActive +
+                ", active=" + active +
                 ", role=" + role +
                 '}';
     }

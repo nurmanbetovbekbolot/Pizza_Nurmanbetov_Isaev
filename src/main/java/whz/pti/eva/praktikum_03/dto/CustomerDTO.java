@@ -22,7 +22,7 @@ public class CustomerDTO {
     private String loginName;
     private String passwordHash;
     private String user;
-    private Boolean isActive;
+    private Boolean active;
     private List<DeliveryAddress> deliveryAddresses;
 
     /**
@@ -32,13 +32,13 @@ public class CustomerDTO {
      * @param firstName the first name
      * @param lastName  the last name
      * @param loginName the login name
-     * @param isActive  the is active
+     * @param active  the is active
      */
-    public CustomerDTO(String id, String firstName, String lastName, String loginName, Boolean isActive) {
+    public CustomerDTO(String id, String firstName, String lastName, String loginName, Boolean active) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.loginName = loginName;
-        this.isActive = isActive;
+        this.active = active;
     }
 }

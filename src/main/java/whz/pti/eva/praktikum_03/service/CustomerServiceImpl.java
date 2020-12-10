@@ -63,12 +63,12 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setLastName(customerDTO.getLastName());
         customer.setLoginName(customerDTO.getLoginName());
         user.setLoginName(customerDTO.getLoginName());
-        if (customerDTO.getIsActive() == null) {
-            customer.setIsActive(Boolean.FALSE);
-            user.setIsActive(Boolean.FALSE);
+        if (customerDTO.getActive() == null) {
+            customer.setActive(Boolean.FALSE);
+            user.setActive(Boolean.FALSE);
         } else {
-            customer.setIsActive(customerDTO.getIsActive());
-            user.setIsActive(customerDTO.getIsActive());
+            customer.setActive(customerDTO.getActive());
+            user.setActive(customerDTO.getActive());
         }
         customer.setDeliveryAddress(customerDTO.getDeliveryAddresses());
         return customerRepository.save(customer);

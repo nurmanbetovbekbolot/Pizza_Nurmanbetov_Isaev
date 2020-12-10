@@ -107,7 +107,7 @@ public class InitializeDB {
         user.setEmail("admin@gmail.com");
         user.setPasswordHash(passwordEncoder.encode("a1"));
         user.setRole(Role.ADMIN);
-        user.setIsActive(true);
+        user.setActive(true);
         userRepository.save(user);
 
         User user1 = new User();
@@ -115,7 +115,7 @@ public class InitializeDB {
         user1.setEmail("bnutz@gmail.com");
         user1.setPasswordHash(passwordEncoder.encode("n1"));
         user1.setRole(Role.USER);
-        user1.setIsActive(true);
+        user1.setActive(true);
         userRepository.save(user1);
 
         Customer customer1 = new Customer();
@@ -130,7 +130,7 @@ public class InitializeDB {
         addressList.add(deliveryAddress);
         addressList.add(deliveryAddress2);
         customer1.setDeliveryAddress(addressList);
-        customer1.setIsActive(true);
+        customer1.setActive(true);
         customer1.setPasswordHash(user1.getPasswordHash());
         customer1.setUser(user1);
         customerRepository.save(customer1);
@@ -144,7 +144,7 @@ public class InitializeDB {
         user2.setEmail("cnutz@gmail.com");
         user2.setPasswordHash(passwordEncoder.encode("n2"));
         user2.setRole(Role.USER);
-        user2.setIsActive(true);
+        user2.setActive(true);
         userRepository.save(user2);
         Customer customer = new Customer();
         customer.setLoginName(user2.getLoginName());
@@ -153,7 +153,7 @@ public class InitializeDB {
         DeliveryAddress deliveryAddress1 = new DeliveryAddress("Kepler Str", "7", "Zwickau", "08056");
         deliveryAddressRepository.save(deliveryAddress1);
         customer.getDeliveryAddress().add(deliveryAddress1);
-        customer.setIsActive(true);
+        customer.setActive(true);
         customer.setPasswordHash(user2.getPasswordHash());
         customer.setUser(user2);
         customerRepository.save(customer);

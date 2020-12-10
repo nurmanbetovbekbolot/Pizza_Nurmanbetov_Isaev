@@ -28,7 +28,7 @@ public class Customer extends BaseEntity<String>{
     private String lastName;
     private String loginName;
     private String passwordHash;
-    private Boolean isActive;
+    private Boolean active;
 
     @OneToOne
     @JoinColumn(name = "user_id")
