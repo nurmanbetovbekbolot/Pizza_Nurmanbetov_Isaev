@@ -56,5 +56,5 @@ public interface OrderedService {
      * @param ordered the ordered
      * @return the ordered
      */
-    Ordered saveOrdered (Ordered ordered);
+    Ordered saveOrdered(Ordered ordered);
 }

@@ -12,9 +12,8 @@ import java.io.Serializable;
 /**
  * The class Base entity.
  *
- * @author Isaev A. Nurmanbetov B.
- *
  * @param <PK> id PK
+ * @author Isaev A. Nurmanbetov B.
  */
 @Getter
 @Setter

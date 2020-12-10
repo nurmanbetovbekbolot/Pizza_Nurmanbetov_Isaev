@@ -1,58 +1,58 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: head">
-	<meta charset="utf-8">
+    <meta charset="utf-8">
 </head>
 <body>
-	<div class="container">
-		<br>
-		<header>
-			<h1 class="text-center">PizzaService</h1>
-		</header>
-	</div>
-	<br>
-	<div class="container">
-		<div class="col-md-6  offset-md-3">
-			<form class="text-center" th:action="@{/login}" method="post">
-				<div th:if="${param.logout}">
-					<div class="alert alert-info">You have been logged out.</div>
-				</div>
-				<div class="form-group">
-					<input type="text" name="loginName" id="loginName"
-						class="form-control input-lg" placeholder="loginName" required="true"
-						autofocus="true">
-				</div>
-				<div class="form-group">
-					<input type="password" name="password" id="password"
-						class="form-control input-lg" placeholder="password"
-						required="true">
-				</div>
-				<div class="input-group">
-					<div class="checkbox">
-						<label><input type="checkbox" th:name="remember-me"
-							th:value="true">&nbsp;remember me</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<input type="submit" class="btn btn-outline-primary btn-block"
-							th:value="einloggen">
-					</div>
-				</div>
-				<div th:if="${param.error}">
-					<br>
-					<div class="alert alert-danger">
+<div class="container">
+    <br>
+    <header>
+        <h1 class="text-center">PizzaService</h1>
+    </header>
+</div>
+<br>
+<div class="container">
+    <div class="col-md-6  offset-md-3">
+        <form class="text-center" method="post" th:action="@{/login}">
+            <div th:if="${param.logout}">
+                <div class="alert alert-info">You have been logged out.</div>
+            </div>
+            <div class="form-group">
+                <input autofocus="true" class="form-control input-lg" id="loginName"
+                       name="loginName" placeholder="loginName" required="true"
+                       type="text">
+            </div>
+            <div class="form-group">
+                <input class="form-control input-lg" id="password" name="password"
+                       placeholder="password" required="true"
+                       type="password">
+            </div>
+            <div class="input-group">
+                <div class="checkbox">
+                    <label><input th:name="remember-me" th:value="true"
+                                  type="checkbox">&nbsp;remember me</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <input class="btn btn-outline-primary btn-block" th:value="einloggen"
+                           type="submit">
+                </div>
+            </div>
+            <div th:if="${param.error}">
+                <br>
+                <div class="alert alert-danger">
 						<span>login oder passwort ist falsch, bitte nochmal
 							versuchen</span>
-					</div>
-				</div>
-				<div class="form-group">
-					<span><a th:href="@{/registration}">neuer Nutzer</a></span>
-				</div>
-			</form>
+                </div>
+            </div>
+            <div class="form-group">
+                <span><a th:href="@{/registration}">neuer Nutzer</a></span>
+            </div>
+        </form>
 
 
-		</div>
-	</div>
+    </div>
+</div>
 </body>
 </html>

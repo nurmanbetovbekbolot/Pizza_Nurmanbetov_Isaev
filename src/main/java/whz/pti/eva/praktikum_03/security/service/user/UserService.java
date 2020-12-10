@@ -86,6 +86,6 @@ public interface UserService {
      * @param id the id
      * @return the user
      */
-    User  findUserByCustomerId(String id);
+    User findUserByCustomerId(String id);
 
 }

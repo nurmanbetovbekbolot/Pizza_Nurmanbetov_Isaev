@@ -15,11 +15,9 @@ import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.enums.PizzaSize;
 import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
-import whz.pti.eva.praktikum_03.security.service.user.UserService;
 import whz.pti.eva.praktikum_03.service.CartService;
 import whz.pti.eva.praktikum_03.service.CustomerService;
 import whz.pti.eva.praktikum_03.service.ItemService;
-import whz.pti.eva.praktikum_03.service.PizzaService;
 
 import javax.servlet.http.HttpSession;
 
@@ -46,7 +44,7 @@ public class ItemController {
      * @param customerService the customer service
      */
     @Autowired
-    public ItemController(ItemService itemService,CartService cartService, CustomerService customerService) {
+    public ItemController(ItemService itemService, CartService cartService, CustomerService customerService) {
         this.itemService = itemService;
         this.cartService = cartService;
         this.customerService = customerService;

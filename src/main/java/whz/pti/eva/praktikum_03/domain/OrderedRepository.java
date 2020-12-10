@@ -10,7 +10,7 @@ import java.util.Optional;
  *
  * @author Isaev A. Nurmanbetov B.
  */
-public interface OrderedRepository extends JpaRepository<Ordered,Long> {
+public interface OrderedRepository extends JpaRepository<Ordered, Long> {
     /**
      * Find by user id optional.
      *

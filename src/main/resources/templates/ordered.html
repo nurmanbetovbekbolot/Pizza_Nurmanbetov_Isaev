@@ -10,12 +10,12 @@
 
 <div class="container">
 
-    <table th:each="order : ${orderedList}" class="table table-hover table-bordered table-sm">
+    <table class="table table-hover table-bordered table-sm" th:each="order : ${orderedList}">
 
         <thead>
         <tr>
             <th>Ordered Id</th>
-                        <th colspan="3">Ordered Items</th>
+            <th colspan="3">Ordered Items</th>
 
         </tr>
         </thead>
@@ -28,16 +28,16 @@
                 <span th:text="${order.getId()}"></span>
             </td>
             <td>
-                <table th:each="orderedItem : ${order.getItems()}" class="table table-hover table-bordered table-sm">
+                <table class="table table-hover table-bordered table-sm" th:each="orderedItem : ${order.getItems()}">
 
-                                        <thead>
-                                        <tr>
-                                            <th>OrderedItem id</th>
-                                            <th>Pizza Name</th>
-                                            <th>Pizza Size</th>
-                                            <th>Quantity</th>
-                                        </tr>
-                                        </thead>
+                    <thead>
+                    <tr>
+                        <th>OrderedItem id</th>
+                        <th>Pizza Name</th>
+                        <th>Pizza Size</th>
+                        <th>Quantity</th>
+                    </tr>
+                    </thead>
 
                     <tbody>
                     <tr>
@@ -62,40 +62,6 @@
         </tr>
         </tbody>
     </table>
-
-    <!--    <table class="table table-hover table-bordered table-sm">-->
-
-
-    <!--        <thead>-->
-    <!--        <tr>-->
-    <!--            <th>Ordered Id</th>-->
-    <!--        <tr>-->
-    <!--            <th>Pizza Name</th>-->
-    <!--            <th>Pizza Size</th>-->
-    <!--            <th>Quantity</th>-->
-    <!--        </tr>-->
-    <!--        </tr>-->
-    <!--        </thead>-->
-
-    <!--        <tbody th:each="orderedItems : ${ordered.getItems()}">-->
-    <!--        <tr>-->
-    <!--            <td><span th:text="${orderedItems.getFirstName()}"></span></td>-->
-    <!--        <tr>-->
-    <!--            <td>-->
-    <!--                <span th:text="${orderedItems.getFirstName()}"></span>-->
-    <!--            </td>-->
-    <!--            <td>-->
-    <!--                <span th:text="${customer.getLastName()}"></span>-->
-    <!--            </td>-->
-    <!--            <td>-->
-    <!--                <span th:text="${}"></span>-->
-    <!--            </td>-->
-    <!--        </tr>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--    </table>-->
-
-
     <a th:href="@{/cart/}">
         <button class="btn btn-success btn-block btn-lg" type="button">
             zum Warenkorb

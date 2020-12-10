@@ -6,13 +6,7 @@
     </head>
 
 <body>
-<!--<div th:include="fragments/body :: headline (txt = 'was kann ich für dich tun?')"></div>-->
 <div th:include="fragments/body :: nav (all=true)"></div>
-<!--<div th:if="${currentUser!=null}">-->
-<!--    <div th:include="fragments/body :: nav (all=true)"></div>-->
-<!--</div>-->
-<!--<div th:if="${currentUser==null}">-->
-<!--<div th:include="fragments/body :: greeting (all=true)"></div></div>-->
 <div class="container">
 
 
@@ -28,45 +22,37 @@
         </thead>
 
         <tbody th:each="pizza:${pizzaList}">
-        <!--            <tr >-->
         <form class="tr" method="post" th:action="@{/item/add}">
             <td>
                 <input class="form-control" id="mengeId" min="1" name="menge" placeholder="0"
-                       type="number" required>
+                       required type="number">
             </td>
 
             <td>
                 <span th:text="${pizza.name}"></span>
-                <input name="pizzaName" type="hidden" th:value="${pizza.name}">
+                <input name="pizzaName" th:value="${pizza.name}" type="hidden">
             </td>
             <td>
-                <select name="pizzaSize" class="form-control">
-                    <option value="MEDIUM" th:text="'MEDIUM / '+${pizza.getPriceMedium()}"></option>
-                    <option value="LARGE" th:text="'LARGE / '+${pizza.getPriceLarge()}"></option>
-                    <option value="SMALL" th:text="'SMALL / '+${pizza.getPriceSmall()}"></option>
+                <select class="form-control" name="pizzaSize">
+                    <option th:text="'MEDIUM / '+${pizza.getPriceMedium()}" value="MEDIUM"></option>
+                    <option th:text="'LARGE / '+${pizza.getPriceLarge()}" value="LARGE"></option>
+                    <option th:text="'SMALL / '+${pizza.getPriceSmall()}" value="SMALL"></option>
                 </select>
             </td>
             <td>
-                <!--                    <form  method="post" th:action="@{/item/add}">-->
-                <button type="submit" class="btn btn-outline-primary btn-sm" value="in den Warenkorb">
+                <button class="btn btn-outline-primary btn-sm" type="submit" value="in den Warenkorb">
                     in den Warenkorb
                 </button>
-                <!--                </form>-->
             </td>
         </form>
         </tbody>
     </table>
-    <!--    <div th:each="item:${itemList}">-->
-    <!--   -->
-    <!--    </div>-->
     <h4 th:text="${'IM WARENKORB ::: Anzahl der bestellten Pizzas: '+totalAmount+' mit Gesamtbetrag: '+totalPrice}"></h4>
-    <!--    <form method="post" th:action="@{/cart/}">-->
     <a th:href="@{/cart/}">
         <button class="btn btn-success btn-block btn-lg" type="button">
             zum Warenkorb
         </button>
     </a>
-    <!--    </form>-->
 </div>
 
 <div th:include="fragments/footer :: footer"></div>

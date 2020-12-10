@@ -159,7 +159,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void decreaseItemQuantity(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey) {
-        log.debug("Decreasing items quantity with Key{}",itemKey);
+        log.debug("Decreasing items quantity with Key{}", itemKey);
         Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
         Item item = customersCart.getItems().get(itemKey);
 
@@ -169,7 +169,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void increaseItemQuantity(CartDTO cartDTO, CustomerDTO customerDTO, String itemKey) {
-        log.debug("Increasing items quantity with Key{}",itemKey);
+        log.debug("Increasing items quantity with Key{}", itemKey);
         Cart customersCart = cartService.findCartByCustomerBYId(customerDTO.getId());
         Item item = customersCart.getItems().get(itemKey);
 

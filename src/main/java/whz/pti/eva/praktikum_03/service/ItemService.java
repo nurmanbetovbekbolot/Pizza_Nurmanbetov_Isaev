@@ -38,7 +38,7 @@ public interface ItemService {
      * @param cart        the cart
      * @param customerDTO the customer dto
      */
-    void addItem(PizzaSize pizzaSize, Integer amount, String pizza,  CartDTO cart, CustomerDTO customerDTO);
+    void addItem(PizzaSize pizzaSize, Integer amount, String pizza, CartDTO cart, CustomerDTO customerDTO);
 
 
     /**
