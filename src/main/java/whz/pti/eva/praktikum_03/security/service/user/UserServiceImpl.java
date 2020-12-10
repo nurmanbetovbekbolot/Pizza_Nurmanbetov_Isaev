@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(form.getEmail());
         user.setPasswordHash(passwordEncoder.encode(form.getPassword()));
         user.setRole(form.getRole());
-        user.setIsActive(form.getIsActive());
+        user.setActive(form.getActive());
         userRepository.save(user);
 
         Customer customer = new Customer();
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
         DeliveryAddress deliveryAddress = new DeliveryAddress(form.getStreet(), form.getHouseNumber(), form.getTown(), form.getPostalCode());
         deliveryAddressService.save(deliveryAddress);
         customer.getDeliveryAddress().add(deliveryAddress);
-        customer.setIsActive(form.getIsActive());
+        customer.setActive(form.getActive());
         customer.setPasswordHash(user.getPasswordHash());
         customer.setUser(user);
 
@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(form.getEmail());
         user.setPasswordHash(passwordEncoder.encode(form.getPassword()));
         user.setRole(form.getRole());
-        user.setIsActive(form.getIsActive());
+        user.setActive(form.getActive());
         userRepository.save(user);
 
         Customer customer = new Customer();
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
         DeliveryAddress deliveryAddress = new DeliveryAddress(form.getStreet(), form.getHouseNumber(), form.getTown(), form.getPostalCode());
         deliveryAddressService.save(deliveryAddress);
         customer.getDeliveryAddress().add(deliveryAddress);
-        customer.setIsActive(form.getIsActive());
+        customer.setActive(form.getActive());
         customer.setPasswordHash(user.getPasswordHash());
         customer.setUser(user);
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.domain.Ordered;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
@@ -64,7 +65,7 @@ public class OrderedController {
      * @return ordered
      */
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    @GetMapping(value = "/")
+    @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
     public String root(Model model) {
         CurrentUser currentUser = CurrentUserUtil.getUser(model);
 

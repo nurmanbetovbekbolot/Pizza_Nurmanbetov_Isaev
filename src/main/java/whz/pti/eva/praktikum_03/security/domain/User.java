@@ -34,8 +34,8 @@ public class User extends BaseEntity<String> {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
+    @Column(name = "active")
+    private Boolean active;
 
     public String getId() {
         return super.getId();
@@ -119,7 +119,7 @@ public class User extends BaseEntity<String> {
      * @return the active
      */
     public Boolean getActive() {
-        return isActive;
+        return active;
     }
 
     /**
@@ -128,7 +128,7 @@ public class User extends BaseEntity<String> {
      * @param active the active
      */
     public void setActive(Boolean active) {
-        isActive = active;
+        this.active = active;
     }
 
     @Override
