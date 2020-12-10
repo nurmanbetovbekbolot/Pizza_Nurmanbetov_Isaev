@@ -15,7 +15,7 @@ public interface DeliveryAddressService {
      * @param address the address
      * @return the delivery address
      */
-    DeliveryAddress save (DeliveryAddress address);
+    DeliveryAddress save(DeliveryAddress address);
 
     /**
      * Update address delivery address.

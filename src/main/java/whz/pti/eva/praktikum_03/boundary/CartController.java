@@ -12,7 +12,6 @@ import whz.pti.eva.praktikum_03.dto.CartDTO;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
 import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
-import whz.pti.eva.praktikum_03.security.service.validator.UserCreateFormValidator;
 import whz.pti.eva.praktikum_03.service.CartService;
 import whz.pti.eva.praktikum_03.service.CustomerService;
 import whz.pti.eva.praktikum_03.service.ItemService;

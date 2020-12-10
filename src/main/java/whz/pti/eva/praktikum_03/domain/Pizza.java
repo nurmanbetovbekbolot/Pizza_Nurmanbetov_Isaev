@@ -32,11 +32,14 @@ public class Pizza extends BaseEntity<Long> {
      * @param pizzaSize the pizza size
      * @return the big decimal
      */
-    public BigDecimal getPriceByEnum(PizzaSize pizzaSize){
-        switch (pizzaSize){
-            case LARGE: return this.getPriceLarge();
-            case MEDIUM: return this.getPriceMedium();
-            case SMALL: return this.getPriceSmall();
+    public BigDecimal getPriceByEnum(PizzaSize pizzaSize) {
+        switch (pizzaSize) {
+            case LARGE:
+                return this.getPriceLarge();
+            case MEDIUM:
+                return this.getPriceMedium();
+            case SMALL:
+                return this.getPriceSmall();
         }
         return null;
     }

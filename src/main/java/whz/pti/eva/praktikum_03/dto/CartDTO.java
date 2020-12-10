@@ -18,14 +18,14 @@ import java.util.Map;
 @ToString
 public class CartDTO {
     private Long id;
-    private int quantity=0;
+    private int quantity = 0;
     private Map<String, Item> items = new HashMap<>();
     private String userId;
 
     /**
      * Increment.
      */
-    public void increment(){
+    public void increment() {
         quantity++;
     }
 }

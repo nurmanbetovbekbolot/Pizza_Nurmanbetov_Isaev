@@ -5,21 +5,21 @@
 </head>
 <body>
 
-<!--	<div th:include="fragments/body :: headline (txt='als admin neuen nutzer anlegen?' )"></div>-->
 <div th:include="fragments/body :: nav (all=false)"></div>
 
 <br>
 
 <div class="container">
-    <form action="#"  enctype="multipart/form-data" class="needs-valid"
-          th:action="${add} ? '/user/create/' : '/deliveryaddress/update/'+${deliveryaddress.id}" method="post" th:object="${deliveryaddress}">
+    <form action="#" class="needs-valid" enctype="multipart/form-data"
+          method="post" th:action="${add} ? '/user/create/' : '/deliveryaddress/update/'+${deliveryaddress.id}"
+          th:object="${deliveryaddress}">
 
         <div class="form-group">
             <label for="streetInput">Street</label>
-            <input th:value="${add} ? '' : ${deliveryaddress.street}" type="text" name="street"
-                   class="form-control"
-                   id="streetInput" aria-describedby="streetHelp" placeholder="Street" minlength="2"
-                   maxlength="20" required>
+            <input aria-describedby="streetHelp" class="form-control" id="streetInput"
+                   maxlength="20"
+                   minlength="2" name="street" placeholder="Street" required
+                   th:value="${add} ? '' : ${deliveryaddress.street}" type="text">
             <div class="valid-feedback">
                 Geht!
             </div>
@@ -28,48 +28,48 @@
             </div>
         </div>
 
-            <div class="form-group">
-                <label for="houseNumberInput">House number</label>
-                <input th:value="${add} ? '' : ${deliveryaddress.houseNumber}" type="text" name="houseNumber"
-                       class="form-control"
-                       id="houseNumberInput" aria-describedby="houseNumberHelp" placeholder="houseNumber" minlength="2"
-                       maxlength="20" required>
-                <div class="valid-feedback">
-                    Geht!
-                </div>
-                <div class="invalid-feedback">
-                    Bitte, die richtige Daten geben!
-                </div>
+        <div class="form-group">
+            <label for="houseNumberInput">House number</label>
+            <input aria-describedby="houseNumberHelp" class="form-control" id="houseNumberInput"
+                   maxlength="20"
+                   minlength="2" name="houseNumber" placeholder="houseNumber" required
+                   th:value="${add} ? '' : ${deliveryaddress.houseNumber}" type="text">
+            <div class="valid-feedback">
+                Geht!
             </div>
+            <div class="invalid-feedback">
+                Bitte, die richtige Daten geben!
+            </div>
+        </div>
 
-            <div class="form-group">
-                <label for="townInput">Town</label>
-                <input th:value="${add} ? '' : ${deliveryaddress.town}" type="text" name="town"
-                       class="form-control"
-                       id="townInput" aria-describedby="townHelp" placeholder="town" minlength="2"
-                       maxlength="20" required>
-                <div class="valid-feedback">
-                    Geht!
-                </div>
-                <div class="invalid-feedback">
-                    Bitte, die richtige Daten geben!
-                </div>
+        <div class="form-group">
+            <label for="townInput">Town</label>
+            <input aria-describedby="townHelp" class="form-control" id="townInput"
+                   maxlength="20"
+                   minlength="2" name="town" placeholder="town" required
+                   th:value="${add} ? '' : ${deliveryaddress.town}" type="text">
+            <div class="valid-feedback">
+                Geht!
             </div>
+            <div class="invalid-feedback">
+                Bitte, die richtige Daten geben!
+            </div>
+        </div>
 
-            <div class="form-group">
-                <label for="postalCodeInput">Postal code</label>
-                <input th:value="${add} ? '' : ${deliveryaddress.postalCode}" type="text" name="postalCode"
-                       class="form-control"
-                       id="postalCodeInput" aria-describedby="postalCodeHelp" placeholder="postalCode" minlength="2"
-                       maxlength="20" required>
-                <div class="valid-feedback">
-                    Geht!
-                </div>
-                <div class="invalid-feedback">
-                    Bitte, die richtige Daten geben!
-                </div>
+        <div class="form-group">
+            <label for="postalCodeInput">Postal code</label>
+            <input aria-describedby="postalCodeHelp" class="form-control" id="postalCodeInput"
+                   maxlength="20"
+                   minlength="2" name="postalCode" placeholder="postalCode" required
+                   th:value="${add} ? '' : ${deliveryaddress.postalCode}" type="text">
+            <div class="valid-feedback">
+                Geht!
             </div>
-        <button type="submit" >Speichern</button>
+            <div class="invalid-feedback">
+                Bitte, die richtige Daten geben!
+            </div>
+        </div>
+        <button type="submit">Speichern</button>
     </form>
 
 

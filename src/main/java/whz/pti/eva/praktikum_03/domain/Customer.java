@@ -22,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Customer extends BaseEntity<String>{
+public class Customer extends BaseEntity<String> {
 
     private String firstName;
     private String lastName;

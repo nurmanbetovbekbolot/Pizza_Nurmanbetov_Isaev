@@ -32,7 +32,7 @@ public class CustomerDTO {
      * @param firstName the first name
      * @param lastName  the last name
      * @param loginName the login name
-     * @param active  the is active
+     * @param active    the is active
      */
     public CustomerDTO(String id, String firstName, String lastName, String loginName, Boolean active) {
         this.id = id;

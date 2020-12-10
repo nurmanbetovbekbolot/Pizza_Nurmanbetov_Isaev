@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,12 +30,16 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+/**
+ * The class Main controller test.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @RunWith(SpringRunner.class)
 @WebMvcTest(MainController.class)
 public class MainControllerTest {
@@ -53,6 +56,11 @@ public class MainControllerTest {
     @MockBean
     private CustomerService mockCustomerService;
 
+    /**
+     * Test get login page.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testGetLoginPage() throws Exception {
 
@@ -64,6 +72,11 @@ public class MainControllerTest {
         assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
+    /**
+     * Test access denied.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testAccessDenied() throws Exception {
         final MockHttpServletResponse response = mockMvc.perform(get("/403")
@@ -73,6 +86,11 @@ public class MainControllerTest {
         assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
+    /**
+     * Test root.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testRoot() throws Exception {
 

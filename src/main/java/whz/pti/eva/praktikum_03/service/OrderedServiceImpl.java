@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import whz.pti.eva.praktikum_03.domain.*;
+import whz.pti.eva.praktikum_03.domain.Customer;
+import whz.pti.eva.praktikum_03.domain.Ordered;
+import whz.pti.eva.praktikum_03.domain.OrderedRepository;
 import whz.pti.eva.praktikum_03.security.service.user.UserServiceImpl;
 
 import java.util.List;

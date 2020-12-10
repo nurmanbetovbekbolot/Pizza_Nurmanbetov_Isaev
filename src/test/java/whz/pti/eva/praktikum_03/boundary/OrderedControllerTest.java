@@ -38,6 +38,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
+/**
+ * The class Ordered controller test.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @ContextConfiguration
 @ExtendWith(SpringExtension.class)
 @RunWith(SpringRunner.class)
@@ -54,6 +59,9 @@ public class OrderedControllerTest {
     @MockBean
     private CurrentUserControllerAdvice currentUserControllerAdvice;
 
+    /**
+     * The Current user.
+     */
     @MockBean
     CurrentUser currentUser;
     @Autowired
@@ -69,6 +77,9 @@ public class OrderedControllerTest {
     @MockBean
     private OrderedItemService mockOrderedItemService;
 
+    /**
+     * Setup .
+     */
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders
@@ -76,6 +87,11 @@ public class OrderedControllerTest {
                 .build();
     }
 
+    /**
+     * Test root.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @WithMockUser(username = "loginName", roles = {"USER"}, authorities = {"USER"})
     public void testRoot() throws Exception {

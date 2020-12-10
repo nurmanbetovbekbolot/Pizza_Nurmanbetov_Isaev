@@ -22,6 +22,11 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
+/**
+ * The class Pizza controller test.
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @RunWith(SpringRunner.class)
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(PizzaController.class)
@@ -33,6 +38,11 @@ public class PizzaControllerTest {
     @MockBean
     private PizzaService mockPizzaService;
 
+    /**
+     * Test list all pizza.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testListAllPizza() throws Exception {
         final List<Pizza> pizzas = List.of(new Pizza("name", new BigDecimal("0.00"), new BigDecimal("0.00"), new BigDecimal("0.00")));

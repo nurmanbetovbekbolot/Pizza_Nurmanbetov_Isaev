@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.thymeleaf.org" >
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <head th:include="fragments/header :: head">
@@ -39,12 +39,10 @@
             <td>
                 <form class="tr" method="post" th:action="@{/cart/remove}">
                     <input name="itemKey" th:value="${item.getKey()}" type="hidden">
-                    <!--                    <form  method="post" th:action="@{/item/add}">-->
                     <button class="btn btn-outline-danger btn-sm" type="submit">
                         Delete Item
                     </button>
                 </form>
-                <!--                </form>-->
             </td>
             <td>
                 <div class="btn-group" role="group">
@@ -55,7 +53,6 @@
                         </button>
                     </form>
                     <form method="post" th:action="@{/cart/decrease}">
-                        <!--                    <form  method="post" th:action="@{/item/add}">-->
                         <button class="btn btn-danger" type="submit">
                             <input name="itemKey" th:value="${item.getKey()}" type="hidden">
                             <i class="fas fa-minus"></i>
@@ -67,12 +64,12 @@
         </tbody>
     </table>
 
-    <a th:if="${currentUser!=null}" th:href="@{/ordered/}">
+    <a th:href="@{/ordered/}" th:if="${currentUser!=null}">
         <button class="btn btn-danger btn-block btn-lg" type="button">
             Zum Bestellungen
         </button>
     </a>
-    <a th:if="${currentUser==null}" th:href="@{/login/}">
+    <a th:href="@{/login/}" th:if="${currentUser==null}">
         <button class="btn btn-danger btn-block btn-lg" type="button">
             Zum Bestellungen
         </button>
