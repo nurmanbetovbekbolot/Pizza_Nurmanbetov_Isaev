@@ -1,0 +1,41 @@
+buildscript {
+    ext {
+        springBootVersion = '2.3.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-data-jpa',
+            'com.h2database:h2',
+            'javax.xml.bind:jaxb-api:2.3.0',
+            'org.springframework.boot:spring-boot-starter-thymeleaf',
+            'org.springframework.boot:spring-boot-starter-security',
+//            'org.springframework.boot:spring-boot-starter-hateoas',
+            'org.springframework.boot:spring-boot-devtools'
+    )
+    testImplementation(
+            'org.springframework.boot:spring-boot-starter-test'
+    )
+}
+
+
+
