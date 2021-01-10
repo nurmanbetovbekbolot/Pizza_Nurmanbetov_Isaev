@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping(value = "/users")
 
@@ -41,8 +43,8 @@ public class UserPayController {
     public ResponseEntity<?> listAccountBalance(@PathVariable String userId) {
         State payUserState = payUserService.getState(userId);
         if (payUserState == State.available) {//        return new ResponseEntity<Authenticator.Success>(HttpStatus.OK);
-            int balance = payUserService.getAccountBalanceByName(userId);
-            return ResponseEntity.status(HttpStatus.OK).body(new AccountResponseDTO("Kontostand betraegt " + balance));
+            BigDecimal balance = payUserService.getAccountBalanceByName(userId);
+            return ResponseEntity.status(HttpStatus.OK).body(new AccountResponseDTO(String.valueOf(balance)));
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new AccountResponseDTO("transferNotAllowed"));
         }
@@ -57,7 +59,7 @@ public class UserPayController {
     @RequestMapping(value = "/{userId}/payment", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> transfer(@PathVariable String userId, @RequestBody TransferDTO input) {
         String to = input.getTo();
-        int amount = input.getAmount();
+        BigDecimal amount = input.getAmount();
         String returnStatus = null;
         try {
             returnStatus = payUserService.transfer(userId, to, amount);

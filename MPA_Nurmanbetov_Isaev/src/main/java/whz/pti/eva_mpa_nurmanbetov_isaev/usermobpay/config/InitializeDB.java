@@ -23,24 +23,24 @@ public class InitializeDB {
             log.debug("Db initialized");
 
             PayUser payUser = new PayUser();
-            payUser.setName("elisa");
+            payUser.setName("ps");
             payUser.setState(State.available);
             payUserRepository.save(payUser);
 
             payUser = new PayUser();
-            payUser.setName("marga");
+            payUser.setName("bnutz");
             payUser.setState(State.available); //doesNotExist);
             payUserRepository.save(payUser);
 
             payUser = new PayUser();
-            payUser.setName("frieda");
-            payUser.setState(State.suspended); //requested
+            payUser.setName("сnutz");
+            payUser.setState(State.available); //requested
             payUserRepository.save(payUser);
 
-            payUser = new PayUser();
-            payUser.setName("agneta");
-            payUser.setState(State.suspended);
-            payUserRepository.save(payUser);
+//            payUser = new PayUser();
+//            payUser.setName("agneta");
+//            payUser.setState(State.suspended);
+//            payUserRepository.save(payUser);
 
     }
 }
