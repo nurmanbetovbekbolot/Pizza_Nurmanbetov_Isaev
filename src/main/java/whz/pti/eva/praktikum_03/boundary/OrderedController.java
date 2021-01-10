@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import whz.pti.eva.praktikum_03.BalanceIsLessException;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.domain.Ordered;
 import whz.pti.eva.praktikum_03.dto.CartDTO;
@@ -86,9 +87,12 @@ public class OrderedController {
                     log.info("Creating ordered and ordered items. Delete items from customers cart");
                     Ordered ordered = orderedItemService.addOrderedItem(customersCart, currentCustomer);
                     itemService.deleteItems(customersCart, currentCustomer);
+                    model.addAttribute("balance",true);
+
                 }
                 else {
                     log.info("Balance is less");
+                    model.addAttribute("balance",false);
                 }
 
 

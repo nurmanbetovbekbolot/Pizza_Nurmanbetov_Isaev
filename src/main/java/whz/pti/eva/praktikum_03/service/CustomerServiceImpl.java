@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import whz.pti.eva.praktikum_03.domain.Customer;
 import whz.pti.eva.praktikum_03.domain.CustomerRepository;
 import whz.pti.eva.praktikum_03.dto.CustomerDTO;
+import whz.pti.eva.praktikum_03.dto.PayActionResponseDTO;
 import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.service.user.UserService;
 import whz.pti.eva.praktikum_03.security.service.user.UserServiceImpl;
@@ -33,6 +34,9 @@ public class CustomerServiceImpl implements CustomerService {
     private UserService userService;
     @Autowired
     private DeliveryAddressService addressService;
+
+    @Autowired
+    private SmmpService smmpService;
 
     @Override
     public CustomerDTO findByUserId(String userId) {
@@ -63,9 +67,11 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setLastName(customerDTO.getLastName());
         customer.setLoginName(customerDTO.getLoginName());
         user.setLoginName(customerDTO.getLoginName());
-        if (customerDTO.getActive() == null) {
+        if (customerDTO.getActive() == null||customerDTO.getActive()==Boolean.FALSE) {
             customer.setActive(Boolean.FALSE);
             user.setActive(Boolean.FALSE);
+            PayActionResponseDTO payActionResponseDTO = smmpService.doPayAction(user.getLoginName(), "ps", "suspend");
+
         } else {
             customer.setActive(customerDTO.getActive());
             user.setActive(customerDTO.getActive());

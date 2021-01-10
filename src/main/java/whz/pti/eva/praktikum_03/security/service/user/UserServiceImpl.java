@@ -13,14 +13,12 @@ import whz.pti.eva.praktikum_03.domain.Cart;
 import whz.pti.eva.praktikum_03.domain.Customer;
 import whz.pti.eva.praktikum_03.domain.DeliveryAddress;
 import whz.pti.eva.praktikum_03.domain.Item;
+import whz.pti.eva.praktikum_03.dto.PayActionResponseDTO;
 import whz.pti.eva.praktikum_03.dto.UserDTO;
 import whz.pti.eva.praktikum_03.security.domain.User;
 import whz.pti.eva.praktikum_03.security.domain.UserCreateForm;
 import whz.pti.eva.praktikum_03.security.domain.UserRepository;
-import whz.pti.eva.praktikum_03.service.CartService;
-import whz.pti.eva.praktikum_03.service.CustomerService;
-import whz.pti.eva.praktikum_03.service.DeliveryAddressService;
-import whz.pti.eva.praktikum_03.service.ItemService;
+import whz.pti.eva.praktikum_03.service.*;
 
 import java.util.*;
 
@@ -43,6 +41,9 @@ public class UserServiceImpl implements UserService {
     private CartService cartService;
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private SmmpService smmpService;
 
 
     @Override
@@ -132,6 +133,10 @@ public class UserServiceImpl implements UserService {
         }
         customerService.saveCustomer(customer);
         Optional<User> user1 = userRepository.findById(user.getId());
+
+        PayActionResponseDTO payActionResponseDTO = smmpService.doPayAction(form.getLoginName(), "ps", "open");
+
+
         return user1.orElse(new User());
     }
 
@@ -165,6 +170,8 @@ public class UserServiceImpl implements UserService {
         cartService.saveCart(newCart);
         customerService.saveCustomer(customer);
         Optional<User> user1 = userRepository.findById(user.getId());
+        PayActionResponseDTO payActionResponseDTO = smmpService.doPayAction(form.getLoginName(), "ps", "open");
+
         return user1.orElse(new User());
     }
 
