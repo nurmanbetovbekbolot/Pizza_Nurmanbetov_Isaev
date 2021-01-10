@@ -15,27 +15,29 @@ public class InitializeDB {
 
     private static final Logger log = LoggerFactory.getLogger(InitializeDB.class);
 
-    @Autowired private PayUserRepository payUserRepository;
+    @Autowired
+    private PayUserRepository payUserRepository;
 
     @PostConstruct
-    public void init()  {
+    public void init() {
 
-            log.debug("Db initialized");
+        log.debug("Db initialized");
 
-            PayUser payUser = new PayUser();
-            payUser.setName("ps");
-            payUser.setState(State.available);
-            payUserRepository.save(payUser);
+        PayUser payUser = new PayUser();
+        payUser.setName("ps");
+        payUser.setState(State.available);
+        payUserRepository.save(payUser);
 
-            payUser = new PayUser();
-            payUser.setName("bnutz");
-            payUser.setState(State.available); //doesNotExist);
-            payUserRepository.save(payUser);
+        PayUser payUser1 = new PayUser();
+        payUser1.setName("bnutz");
+        payUser1.setState(State.available); //doesNotExist);
+        payUserRepository.save(payUser1);
 
-            payUser = new PayUser();
-            payUser.setName("сnutz");
-            payUser.setState(State.available); //requested
-            payUserRepository.save(payUser);
+
+        PayUser payUser2 = new PayUser();
+        payUser2.setName("cnutz");
+        payUser2.setState(State.available); //requested
+        payUserRepository.save(payUser2);
 
 //            payUser = new PayUser();
 //            payUser.setName("agneta");

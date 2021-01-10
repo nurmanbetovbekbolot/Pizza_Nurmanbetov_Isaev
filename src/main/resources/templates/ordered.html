@@ -9,6 +9,8 @@
 <div th:include="fragments/body :: nav"></div>
 
 <div class="container">
+    <h2 th:if="${!balance}">Nicht genug Geld</h2>
+    <h2 th:if="${balance}">Ihre Bestellung ist erfolgreich!</h2>
 
     <table class="table table-hover table-bordered table-sm" th:each="order : ${orderedList}">
 

@@ -65,7 +65,7 @@ public class DeliveryAddressControllerTest {
 
 
     @Test
-    @WithMockUser(username = "admin",password = "a1",roles = {"ADMIN"}, authorities = {"ADMIN"},value = "ADMIN")
+    @WithMockUser(username = "admin",password = "a1",roles = {"ADMIN"})
     public void testGetEditDeliveryAddressView() throws Exception {
         final User user = new User();
         user.setEmail("email");
@@ -77,7 +77,7 @@ public class DeliveryAddressControllerTest {
         when(mockDeliveryAddressService.findDeliveryAddressById(0L)).thenReturn(deliveryAddressDTO);
 
         final MockHttpServletResponse response = mockMvc.perform(get("/deliveryaddress/update/{id}", 0)
-                .with(user("admin").authorities(currentUser.getAuthorities()))
+                .with(user("admin"))
                 .accept(MediaType.TEXT_HTML))
                 .andReturn().getResponse();
 
