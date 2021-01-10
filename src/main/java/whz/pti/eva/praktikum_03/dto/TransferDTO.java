@@ -1,8 +1,9 @@
-package whz.pti.eva_mpa_nurmanbetov_isaev.usermobpay.service.dto;
+package whz.pti.eva.praktikum_03.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class TransferDTO {
+public class TransferDTO implements Serializable{
 
     String to;
     BigDecimal amount;

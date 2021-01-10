@@ -3,8 +3,10 @@ package whz.pti.eva_mpa_nurmanbetov_isaev.usermobpay.service;
 import whz.pti.eva_mpa_nurmanbetov_isaev.usermobpay.domain.PayUser;
 import whz.pti.eva_mpa_nurmanbetov_isaev.usermobpay.domain.State;
 
+import java.math.BigDecimal;
+
 public interface PayUserService {
-    int getAccountBalanceByName(String userId);
+    BigDecimal getAccountBalanceByName(String userId);
 
     boolean containsAndAvailable(String userId);
 
@@ -12,7 +14,7 @@ public interface PayUserService {
 
     void openAccount(String userId);
 
-    String transfer(String from, String to, int amount) throws PayUserException;
+    String transfer(String from, String to, BigDecimal amount) throws PayUserException;
 
     boolean deleteUser(String userId);
 

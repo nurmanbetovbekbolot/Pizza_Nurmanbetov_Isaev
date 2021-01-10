@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -20,13 +21,13 @@ public class PayUserServiceImpl implements PayUserService {
     private PayUserRepository payUserRepository;
 
     @Override
-    public int getAccountBalanceByName(String userId) {
+    public BigDecimal getAccountBalanceByName(String userId) {
         PayUser payUser = null;
         try {
             payUser = payUserRepository.findByName(userId).orElseThrow(() -> new PayUserException("user cannot be found"));
         } catch (PayUserException e) {
             e.printStackTrace();
-            return -101010;
+            return new BigDecimal("-101010");
         }
         return payUser.getAccount().getBalance();
     }
@@ -59,7 +60,7 @@ public class PayUserServiceImpl implements PayUserService {
 
     @Override
     @Transactional
-    public String transfer(String from, String to, int amount) throws PayUserException {
+    public String transfer(String from, String to, BigDecimal amount) throws PayUserException {
 //    	try {
         if (containsAndAvailable(from) && containsAndAvailable(to)) {
             PayUser payUserFrom = payUserRepository.findByName(from).orElseThrow(() -> new PayUserException("user cannot be found"));
@@ -88,7 +89,7 @@ public class PayUserServiceImpl implements PayUserService {
         if (userPayOptional.isPresent()) {
             PayUser payUser = userPayOptional.get();
             payUser.setState(State.doesNotExist);
-            payUser.getAccount().setBalance(0);
+            payUser.getAccount().setBalance(new BigDecimal("0.00"));
             payUserRepository.save(payUser);
             return true;
         } else {

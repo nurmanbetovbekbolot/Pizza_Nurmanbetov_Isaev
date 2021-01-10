@@ -5,25 +5,26 @@ import whz.pti.eva_mpa_nurmanbetov_isaev.common.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import java.math.BigDecimal;
 
 @Entity
 public class Account extends BaseEntity<Long> {
 
-    private int balance;
+    private BigDecimal balance;
 
     @JsonBackReference
     @OneToOne(mappedBy = "account")
     private PayUser payUser;
 
     public Account() {
-        this.balance = 100;
+        this.balance = new BigDecimal("100.00");
     }
 
-    public int getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
@@ -35,11 +36,11 @@ public class Account extends BaseEntity<Long> {
         this.payUser = payUser;
     }
 
-    public void depositBalance(int amount) {
-        this.balance += amount;
+    public void depositBalance(BigDecimal amount) {
+        this.balance = this.balance.add(amount);
     }
 
-    public void withdrawBalance(int amount) {
-        this.balance -= amount;
+    public void withdrawBalance(BigDecimal amount) {
+        this.balance = this.balance.subtract(amount);
     }
 }
