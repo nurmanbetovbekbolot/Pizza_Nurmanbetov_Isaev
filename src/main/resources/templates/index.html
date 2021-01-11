@@ -48,6 +48,9 @@
         </tbody>
     </table>
     <h4 th:text="${'IM WARENKORB ::: Anzahl der bestellten Pizzas: '+totalAmount+' mit Gesamtbetrag: '+totalPrice}"></h4>
+
+    <h4 th:if="${kontoBestand!=null}" th:text="${'Ihre KontoBestand ::: '+kontoBestand}"></h4>
+
     <a th:href="@{/cart/}">
         <button class="btn btn-success btn-block btn-lg" type="button">
             zum Warenkorb
