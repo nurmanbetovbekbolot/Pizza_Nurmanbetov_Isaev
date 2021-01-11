@@ -14,34 +14,47 @@ import whz.pti.eva.praktikum_03.dto.TransferDTO;
 
 import java.math.BigDecimal;
 
+/**
+ * The class PaymentServiceImpl for middleware. All business logic is here
+ *
+ * @author Isaev A. Nurmanbetov B.
+ */
 @Service
-public class SmmpServiceImpl implements SmmpService {
+public class PaymentServiceImpl implements PaymentService {
 
 //    @Autowired
 //    private MessageSource messageSource;
 
-    private static final Logger log = LoggerFactory.getLogger(SmmpServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
+    /**
+     * Attribute MyUrl with definition of listening port. It is a URL of MPA
+     */
     @Value("${my.smmp.url}")
     String MyUrl;
 
+    /**
+     * Attribute plainCreds to access MPA.
+     */
     @Value("${my.smmp.plainCreds}")
     String plainCreds;
 
+
     @Override
     public PayActionResponseDTO doPayAction(String from, String to, String pcontent) {
-        String token1 ="", token2 ="", token3 ="";
+        String token1 = "", token2 = "", token3 = "";
         PayActionResponseDTO payActionResponse =
-        new PayActionResponseDTO().payment(false).description("unbekanntes Problem. Transfer nicht erfolgreich");
+                new PayActionResponseDTO().payment(false).description("unbekanntes Problem. Transfer nicht erfolgreich");
 //                new PayActionResponseDTO().payment(false).description(messageSource.getMessage("unbekanntes Problem. Transfer nicht erfolgreich", null,  LocaleContextHolder.getLocale())); //my.action.unknownProblem
 
         String[] tokens = pcontent.split("\\s+");
         if (tokens.length == 0) return payActionResponse.description("falsche Syntax");
-        if (tokens.length >= 4) return payActionResponse.description("falsche Syntax - Eingabe zu lang / zuviele Worte");
+        if (tokens.length >= 4)
+            return payActionResponse.description("falsche Syntax - Eingabe zu lang / zuviele Worte");
 //        if (tokens.length == 0) return payActionResponse.description(messageSource.getMessage("falsche Syntax", null,  LocaleContextHolder.getLocale())); //my.action.badSyntax
 //        if (tokens.length >= 4) return payActionResponse.description(messageSource.getMessage("falsche Syntax - Eingabe zu lang / zuviele Worte", null,  LocaleContextHolder.getLocale())); //my.action.badSyntaxInpuToLong
 
-        for (int i=0; i<tokens.length; i++) {
+        for (int i = 0; i < tokens.length; i++) {
             if (i == 0) token1 = tokens[0];
             if (i == 1) token2 = tokens[1];
             if (i == 2) token3 = tokens[2];
@@ -81,55 +94,51 @@ public class SmmpServiceImpl implements SmmpService {
         HttpEntity<String> request = new HttpEntity<String>(headers);
 
         try {
-        switch (token1) {
-            case "get":
-                uriReturn = MyUrl + from + "/account";
-                response = restTemplate.exchange(uriReturn, HttpMethod.GET, request, AccountResponseDTO.class);
-                break;
-            case "delete":
-                uriReturn = MyUrl + from + "/deleted";
-                response = restTemplate.exchange(uriReturn, HttpMethod.DELETE, request, AccountResponseDTO.class);
-                break;
-            case "open":
-                uriReturn = MyUrl + from + "/opened";
-                response = restTemplate.exchange(uriReturn, HttpMethod.PUT, request, AccountResponseDTO.class);
-                break;
-            case "suspend":
-            	uriReturn = MyUrl + from + "/suspended";
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                HttpEntity<String> requestPut = new HttpEntity<>("suspended", headers);
-                response = restTemplate.exchange(uriReturn, HttpMethod.PUT, requestPut, AccountResponseDTO.class);
-                break;
-            case "transfer":
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                TransferDTO transferDTO = new TransferDTO(token2, new BigDecimal(token3));
-                HttpEntity<TransferDTO> requestPost = new HttpEntity<>(transferDTO, headers);
-                uriReturn = MyUrl + from + "/payment";
-                response = restTemplate.exchange(uriReturn, HttpMethod.POST, requestPost, AccountResponseDTO.class);
-                break;
-            default:
-                return payActionResponse.description("falsche Syntax - Befehl unbekannt !");
+            switch (token1) {
+                case "get":
+                    uriReturn = MyUrl + from + "/account";
+                    response = restTemplate.exchange(uriReturn, HttpMethod.GET, request, AccountResponseDTO.class);
+                    break;
+                case "delete":
+                    uriReturn = MyUrl + from + "/deleted";
+                    response = restTemplate.exchange(uriReturn, HttpMethod.DELETE, request, AccountResponseDTO.class);
+                    break;
+                case "open":
+                    uriReturn = MyUrl + from + "/opened";
+                    response = restTemplate.exchange(uriReturn, HttpMethod.PUT, request, AccountResponseDTO.class);
+                    break;
+                case "suspend":
+                    uriReturn = MyUrl + from + "/suspended";
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    HttpEntity<String> requestPut = new HttpEntity<>("suspended", headers);
+                    response = restTemplate.exchange(uriReturn, HttpMethod.PUT, requestPut, AccountResponseDTO.class);
+                    break;
+                case "transfer":
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    TransferDTO transferDTO = new TransferDTO(token2, new BigDecimal(token3));
+                    HttpEntity<TransferDTO> requestPost = new HttpEntity<>(transferDTO, headers);
+                    uriReturn = MyUrl + from + "/payment";
+                    response = restTemplate.exchange(uriReturn, HttpMethod.POST, requestPost, AccountResponseDTO.class);
+                    break;
+                default:
+                    return payActionResponse.description("falsche Syntax - Befehl unbekannt !");
 //            return payActionResponse.description(messageSource.getMessage("falsche Syntax - Befehl unbekannt !", null,  LocaleContextHolder.getLocale())); //my.action.badSyntaxUnkownCommand
-        }
+            }
 
-        } catch(ResourceAccessException e){
-            response = new ResponseEntity<Object>(new AccountResponseDTO(token1 +" " + "ist nicht erfolgreich gewesen :: vlt. smmp-Dienst nicht erreichbar"), HttpStatus.OK);
+        } catch (ResourceAccessException e) {
+            response = new ResponseEntity<Object>(new AccountResponseDTO(token1 + " " + "ist nicht erfolgreich gewesen :: vlt. smmp-Dienst nicht erreichbar"), HttpStatus.OK);
 //            response = new ResponseEntity<Object>(new AccountResponseDTO(token1 +" " + messageSource.getMessage("get ist nicht erfolgreich gewesen :: vlt. Smmf nicht erreichbar", null,  LocaleContextHolder.getLocale())), HttpStatus.OK); //my.action.getNotSuccessful
-        }
-
-        catch(Exception e){
-            response = new ResponseEntity<Object>(new AccountResponseDTO(token1+" " + " ist nicht erfolgreich gewesen :: vlt. Empfaenger unbekannt"), HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseEntity<Object>(new AccountResponseDTO(token1 + " " + " ist nicht erfolgreich gewesen :: vlt. Empfaenger unbekannt"), HttpStatus.OK);
 //            response = new ResponseEntity<Object>(new AccountResponseDTO(token1+" " + messageSource.getMessage("transfer ist nicht erfolgreich gewesen :: vlt. Empfaenger unbekannt", null,  LocaleContextHolder.getLocale())), HttpStatus.OK); //my.action.transferNotSuccessful
         }
 
         AccountResponseDTO accountResponse = (AccountResponseDTO) response.getBody();
         payActionResponse.description(accountResponse.getCode());
 
-        if (response.getStatusCode().equals(HttpStatus.OK))
-        {
+        if (response.getStatusCode().equals(HttpStatus.OK)) {
             payActionResponse.payment(true);
-        }
-        else {
+        } else {
             payActionResponse.payment(false);
         }
         return payActionResponse;
