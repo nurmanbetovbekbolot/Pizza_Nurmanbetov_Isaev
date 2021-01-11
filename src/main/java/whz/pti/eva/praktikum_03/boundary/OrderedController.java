@@ -77,23 +77,22 @@ public class OrderedController {
             CartDTO customersCart = cartService.findCartByCustomer(currentCustomer.getId());
             if (customersCart.getQuantity() != 0) {
                 PayActionResponseDTO payActionResponseDTO = paymentService.doPayAction(currentCustomer.getLoginName(), "pizzaService", "get");
-                BigDecimal bigDecimal = new BigDecimal(payActionResponseDTO.getDescription());
-                BigDecimal bigDecimal1 = cartService.calculateTotalPriceOfPizzaInItemsInCart(customersCart);
-                if (bigDecimal.compareTo(bigDecimal1) >= 0 ) {
-                    log.info("Balance is "+ bigDecimal);
-                    log.info("Ordered is "+ bigDecimal1);
-                    paymentService.doPayAction(currentCustomer.getLoginName(), "pizzaService", "transfer pizzaService "+bigDecimal1);
+                BigDecimal clientBalance = new BigDecimal(payActionResponseDTO.getDescription());
+                BigDecimal totalPrice = cartService.calculateTotalPriceOfPizzaInItemsInCart(customersCart);
+                if (clientBalance.compareTo(totalPrice) >= 0 ) {
+                    log.info("Balance is "+ clientBalance);
+                    log.info("Ordered is "+ totalPrice);
+                    paymentService.doPayAction(currentCustomer.getLoginName(), "pizzaService", "transfer pizzaService "+totalPrice);
                     log.info("Creating ordered and ordered items. Delete items from customers cart");
                     Ordered ordered = orderedItemService.addOrderedItem(customersCart, currentCustomer);
                     itemService.deleteItems(customersCart, currentCustomer);
-                    model.addAttribute("balance",true);
+                    model.addAttribute("balance",1);
 
                 }
                 else {
                     log.info("Balance is less");
-                    model.addAttribute("balance",false);
+                    model.addAttribute("balance",0);
                 }
-
 
 
 
@@ -102,6 +101,7 @@ public class OrderedController {
             List<Ordered> orderedList = orderedService.findAllByCustomerId(currentCustomer.getId());
             model.addAttribute("orderedList", orderedList);
             model.addAttribute("customer", currentCustomer);
+
         }
         return "ordered";
     }
