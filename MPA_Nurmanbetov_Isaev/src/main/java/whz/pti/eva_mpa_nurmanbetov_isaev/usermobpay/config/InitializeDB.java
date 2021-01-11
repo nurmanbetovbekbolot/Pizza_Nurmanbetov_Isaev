@@ -24,7 +24,7 @@ public class InitializeDB {
         log.debug("Db initialized");
 
         PayUser payUser = new PayUser();
-        payUser.setName("ps");
+        payUser.setName("pizzaService");
         payUser.setState(State.available);
         payUserRepository.save(payUser);
 
@@ -38,11 +38,6 @@ public class InitializeDB {
         payUser2.setName("cnutz");
         payUser2.setState(State.available); //requested
         payUserRepository.save(payUser2);
-
-//            payUser = new PayUser();
-//            payUser.setName("agneta");
-//            payUser.setState(State.suspended);
-//            payUserRepository.save(payUser);
 
     }
 }

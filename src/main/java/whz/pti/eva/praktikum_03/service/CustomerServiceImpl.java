@@ -36,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     private DeliveryAddressService addressService;
 
     @Autowired
-    private SmmpService smmpService;
+    private PaymentService paymentService;
 
     @Override
     public CustomerDTO findByUserId(String userId) {
@@ -70,7 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerDTO.getActive() == null||customerDTO.getActive()==Boolean.FALSE) {
             customer.setActive(Boolean.FALSE);
             user.setActive(Boolean.FALSE);
-            PayActionResponseDTO payActionResponseDTO = smmpService.doPayAction(user.getLoginName(), "ps", "suspend");
+            PayActionResponseDTO payActionResponseDTO = paymentService.doPayAction(user.getLoginName(), "pizzaService", "suspend");
 
         } else {
             customer.setActive(customerDTO.getActive());

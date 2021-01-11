@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     private ItemService itemService;
 
     @Autowired
-    private SmmpService smmpService;
+    private PaymentService paymentService;
 
 
     @Override
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
         customerService.saveCustomer(customer);
         Optional<User> user1 = userRepository.findById(user.getId());
 
-        PayActionResponseDTO payActionResponseDTO = smmpService.doPayAction(form.getLoginName(), "ps", "open");
+        PayActionResponseDTO payActionResponseDTO = paymentService.doPayAction(form.getLoginName(), "pizzaService", "open");
 
 
         return user1.orElse(new User());
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
         cartService.saveCart(newCart);
         customerService.saveCustomer(customer);
         Optional<User> user1 = userRepository.findById(user.getId());
-        PayActionResponseDTO payActionResponseDTO = smmpService.doPayAction(form.getLoginName(), "ps", "open");
+        PayActionResponseDTO payActionResponseDTO = paymentService.doPayAction(form.getLoginName(), "pizzaService", "open");
 
         return user1.orElse(new User());
     }
