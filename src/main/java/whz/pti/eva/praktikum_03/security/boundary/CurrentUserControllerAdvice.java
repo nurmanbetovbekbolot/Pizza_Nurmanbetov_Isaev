@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import whz.pti.eva.praktikum_03.common.CurrentUserUtil;
 import whz.pti.eva.praktikum_03.dto.PayActionResponseDTO;
+import whz.pti.eva.praktikum_03.enums.Role;
 import whz.pti.eva.praktikum_03.security.domain.CurrentUser;
 import whz.pti.eva.praktikum_03.service.PaymentService;
 
@@ -41,7 +42,7 @@ public class CurrentUserControllerAdvice {
     public BigDecimal getKonto(Authentication authentication) {
         CurrentUser currentCustomer = getCurrentUser(authentication);
         log.info("Getting currentUser");
-        if (currentCustomer!=null) {
+        if (currentCustomer!=null && currentCustomer.getRole()!= Role.ADMIN) {
             PayActionResponseDTO payActionResponseDTO = paymentService.doPayAction(currentCustomer.getLoginName(), "pizzaService", "get");
         BigDecimal clientBalance = new BigDecimal(payActionResponseDTO.getDescription());
         return clientBalance;}
